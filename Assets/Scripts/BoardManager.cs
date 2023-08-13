@@ -2,9 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BoardManager : MonoBehaviour
 {
+    private Card[] TheBoard;
+
+    public Animator turnAnouncerAnim;
+    public TextMeshProUGUI turnAnouncerText;
+    public bool PlayersTurn = true;
+
+    //player stuff
     [SerializeField] private Transform[] PlayerSlots;
     [SerializeField] private float SnapDistance;
     [SerializeField] private float MaxLux;
@@ -16,6 +24,8 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
+        TheBoard = new Card[16];
+
         Lux = MaxLux;
         LuxMeter.maxValue = MaxLux;
         LuxMeter.value = Lux;
@@ -24,7 +34,21 @@ public class BoardManager : MonoBehaviour
         UmbraMeter.value = Umbra;
     }
 
-    public bool PlaceCard(CardTemplate card, GameObject obj)
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.KeypadEnter)) NextTurn();  //testing
+    }
+
+    public void NextTurn()
+    {
+
+
+        PlayersTurn = !PlayersTurn;
+        turnAnouncerText.text = (PlayersTurn ? "Player's" : "Enenemy's") + " turn!";
+        turnAnouncerAnim.SetTrigger("go");
+    }
+
+    public bool PlaceCard(Card card, GameObject obj)
     {
         float Min = SnapDistance;
         Transform Slot = null;
@@ -38,10 +62,10 @@ public class BoardManager : MonoBehaviour
                 ind = i;
             }
         }
-        if(Slot != null && (card.Primary == ind >= 4) && ((card.element == CardTemplate.elements.light && Lux >= card.cost) || (card.element == CardTemplate.elements.dark && Umbra >= card.cost)))
+        if(Slot != null && (card.Primary == ind >= 4) && ((card.element == Card.elements.light && Lux >= card.cost) || (card.element == Card.elements.dark && Umbra >= card.cost)))
         {
             obj.transform.position = Slot.position;
-            if (card.element == CardTemplate.elements.light)
+            if (card.element == Card.elements.light)
             {
                 Lux -= card.cost;
                 LuxMeter.value = Lux;
@@ -51,6 +75,7 @@ public class BoardManager : MonoBehaviour
                 Umbra -= card.cost;
                 UmbraMeter.value = Umbra;
             }
+            TheBoard[9 + ind] = card;
 
             return true;
         }

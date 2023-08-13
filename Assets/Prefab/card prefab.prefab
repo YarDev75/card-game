@@ -612,7 +612,7 @@ GameObject:
   - component: {fileID: 1624944008082889470}
   - component: {fileID: 1321384306294966732}
   m_Layer: 0
-  m_Name: dark_template_1
+  m_Name: card prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -647,6 +647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 7
+  PlayerCard: 1
   canvas: {fileID: 7141745709108226248}
   Name: {fileID: 6010594890159210014}
   Primary: {fileID: 2658694116187120871}
@@ -693,9 +694,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7240a3514661392449d8166cebef521a, type: 3}
   - {fileID: 21300000, guid: 7258fa68182f31748a83dcf5308ab4fa, type: 3}
   - {fileID: 21300000, guid: 24890545ca9644f47b736da2e5f15418, type: 3}
-  Themes:
+  ThemesFront:
   - {fileID: 1409222304, guid: e7793bb10dbf19c4a912a076bb06a993, type: 3}
   - {fileID: 1931041245, guid: e7793bb10dbf19c4a912a076bb06a993, type: 3}
+  ThemesBack:
+  - {fileID: 242057926, guid: e7793bb10dbf19c4a912a076bb06a993, type: 3}
+  - {fileID: -388695333, guid: e7793bb10dbf19c4a912a076bb06a993, type: 3}
   sr: {fileID: 1024412622184904954}
   TargetPos: {x: 0, y: 0, z: 0}
   content: {fileID: 0}

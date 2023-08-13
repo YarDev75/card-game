@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandManger : MonoBehaviour
+public class HandManager : MonoBehaviour
 {
-    [SerializeField] private CardTemplate[] Deck;
+    [SerializeField] private bool Enemy;
+    [SerializeField] private Card[] Deck;
     [SerializeField] private GameObject EmptyCard;
     [SerializeField] private Transform CardSpawn;
     [SerializeField] private int StartCards;
     [SerializeField] private float DrawDelay;
     [SerializeField] private Transform HandOrigin;
     [SerializeField] private float HandSize;
-    private List<CardTemplate> RemainingDeck;
+    private List<Card> RemainingDeck;
     private List<CardObjectScript> Hand;
     private bool InitialDraw;
     private float timer;
@@ -40,7 +41,7 @@ public class HandManger : MonoBehaviour
     // made it a separate function in case it will be used somewhere else
     void Initialize()
     {
-        RemainingDeck = new List<CardTemplate>();
+        RemainingDeck = new List<Card>();
         Hand = new List<CardObjectScript>();
         for (int i = 0; i < Deck.Length; i++) RemainingDeck.Add(Deck[i]);
     }
@@ -66,6 +67,7 @@ public class HandManger : MonoBehaviour
             newCard.content = RemainingDeck[i];
             newCard.transform.parent = transform;
             newCard.HandID = Hand.Count;
+            newCard.PlayerCard = !Enemy;
             RemainingDeck.RemoveAt(i);
             Hand.Add(newCard);
             PositionCards();
