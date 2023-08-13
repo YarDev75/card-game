@@ -11,6 +11,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private EnenemyAI AI;
     [SerializeField] private Animator turnAnouncerAnim;
     [SerializeField] private TextMeshProUGUI turnAnouncerText;
+    [SerializeField] private GameObject NextTurnButton;
     public Transform[] EnemySlots;                                   //positions for cards on enemy side
     public bool PlayersTurn;                                         //bool 'cause only 2 states
 
@@ -26,7 +27,7 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        print("controls: Spacebar to draw cards, Numpad Enter to end turn");  //for you
+        print("cards with P can only be placed on the top row, cards with S - on the bottom");  //for you
         TheBoard = new Card[16];
         PlayersTurn = true;
         //setting up meters (sliders)
@@ -38,11 +39,6 @@ public class BoardManager : MonoBehaviour
         UmbraMeter.value = Umbra;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter)) NextTurn();        //didn't have the time to make an in-game button
-    }
-
     //anounces who's turn it is and let's that side place cards
     public void NextTurn()
     {
@@ -50,6 +46,7 @@ public class BoardManager : MonoBehaviour
         turnAnouncerText.text = (PlayersTurn ? "Player's" : "Enenemy's") + " turn!";
         turnAnouncerAnim.SetTrigger("go");
         if(!PlayersTurn) AI.doTurn();
+        NextTurnButton.SetActive(PlayersTurn);
     }
 
     //for player
