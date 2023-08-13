@@ -39,6 +39,7 @@ public class EnenemyAI : MonoBehaviour
             if(Timer >= TimerGoal)
             {
                 TimerGoal = -1;
+                ThinkingBubble.text = " ";
                 PlaceCards();
             }
         }
@@ -49,7 +50,6 @@ public class EnenemyAI : MonoBehaviour
         TimerGoal = Random.Range(1f, 6f);
         Timer = 0;
         ThinkingBubble.text = ".";
-        Invoke("PlaceCards", Timer);
     }
 
     void PlaceCards() //that's where the actual card placement AI should be at

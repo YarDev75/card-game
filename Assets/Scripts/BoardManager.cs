@@ -8,9 +8,10 @@ public class BoardManager : MonoBehaviour
 {
     private Card[] TheBoard;
 
-    public Animator turnAnouncerAnim;
-    public TextMeshProUGUI turnAnouncerText;
-    public bool PlayersTurn = true;
+    [SerializeField] private EnenemyAI AI;
+    [SerializeField] private Animator turnAnouncerAnim;
+    [SerializeField] private TextMeshProUGUI turnAnouncerText;
+    public bool PlayersTurn;
 
     //player stuff
     [SerializeField] private Transform[] PlayerSlots;
@@ -25,7 +26,7 @@ public class BoardManager : MonoBehaviour
     private void Start()
     {
         TheBoard = new Card[16];
-
+        PlayersTurn = true;
         Lux = MaxLux;
         LuxMeter.maxValue = MaxLux;
         LuxMeter.value = Lux;
@@ -41,11 +42,10 @@ public class BoardManager : MonoBehaviour
 
     public void NextTurn()
     {
-
-
         PlayersTurn = !PlayersTurn;
         turnAnouncerText.text = (PlayersTurn ? "Player's" : "Enenemy's") + " turn!";
         turnAnouncerAnim.SetTrigger("go");
+        if(!PlayersTurn) AI.doTurn();
     }
 
     public bool PlaceCard(Card card, GameObject obj)
@@ -75,7 +75,7 @@ public class BoardManager : MonoBehaviour
                 Umbra -= card.cost;
                 UmbraMeter.value = Umbra;
             }
-            TheBoard[9 + ind] = card;
+            TheBoard[8 + ind] = card;
 
             return true;
         }

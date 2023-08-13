@@ -86,6 +86,8 @@ public class CardObjectScript : MonoBehaviour
         GetComponentInParent<HandManager>().RemoveCardFromHand(HandID);
         sr.sortingOrder = sortOrder;
         canvas.sortingOrder = sr.sortingOrder + 1;
+        sr.transform.localPosition = Vector2.zero;
+        anim.enabled = false;
         Destroy(this);
     }
 
