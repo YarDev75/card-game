@@ -9,7 +9,7 @@ public class HandManger : MonoBehaviour
     [SerializeField] private Transform CardSpawn;
     [SerializeField] private int StartCards;
     [SerializeField] private float DrawDelay;
-    [SerializeField] private Vector2 HandOrigin;
+    [SerializeField] private Transform HandOrigin;
     [SerializeField] private float HandSize;
     private List<CardTemplate> RemainingDeck;
     private List<CardObjectScript> Hand;
@@ -50,7 +50,8 @@ public class HandManger : MonoBehaviour
         float gap = HandSize / (Hand.Count + 1);
         for (int i = 0; i < Hand.Count; i++)
         {
-            Hand[i].TargetPos = new Vector3(HandOrigin.x + gap * (i + 1), HandOrigin.y);
+            Hand[i].TargetPos = new Vector3(HandOrigin.position.x + gap * (i + 1), HandOrigin.position.y);
+            Hand[i].sr.sortingOrder = i * 2;
         }
     }
 
