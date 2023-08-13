@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fac26f8f0b76383449d43376d75fcefc
+guid: e7793bb10dbf19c4a912a076bb06a993
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -149,13 +149,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI_v1_0
+      name: card templates_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 44
-        width: 334
-        height: 45
+        y: 59
+        width: 42
+        height: 58
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,20 +163,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fb41724b88e4d724fa0953a89fc88a1b
-      internalID: 1930069993
+      spriteID: 0bdba29036ea3314a966e84dfc3a1fb0
+      internalID: 242057926
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_v1_1
+      name: card templates_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 334
-        height: 43
+        x: 43
+        y: 59
+        width: 42
+        height: 58
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,8 +184,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f83480181160c934c84eb0c1da3d942a
-      internalID: 911977027
+      spriteID: 1650e8c30c537084da1b8d3b43a24f85
+      internalID: 1409222304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: card templates_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 42
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 873ef650775c7c7448657fab02ab017a
+      internalID: -388695333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: card templates_3
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 0
+        width: 42
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 796b871be42bf8c488d80f7b84f16f87
+      internalID: 1931041245
       vertices: []
       indices: 
       edges: []
@@ -201,8 +243,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      UI_v1_0: 1930069993
-      UI_v1_1: 911977027
+      card templates_0: 242057926
+      card templates_1: 1409222304
+      card templates_2: -388695333
+      card templates_3: 1931041245
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

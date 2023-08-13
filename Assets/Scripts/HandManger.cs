@@ -52,6 +52,8 @@ public class HandManger : MonoBehaviour
         {
             Hand[i].TargetPos = new Vector3(HandOrigin.position.x + gap * (i + 1), HandOrigin.position.y);
             Hand[i].sr.sortingOrder = i * 2;
+            Hand[i].transform.position = new Vector3(Hand[i].transform.position.x, Hand[i].transform.position.y, i * -0.1f);
+            Hand[i].HandID = i;
         }
     }
 
@@ -62,10 +64,18 @@ public class HandManger : MonoBehaviour
             var newCard = Instantiate(EmptyCard, CardSpawn.position, Quaternion.identity).GetComponent<CardObjectScript>();
             var i = Random.Range(0, RemainingDeck.Count);
             newCard.content = RemainingDeck[i];
+            newCard.transform.parent = transform;
+            newCard.HandID = Hand.Count;
             RemainingDeck.RemoveAt(i);
             Hand.Add(newCard);
             PositionCards();
         }
         else print("deck empty");
+    }
+
+    public void RemoveCardFromHand(int ind)
+    {
+        Hand.RemoveAt(ind);
+        PositionCards();
     }
 }
