@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class HandManager : MonoBehaviour
 {
-    [SerializeField] private bool Enemy;
-    [SerializeField] private Card[] Deck;
-    [SerializeField] private GameObject EmptyCard;
-    [SerializeField] private Transform CardSpawn;
-    [SerializeField] private int StartCards;
-    [SerializeField] private float DrawDelay;
-    [SerializeField] private Transform HandOrigin;
+    [SerializeField] private bool Enemy;               //whether or not the card belongs to enemy
+    [SerializeField] private Card[] Deck;              //all available cards (assigned through inspector for now)
+    [SerializeField] private GameObject EmptyCard;     //prefab
+    [SerializeField] private Transform CardSpawn;      //where a drawn card will spawn (transform, so it's easier to move in editor)
+    [SerializeField] private int StartCards;           //how many cards to draw at the start of the game
+    [SerializeField] private float DrawDelay;          
+    [SerializeField] private Transform HandOrigin;     //left border of hand
     [SerializeField] private float HandSize;
     private List<Card> RemainingDeck;
-    public List<CardObjectScript> Hand;             //public so the enemyAI can use it
-    private bool InitialDraw;
+    public List<CardObjectScript> Hand;                //cards in hand, public so the enemyAI can use it
+    private bool InitialDraw;                          //just a flag to check whether or not the initial draw is happening now
     private float timer;
 
     private void Start()
@@ -38,7 +38,7 @@ public class HandManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) DrawCard(); //for testing
     }
 
-    // made it a separate function in case it will be used somewhere else
+    //initializes lists, made it a separate function in case it will be used somewhere else
     void Initialize()
     {
         RemainingDeck = new List<Card>();
@@ -46,7 +46,7 @@ public class HandManager : MonoBehaviour
         for (int i = 0; i < Deck.Length; i++) RemainingDeck.Add(Deck[i]);
     }
 
-    void PositionCards()
+    void PositionCards() 
     {
         float gap = HandSize / (Hand.Count + 1);
         for (int i = 0; i < Hand.Count; i++)
@@ -63,7 +63,7 @@ public class HandManager : MonoBehaviour
         if (RemainingDeck.Count > 0)
         {
             var newCard = Instantiate(EmptyCard, CardSpawn.position, Quaternion.identity).GetComponent<CardObjectScript>();
-            var i = Random.Range(0, RemainingDeck.Count);
+            var i = Random.Range(0, RemainingDeck.Count);   //used in 2 places, therefore a variable
             newCard.content = RemainingDeck[i];
             newCard.transform.parent = transform;
             newCard.HandID = Hand.Count;

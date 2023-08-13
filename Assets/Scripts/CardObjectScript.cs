@@ -15,20 +15,20 @@ public class CardObjectScript : MonoBehaviour
     [SerializeField] private Image Art;
     [SerializeField] private Image Cost;
     [SerializeField] private Animator anim;
-    [SerializeField] private Sprite[] arrows;
+    [SerializeField] private Sprite[] arrows;          //arrays store all the sprites for all the states
     [SerializeField] private Sprite[] DamageNums;
     [SerializeField] private Sprite[] Costs;
     [SerializeField] private Sprite[] ThemesFront;
     [SerializeField] private Sprite[] ThemesBack;
-    public bool PlayerCard;
+    public bool PlayerCard;                            //whether or not the card belongs to a player
     public SpriteRenderer sr;
-    public Vector3 TargetPos;
+    public Vector3 TargetPos;                          //where the card is going
     public Card content;
-    public int HandID;
+    public int HandID;                                 //Index in the Hand array in HandManager
     BoardManager boardManager;
-    int sortOrder;
-    bool Dragin;              //Drag&Drop enabled
-    bool sent;
+    int sortOrder;                                     //SpriteRenderer's sorting order, keeping track cause changing it in a few places
+    bool Dragin;                                       //whether or not the card is currently draged
+    bool sent;                                         //funky thing for the enemy AI
 
     private void Start()
     {
@@ -53,7 +53,7 @@ public class CardObjectScript : MonoBehaviour
         {
             var shift = (TargetPos - transform.position) * Time.deltaTime * Speed;
             transform.position += new Vector3(shift.x, shift.y, 0);
-            canvas.sortingOrder = sr.sortingOrder + 1;                     //gonna change later, will be like this for now
+            canvas.sortingOrder = sr.sortingOrder + 1;                                  //gonna change later, will be like this for now
         }
 
         if (sent && Vector2.Distance(transform.position, TargetPos) < 0.05f) Placed();
@@ -75,6 +75,7 @@ public class CardObjectScript : MonoBehaviour
         Art.sprite = content.Pic;
     }
 
+    //called when enemy AI sends a card to its place
     public void Send(Vector2 pos)
     {
         TargetPos = pos;
@@ -82,6 +83,7 @@ public class CardObjectScript : MonoBehaviour
         DrawStats();
     }
 
+    //called when card is placed on the board
     void Placed()
     {
         GetComponentInParent<HandManager>().RemoveCardFromHand(HandID);

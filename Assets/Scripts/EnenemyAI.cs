@@ -8,7 +8,7 @@ public class EnenemyAI : MonoBehaviour
 {
     [SerializeField] private HandManager Hand;
     [SerializeField] private BoardManager boardManager;
-    [SerializeField] private TextMeshProUGUI ThinkingBubble;
+    [SerializeField] private TextMeshProUGUI ThinkingBubble;      //the three dots thing
     [SerializeField] private float MaxLux;
     [SerializeField] private Slider LuxMeter;
     [SerializeField] private float MaxUmbra;
@@ -20,6 +20,7 @@ public class EnenemyAI : MonoBehaviour
 
     private void Start()
     {
+        //setting up meters (sliders)
         Lux = MaxLux;
         LuxMeter.maxValue = MaxLux;
         LuxMeter.value = Lux;
@@ -30,6 +31,7 @@ public class EnenemyAI : MonoBehaviour
 
     private void Update()
     {
+        //a bit funky so it can do the dots thing
         if(TimerGoal > 0)
         {
             Timer += Time.deltaTime;
@@ -44,6 +46,7 @@ public class EnenemyAI : MonoBehaviour
         }
     }
 
+    //called on turn start, starts the thinking thing
     public void doTurn()
     {
         TimerGoal = Random.Range(1f, 6f);
@@ -53,6 +56,7 @@ public class EnenemyAI : MonoBehaviour
 
     void PlaceCards() //that's where the actual card placement AI should be at
     {
+        //needs some work
         for (int i = 0; i < Random.Range(0,Hand.Hand.Count); i++)
         {
             var placeInd = Random.Range(0, 8);

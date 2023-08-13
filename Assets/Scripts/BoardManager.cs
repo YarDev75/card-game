@@ -6,18 +6,18 @@ using TMPro;
 
 public class BoardManager : MonoBehaviour
 {
-    private Card[] TheBoard;            //0-7 - enemy 8-15 - player
+    private Card[] TheBoard;                                          //0-7 - enemy 8-15 - player
 
     [SerializeField] private EnenemyAI AI;
     [SerializeField] private Animator turnAnouncerAnim;
     [SerializeField] private TextMeshProUGUI turnAnouncerText;
-    public Transform[] EnemySlots;
-    public bool PlayersTurn;
+    public Transform[] EnemySlots;                                   //positions for cards on enemy side
+    public bool PlayersTurn;                                         //bool 'cause only 2 states
 
     //player stuff
-    [SerializeField] private Transform[] PlayerSlots;
-    [SerializeField] private float SnapDistance;
-    [SerializeField] private float MaxLux;
+    [SerializeField] private Transform[] PlayerSlots;                //positions for cards on Player side
+    [SerializeField] private float SnapDistance;                     //for Drag&Drop mechanic
+    [SerializeField] private float MaxLux;                           //Lux & Umbra -- resources for placing cards
     [SerializeField] private Slider LuxMeter;
     [SerializeField] private float MaxUmbra;
     [SerializeField] private Slider UmbraMeter;
@@ -26,8 +26,10 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
+        print("controls: Spacebar to draw cards, Numpad Enter to end turn");  //for you
         TheBoard = new Card[16];
         PlayersTurn = true;
+        //setting up meters (sliders)
         Lux = MaxLux;
         LuxMeter.maxValue = MaxLux;
         LuxMeter.value = Lux;
@@ -38,9 +40,10 @@ public class BoardManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter)) NextTurn();  //testing
+        if (Input.GetKeyDown(KeyCode.KeypadEnter)) NextTurn();        //didn't have the time to make an in-game button
     }
 
+    //anounces who's turn it is and let's that side place cards
     public void NextTurn()
     {
         PlayersTurn = !PlayersTurn;
@@ -49,8 +52,10 @@ public class BoardManager : MonoBehaviour
         if(!PlayersTurn) AI.doTurn();
     }
 
+    //for player
     public bool PlaceCard(Card card, GameObject obj)
     {
+        //drag&drop stuff
         float Min = SnapDistance;
         Transform Slot = null;
         int ind = 0;
@@ -63,6 +68,7 @@ public class BoardManager : MonoBehaviour
                 ind = i;
             }
         }
+        //checks if the card can be placed on selected spot 
         if(Slot != null && (card.Primary == ind >= 4) && ((card.element == Card.elements.light && Lux >= card.cost) || (card.element == Card.elements.dark && Umbra >= card.cost)))
         {
             obj.transform.position = Slot.position;
@@ -83,6 +89,7 @@ public class BoardManager : MonoBehaviour
         return false;
     }
 
+    //for enemy AI
     public void PlaceCard(Card card, int ind)
     {
         TheBoard[ind] = card;
