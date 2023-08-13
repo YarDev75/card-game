@@ -23,6 +23,8 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Slider UmbraMeter;
     float Lux;
     float Umbra;
+    [SerializeField] private Text PlayerHealth;
+    [SerializeField] private Text EnemyHealth;
 
     private void Start()
     {
@@ -36,6 +38,7 @@ public class BoardManager : MonoBehaviour
         Umbra = MaxUmbra;
         UmbraMeter.maxValue = MaxUmbra;
         UmbraMeter.value = Umbra;
+        PlayerHealth.text = EnemyHealth.text = 10.ToString();
     }
 
     private void Update()
@@ -93,5 +96,53 @@ public class BoardManager : MonoBehaviour
     public void PlaceCard(Card card, int ind)
     {
         TheBoard[ind] = card;
+    }
+
+    public void CalculateTurn()
+    {
+        for(int i = 0; i < TheBoard.Length/4; i++) { //It's length/4 and not length/2 because only Primary row cards engage in battle, dunno what to do with the others yet
+            Card playerCard = TheBoard[i];
+            Card enemyCard = TheBoard[i + TheBoard.Length/2];
+            if(playerCard != null && enemyCard != null)
+            {
+                ApplyCardEffects(playerCard);
+                ApplyCardEffects(enemyCard);
+                if(playerCard.damage >= enemyCard.damage) //playerCard is, at least, not weaker than enemyCard
+                {
+                    //Here we should trigger animation playerCard attacks enemyCard
+                    playerCard.damage -= enemyCard.damage;
+                    //Here we need to Destroy() the enemy card player has attacked thus removing it from the view
+                    TheBoard[i + TheBoard.Length / 2] = null;
+                    if(playerCard.damage == 0)
+                    {
+                        //Here we need to Destroy() the card that has attacked in this turn thus removing it from the view
+                        TheBoard[i] = null;
+                    }else EnemyHealth.text = (int.Parse(EnemyHealth.text) - playerCard.damage).ToString();
+                }
+                else //enemyCard is stronger than playerCard
+                {
+                    //Here we should trigger animation enemyCard attacks playerCard
+                    enemyCard.damage -= playerCard.damage;
+                    //Here we need to Destroy() the player card enemy has attacked thus removing it from the view
+                    TheBoard[i] = null;
+                    PlayerHealth.text = (int.Parse(PlayerHealth.text) - enemyCard.damage).ToString();
+                }
+            }else if(enemyCard != null) //There's no player card in front of this enemy card
+            {
+                ApplyCardEffects(enemyCard);
+                PlayerHealth.text = (int.Parse(PlayerHealth.text) - enemyCard.damage).ToString();
+            }
+            else if(playerCard != null) //There's no enemy card in front of this player card
+            {
+                ApplyCardEffects(playerCard);
+                EnemyHealth.text = (int.Parse(EnemyHealth.text) - playerCard.damage).ToString();
+            }
+        }
+        print("EnemyHealth: " + EnemyHealth.text + "  PlayerHealth: " + PlayerHealth.text);
+    }
+
+    private void ApplyCardEffects(Card card)
+    {
+
     }
 }

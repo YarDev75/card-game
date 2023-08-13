@@ -66,7 +66,7 @@ public class EnenemyAI : MonoBehaviour
             Hand.RemoveCardFromHand(cardInd);
         }
 
-
+        boardManager.CalculateTurn();
         boardManager.NextTurn();
     }
 }
