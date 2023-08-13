@@ -14,9 +14,9 @@ public class CardTemplate : ScriptableObject
     public enum directions 
     {
         front,
-        threeway,
-        fullBoard,
-        mantis
+        fork,
+        right,
+        left
     }
 
 
