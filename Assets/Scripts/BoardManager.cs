@@ -6,11 +6,12 @@ using TMPro;
 
 public class BoardManager : MonoBehaviour
 {
-    private Card[] TheBoard;
+    private Card[] TheBoard;            //0-7 - enemy 8-15 - player
 
     [SerializeField] private EnenemyAI AI;
     [SerializeField] private Animator turnAnouncerAnim;
     [SerializeField] private TextMeshProUGUI turnAnouncerText;
+    public Transform[] EnemySlots;
     public bool PlayersTurn;
 
     //player stuff
@@ -80,5 +81,10 @@ public class BoardManager : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void PlaceCard(Card card, int ind)
+    {
+        TheBoard[ind] = card;
     }
 }

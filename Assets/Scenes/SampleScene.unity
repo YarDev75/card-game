@@ -434,6 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61db106efa5f2154f97bc2c59f563eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hand: {fileID: 708001070}
   boardManager: {fileID: 582880484}
   ThinkingBubble: {fileID: 971701386}
   MaxLux: 12
@@ -1060,6 +1061,15 @@ MonoBehaviour:
   AI: {fileID: 283047691}
   turnAnouncerAnim: {fileID: 1537748017}
   turnAnouncerText: {fileID: 1032640419}
+  EnemySlots:
+  - {fileID: 533245449}
+  - {fileID: 1274134760}
+  - {fileID: 1489260596}
+  - {fileID: 964971423}
+  - {fileID: 1518937570}
+  - {fileID: 608746785}
+  - {fileID: 1518055595}
+  - {fileID: 1379321048}
   PlayersTurn: 0
   PlayerSlots:
   - {fileID: 250896191}
@@ -1234,6 +1244,7 @@ MonoBehaviour:
   DrawDelay: 0.6
   HandOrigin: {fileID: 1074282637}
   HandSize: -3.7
+  Hand: []
 --- !u!1 &711708223
 GameObject:
   m_ObjectHideFlags: 0
@@ -2788,6 +2799,7 @@ MonoBehaviour:
   DrawDelay: 0.6
   HandOrigin: {fileID: 1354370278}
   HandSize: 4
+  Hand: []
 --- !u!4 &1278423944
 Transform:
   m_ObjectHideFlags: 0

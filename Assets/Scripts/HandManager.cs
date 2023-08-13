@@ -13,7 +13,7 @@ public class HandManager : MonoBehaviour
     [SerializeField] private Transform HandOrigin;
     [SerializeField] private float HandSize;
     private List<Card> RemainingDeck;
-    private List<CardObjectScript> Hand;
+    public List<CardObjectScript> Hand;             //public so the enemyAI can use it
     private bool InitialDraw;
     private float timer;
 

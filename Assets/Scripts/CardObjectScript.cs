@@ -79,6 +79,7 @@ public class CardObjectScript : MonoBehaviour
     {
         TargetPos = pos;
         sent = true;
+        DrawStats();
     }
 
     void Placed()

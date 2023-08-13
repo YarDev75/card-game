@@ -6,6 +6,7 @@ using TMPro;
 
 public class EnenemyAI : MonoBehaviour
 {
+    [SerializeField] private HandManager Hand;
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private TextMeshProUGUI ThinkingBubble;
     [SerializeField] private float MaxLux;
@@ -16,11 +17,9 @@ public class EnenemyAI : MonoBehaviour
     float Umbra;
     float Timer;
     float TimerGoal;
-    HandManager Hand;
 
     private void Start()
     {
-        Hand = GetComponent<HandManager>();
         Lux = MaxLux;
         LuxMeter.maxValue = MaxLux;
         LuxMeter.value = Lux;
@@ -54,7 +53,14 @@ public class EnenemyAI : MonoBehaviour
 
     void PlaceCards() //that's where the actual card placement AI should be at
     {
-
+        for (int i = 0; i < Random.Range(0,Hand.Hand.Count); i++)
+        {
+            var placeInd = Random.Range(0, 8);
+            var cardInd = Random.Range(0, Hand.Hand.Count);
+            boardManager.PlaceCard(Hand.Hand[cardInd].content, placeInd);
+            Hand.Hand[cardInd].Send(boardManager.EnemySlots[placeInd].position);
+            Hand.RemoveCardFromHand(cardInd);
+        }
 
 
         boardManager.NextTurn();
