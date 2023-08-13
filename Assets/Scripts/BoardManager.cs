@@ -40,7 +40,7 @@ public class BoardManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter)) NextTurn();        //didn't have the time to make an in-game button
+        //if (Input.GetKeyDown(KeyCode.KeypadEnter)) NextTurn();        //didn't have the time to make an in-game button <- Made button
     }
 
     //anounces who's turn it is and let's that side place cards
