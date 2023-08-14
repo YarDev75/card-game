@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 
 public class BoardManager : MonoBehaviour
 {
-    public Card[] TheBoard;                                          //0-7 - enemy 8-15 - player
+    public CardObjectScript[] TheBoard;                                          //0-7 - enemy 8-15 - player
 
     [SerializeField] private EnenemyAI AI;
     [SerializeField] private Animator turnAnouncerAnim;
@@ -23,14 +23,22 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Slider LuxMeter;
     [SerializeField] private float MaxUmbra;
     [SerializeField] private Slider UmbraMeter;
+    [SerializeField] private int PlayerMaxHealth;
+    [SerializeField] private int EnemyMaxHealth;
+    [SerializeField] private TextMeshProUGUI PlayerHealthText;
+    [SerializeField] private TextMeshProUGUI EnemyHealthText;
+    int PlayerHealth = 10;                                                //I think we should just store them in a seperate variable instead of Parsing text every time
+    int EnemyHealth = 10;
     float Lux;
     float Umbra;
-    [SerializeField] private Text PlayerHealth;
-    [SerializeField] private Text EnemyHealth;
 
     private void Start()
     {
-        TheBoard = new Card[16];
+        PlayerHealth = PlayerMaxHealth;
+        EnemyHealth = EnemyMaxHealth;
+        PlayerHealthText.text = PlayerHealth.ToString();
+        EnemyHealthText.text = EnemyHealth.ToString();
+        TheBoard = new CardObjectScript[16];
         PlayersTurn = true;
         //setting up meters (sliders)
         Lux = MaxLux;
@@ -53,7 +61,7 @@ public class BoardManager : MonoBehaviour
     }
 
     //for player
-    public bool PlaceCard(Card card, GameObject obj)
+    public bool PlaceCard(CardObjectScript card, GameObject obj)
     {
         //drag&drop stuff
         float Min = SnapDistance;
@@ -69,17 +77,17 @@ public class BoardManager : MonoBehaviour
             }
         }
         //checks if the card can be placed on selected spot 
-        if(Slot != null && (card.Primary == ind >= 4) && ((card.element == Card.elements.light && Lux >= card.cost) || (card.element == Card.elements.dark && Umbra >= card.cost)))
+        if(Slot != null && (card.content.Primary == ind < 4) && ((card.content.element == Card.elements.light && Lux >= card.content.cost) || (card.content.element == Card.elements.dark && Umbra >= card.content.cost)))
         {
             obj.transform.position = Slot.position;
-            if (card.element == Card.elements.light)
+            if (card.content.element == Card.elements.light)
             {
-                Lux -= card.cost;
+                Lux -= card.content.cost;
                 LuxMeter.value = Lux;
             }
             else
             {
-                Umbra -= card.cost;
+                Umbra -= card.content.cost;
                 UmbraMeter.value = Umbra;
             }
             TheBoard[8 + ind] = card;
@@ -90,7 +98,7 @@ public class BoardManager : MonoBehaviour
     }
 
     //for enemy AI
-    public bool PlaceCard(Card card, int ind)
+    public bool PlaceCard(CardObjectScript card, int ind)
     {
         if (TheBoard[ind] == null)
         {
@@ -100,51 +108,52 @@ public class BoardManager : MonoBehaviour
         else return false;
     }
 
-    public void CalculateTurn() {
+    //Cards are doing double damage for some reason, I really need to go to bed now, so please fix it :)
+    public void CalculateTurn() 
+    {
         for(int i = TheBoard.Length / 4; i < TheBoard.Length/2; i++) { //This calculates primary row only on enemy's side
-            Card enemyCard = TheBoard[i];
-            int playerCardPos = i + TheBoard.Length / 4;
-            Card playerCard = TheBoard[playerCardPos];
-            if(playerCard != null && enemyCard != null)
+            CardObjectScript enemyCard = TheBoard[i];
+            CardObjectScript playerCard = TheBoard[i + TheBoard.Length / 4];
+            ApplyCardEffects(playerCard);                                        //instead of calling them in two different places, let's just check if they're null in the function itself
+            ApplyCardEffects(enemyCard);
+
+            //TODO: make the hit dirrection actualy do stuff
+
+            if (playerCard != null && enemyCard != null)
             {
-                ApplyCardEffects(playerCard);
-                ApplyCardEffects(enemyCard);
-                if(playerCard.damage >= enemyCard.damage) //playerCard is, at least, not weaker than enemyCard
+                //instead of checking for every scenario, I just made both card hit eachother and then deal with consequences
+
+                int UnmodifiedPlayerDamage = playerCard.content.damage;                 //playerCard damage before it gets hit
+                playerCard.content.damage -= enemyCard.content.damage;
+                enemyCard.content.damage -= UnmodifiedPlayerDamage;
+
+                //I think all damage should be sinked into the killed enemy, but if you don't, uncoment the code before "Destroy card" lines
+                if (playerCard.content.damage <= 0)
                 {
-                    //Here we should trigger animation playerCard attacks enemyCard
-                    playerCard.damage -= enemyCard.damage;
-                    Destroy(enemyCard.GameObject());//Here we need to Destroy() the enemy card player has attacked thus removing it from the view
-                    TheBoard[i] = null;
-                    if(playerCard.damage == 0)
-                    {
-                        //Here we need to Destroy() the card that has attacked in this turn thus removing it from the view
-                        TheBoard[playerCardPos] = null;
-                    }else EnemyHealth.text = (int.Parse(EnemyHealth.text) - playerCard.damage).ToString();
+                    //PlayerHealth += playerCard.content.damage;         //if damage is negative - opposing card delt more damage than needed, that damage transfers to the player (overflow damage), uncoment to enable
+                    Destroy(playerCard.gameObject);                      //gameobject gets destroyed and so is the script attached to it, automaticly making TheBoard value null
                 }
-                else //enemyCard is stronger than playerCard
+                if (enemyCard.content.damage <= 0)
                 {
-                    //Here we should trigger animation enemyCard attacks playerCard
-                    enemyCard.damage -= playerCard.damage;
-                    //Here we need to Destroy() the player card enemy has attacked thus removing it from the view
-                    TheBoard[i] = null;
-                    PlayerHealth.text = (int.Parse(PlayerHealth.text) - enemyCard.damage).ToString();
+                    //EnemyHealth += enemyCard.content.damage;           //if damage is negative - opposing card delt more damage than needed, that damage transfers to the enemy (overflow damage), uncoment to enable
+                    Destroy(playerCard.gameObject);
                 }
-            }else if(enemyCard != null) //There's no player card in front of this enemy card
-            {
-                ApplyCardEffects(enemyCard);
-                PlayerHealth.text = (int.Parse(PlayerHealth.text) - enemyCard.damage).ToString();
             }
-            else if(playerCard != null) //There's no enemy card in front of this player card
-            {
-                ApplyCardEffects(playerCard);
-                EnemyHealth.text = (int.Parse(EnemyHealth.text) - playerCard.damage).ToString();
-            }
+            else if (enemyCard != null) PlayerHealth -= enemyCard.content.damage;     //made theese a single line so it looks better :)
+            else if(playerCard != null) EnemyHealth -= playerCard.content.damage;
+
+            //just put them here instead of inserting multiple times in a single function
+            PlayerHealthText.text = PlayerHealth.ToString();
+            EnemyHealthText.text = EnemyHealth.ToString();
         }
-        print("EnemyHealth: " + EnemyHealth.text + "  PlayerHealth: " + PlayerHealth.text);
+        print($"EnemyHealth: {EnemyHealthText.text} PlayerHealth: {PlayerHealthText.text}");    //if you put $ before string you can put variables in { } to use their values
     }
 
-    private void ApplyCardEffects(Card card)
+    private void ApplyCardEffects(CardObjectScript card)
     {
+        if(card != null)
+        {
 
+        }
     }
 }

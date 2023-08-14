@@ -30,6 +30,7 @@ public class CardObjectScript : MonoBehaviour
     int sortOrder;                                     //SpriteRenderer's sorting order, keeping track cause changing it in a few places
     bool Dragin;                                       //whether or not the card is currently draged
     bool sent;                                         //funky thing for the enemy AI
+    bool placed;
 
     private void Start()
     {
@@ -44,20 +45,28 @@ public class CardObjectScript : MonoBehaviour
 
     private void Update()
     {
-        if (Dragin)
+        if (!placed)
         {
-            if (!boardManager.PlayersTurn) Dragin = false;
-            var MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(MousePos.x,MousePos.y, 0);
+            if (Dragin)
+            {
+                if (!boardManager.PlayersTurn) Dragin = false;
+                var MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                transform.position = new Vector3(MousePos.x, MousePos.y, 0);
+            }
+            else
+            {
+                var shift = (TargetPos - transform.position) * Time.deltaTime * Speed;
+                transform.position += new Vector3(shift.x, shift.y, 0);
+                canvas.sortingOrder = sr.sortingOrder + 1;                                  //gonna change later, will be like this for now
+            }
+
+            if (sent && Vector2.Distance(transform.position, TargetPos) < 0.01f) Placed();
         }
         else
         {
-            var shift = (TargetPos - transform.position) * Time.deltaTime * Speed;
-            transform.position += new Vector3(shift.x, shift.y, 0);
-            canvas.sortingOrder = sr.sortingOrder + 1;                                  //gonna change later, will be like this for now
-        }
+            //put all the code for card behavior on board here if needed
 
-        if (sent && Vector2.Distance(transform.position, TargetPos) < 0.01f) Placed();
+        }
     }
 
     void DrawStats()
@@ -89,9 +98,8 @@ public class CardObjectScript : MonoBehaviour
         if(PlayerCard) GetComponentInParent<HandManager>().RemoveCardFromHand(HandID);
         sr.sortingOrder = sortOrder;
         canvas.sortingOrder = sr.sortingOrder + 1;
-        sr.transform.localPosition = Vector2.zero;
-        anim.enabled = false;
-        Destroy(this);
+        anim.SetBool("placed", true);
+        placed = true;
     }
 
     private void OnMouseEnter()
@@ -129,7 +137,7 @@ public class CardObjectScript : MonoBehaviour
     {
         if (Dragin)
         {
-            if(boardManager.PlaceCard(content, gameObject)) Placed();
+            if(boardManager.PlaceCard(this, gameObject)) Placed();
             else Dragin = false;
         }
     }

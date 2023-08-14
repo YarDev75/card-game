@@ -97,7 +97,7 @@ public class EnenemyAI : MonoBehaviour
                     }
                 }
                 var placeInd = Random.Range(0, AvailablePlaces.Count);
-                if (boardManager.PlaceCard(Hand.Hand[cardInd].content, AvailablePlaces[placeInd]))
+                if (boardManager.PlaceCard(Hand.Hand[cardInd], AvailablePlaces[placeInd]))
                 {
                     Hand.Hand[cardInd].Send(boardManager.EnemySlots[AvailablePlaces[placeInd]].position);
                     if (Hand.Hand[cardInd].content.element == Card.elements.light) Lux -= Hand.Hand[cardInd].content.cost;
