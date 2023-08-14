@@ -118,6 +118,8 @@ public class CardObjectScript : MonoBehaviour
     {
         if (PlayerCard && boardManager.PlayersTurn)
         {
+            sr.sortingOrder = 102;
+            canvas.sortingOrder = 103;
             Dragin = true;
             anim.SetBool("selected", false);
         }

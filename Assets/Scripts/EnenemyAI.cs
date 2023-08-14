@@ -13,6 +13,7 @@ public class EnenemyAI : MonoBehaviour
     [SerializeField] private Slider LuxMeter;
     [SerializeField] private float MaxUmbra;
     [SerializeField] private Slider UmbraMeter;
+    public EnemyPerson personality;
     float Lux;
     float Umbra;
     float Timer;
@@ -35,8 +36,6 @@ public class EnenemyAI : MonoBehaviour
         if(TimerGoal > 0)
         {
             Timer += Time.deltaTime;
-            if(Timer >= TimerGoal/3) ThinkingBubble.text = "..";
-            if(Timer >= (TimerGoal/3)*2) ThinkingBubble.text = "...";
             if(Timer >= TimerGoal)
             {
                 TimerGoal = -1;
@@ -51,14 +50,22 @@ public class EnenemyAI : MonoBehaviour
     {
         TimerGoal = Random.Range(1f, 6f);
         Timer = 0;
-        ThinkingBubble.text = ".";
+        ThinkingBubble.text = personality.ThinkingDialogue[Random.Range(0, personality.ThinkingDialogue.Length)];
+    }
+
+    void ClearDialogueText()
+    {
+        ThinkingBubble.text = " ";
     }
 
     void PlaceCards() //that's where the actual card placement AI should be at
     {
+
         //needs some work
         if (Hand.Hand.Count > 0)
         {
+            ThinkingBubble.text = personality.EndTurnDialogue[Random.Range(0, personality.EndTurnDialogue.Length)];
+            Invoke("ClearDialogueText", 3f);
             for (int i = 0; i < Random.Range(1, Hand.Hand.Count); i++)
             {
                 var AffordableCards = new List<int>();
@@ -66,9 +73,11 @@ public class EnenemyAI : MonoBehaviour
                 {
                     if (Hand.Hand[j].content.cost <= (Hand.Hand[j].content.element == Card.elements.light ? Lux : Umbra)) AffordableCards.Add(j);
                 }
-                if(AffordableCards.Count == 0)
+                if (AffordableCards.Count == 0)
                 {
                     boardManager.NextTurn();
+                    ThinkingBubble.text = personality.OutOfManaDialogue[Random.Range(0, personality.OutOfManaDialogue.Length)];
+                    Invoke("ClearDialogueText", 3f);
                     return;
                 }
                 var cardInd = AffordableCards[Random.Range(0, AffordableCards.Count)];
@@ -97,6 +106,11 @@ public class EnenemyAI : MonoBehaviour
                     Hand.RemoveCardFromHand(cardInd);
                 }
             }
+        }
+        else
+        {
+            ThinkingBubble.text = personality.DeckEmptyDialogue[Random.Range(0, personality.DeckEmptyDialogue.Length)];
+            Invoke("ClearDialogueText", 3f);
         }
 
         boardManager.NextTurn();

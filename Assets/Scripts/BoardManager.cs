@@ -38,6 +38,11 @@ public class BoardManager : MonoBehaviour
         UmbraMeter.value = Umbra;
     }
 
+    void DoCombat()
+    {
+
+    }
+
     //anounces who's turn it is and let's that side place cards
     public void NextTurn()
     {
