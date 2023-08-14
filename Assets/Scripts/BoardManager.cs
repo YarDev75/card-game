@@ -6,7 +6,7 @@ using TMPro;
 
 public class BoardManager : MonoBehaviour
 {
-    private Card[] TheBoard;                                          //0-7 - enemy 8-15 - player
+    public Card[] TheBoard;                                          //0-7 - enemy 8-15 - player
 
     [SerializeField] private EnenemyAI AI;
     [SerializeField] private Animator turnAnouncerAnim;
@@ -87,8 +87,13 @@ public class BoardManager : MonoBehaviour
     }
 
     //for enemy AI
-    public void PlaceCard(Card card, int ind)
+    public bool PlaceCard(Card card, int ind)
     {
-        TheBoard[ind] = card;
+        if (TheBoard[ind] == null)
+        {
+            TheBoard[ind] = card;
+            return true;
+        }
+        else return false;
     }
 }

@@ -56,7 +56,7 @@ public class CardObjectScript : MonoBehaviour
             canvas.sortingOrder = sr.sortingOrder + 1;                                  //gonna change later, will be like this for now
         }
 
-        if (sent && Vector2.Distance(transform.position, TargetPos) < 0.05f) Placed();
+        if (sent && Vector2.Distance(transform.position, TargetPos) < 0.01f) Placed();
     }
 
     void DrawStats()
@@ -86,7 +86,7 @@ public class CardObjectScript : MonoBehaviour
     //called when card is placed on the board
     void Placed()
     {
-        GetComponentInParent<HandManager>().RemoveCardFromHand(HandID);
+        if(PlayerCard) GetComponentInParent<HandManager>().RemoveCardFromHand(HandID);
         sr.sortingOrder = sortOrder;
         canvas.sortingOrder = sr.sortingOrder + 1;
         sr.transform.localPosition = Vector2.zero;

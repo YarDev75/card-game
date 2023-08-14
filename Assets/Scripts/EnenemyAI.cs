@@ -57,15 +57,21 @@ public class EnenemyAI : MonoBehaviour
     void PlaceCards() //that's where the actual card placement AI should be at
     {
         //needs some work
-        for (int i = 0; i < Random.Range(0,Hand.Hand.Count); i++)
+        if (Hand.Hand.Count > 0)
         {
-            var placeInd = Random.Range(0, 8);
-            var cardInd = Random.Range(0, Hand.Hand.Count);
-            boardManager.PlaceCard(Hand.Hand[cardInd].content, placeInd);
-            Hand.Hand[cardInd].Send(boardManager.EnemySlots[placeInd].position);
-            Hand.RemoveCardFromHand(cardInd);
+            var AvailablePlaces = new List<int>();
+            for (int i = 0; i < 8; i++) if (boardManager.TheBoard[i] == null) { AvailablePlaces.Add(i); print(i); }
+            for (int i = 0; i < Random.Range(1, Hand.Hand.Count); i++)
+            {
+                var placeInd = Random.Range(0, AvailablePlaces.Count);
+                var cardInd = Random.Range(0, Hand.Hand.Count);
+                if (boardManager.PlaceCard(Hand.Hand[cardInd].content, AvailablePlaces[placeInd]))
+                {
+                    Hand.Hand[cardInd].Send(boardManager.EnemySlots[AvailablePlaces[placeInd]].position);
+                    Hand.RemoveCardFromHand(cardInd);
+                }
+            }
         }
-
 
         boardManager.NextTurn();
     }
