@@ -9,7 +9,7 @@ public class CardObjectScript : MonoBehaviour
     [SerializeField] private float Speed;
     [SerializeField] private Canvas canvas;
     [SerializeField] private TextMeshProUGUI Name;
-    [SerializeField] private TextMeshProUGUI Primary;
+    [SerializeField] private Image Primary;
     [SerializeField] private Image Damage;
     [SerializeField] private Image Arrow;
     [SerializeField] private Image Art;
@@ -17,6 +17,7 @@ public class CardObjectScript : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private Sprite[] arrows;          //arrays store all the sprites for all the states
     [SerializeField] private Sprite[] DamageNums;
+    [SerializeField] private Sprite[] RowInds;
     [SerializeField] private Sprite[] Costs;
     [SerializeField] private Sprite[] ThemesFront;
     [SerializeField] private Sprite[] ThemesBack;
@@ -70,8 +71,7 @@ public class CardObjectScript : MonoBehaviour
         Cost.sprite = Costs[content.cost];
         Cost.color = content.element == Card.elements.dark ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
         sr.sprite = ThemesFront[(int)content.element];
-        Primary.text = content.Primary ? "P" : "S";
-        Primary.color = content.element == Card.elements.dark ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
+        Primary.sprite = RowInds[(content.Primary ? 0 : 1) + (content.element == Card.elements.light ? 0 : 2)];
         Art.sprite = content.Pic;
     }
 

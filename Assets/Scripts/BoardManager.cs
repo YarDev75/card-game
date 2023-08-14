@@ -27,7 +27,6 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        print("cards with P can only be placed on the top row, cards with S - on the bottom");  //for you
         TheBoard = new Card[16];
         PlayersTurn = true;
         //setting up meters (sliders)

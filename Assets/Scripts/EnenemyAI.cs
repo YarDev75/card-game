@@ -59,20 +59,52 @@ public class EnenemyAI : MonoBehaviour
         //needs some work
         if (Hand.Hand.Count > 0)
         {
-            var AvailablePlaces = new List<int>();
-            for (int i = 0; i < 8; i++) if (boardManager.TheBoard[i] == null) { AvailablePlaces.Add(i); print(i); }
             for (int i = 0; i < Random.Range(1, Hand.Hand.Count); i++)
             {
+                var AffordableCards = new List<int>();
+                for (int j = 0; j < Hand.Hand.Count; j++)
+                {
+                    if (Hand.Hand[j].content.cost <= (Hand.Hand[j].content.element == Card.elements.light ? Lux : Umbra)) AffordableCards.Add(j);
+                }
+                if(AffordableCards.Count == 0)
+                {
+                    boardManager.NextTurn();
+                    return;
+                }
+                var cardInd = AffordableCards[Random.Range(0, AffordableCards.Count)];
+                var AvailablePlaces = new List<int>();
+                if (Hand.Hand[cardInd].content.Primary)
+                {
+                    for (int j = 4; j < 8; j++)
+                    {
+                        if (boardManager.TheBoard[j] == null) AvailablePlaces.Add(j);
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (boardManager.TheBoard[j] == null) AvailablePlaces.Add(j);
+                    }
+                }
                 var placeInd = Random.Range(0, AvailablePlaces.Count);
-                var cardInd = Random.Range(0, Hand.Hand.Count);
                 if (boardManager.PlaceCard(Hand.Hand[cardInd].content, AvailablePlaces[placeInd]))
                 {
                     Hand.Hand[cardInd].Send(boardManager.EnemySlots[AvailablePlaces[placeInd]].position);
+                    if (Hand.Hand[cardInd].content.element == Card.elements.light) Lux -= Hand.Hand[cardInd].content.cost;
+                    else Umbra -= Hand.Hand[cardInd].content.cost;
+                    UpdateSliders();
                     Hand.RemoveCardFromHand(cardInd);
                 }
             }
         }
 
         boardManager.NextTurn();
+    }
+
+    void UpdateSliders()
+    {
+        LuxMeter.value = Lux;
+        UmbraMeter.value = Umbra;
     }
 }
