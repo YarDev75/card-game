@@ -35,7 +35,6 @@ public class HandManager : MonoBehaviour
                 if (Hand.Count >= StartCards) InitialDraw = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space)) DrawCard(); //for testing
     }
 
     //initializes lists, made it a separate function in case it will be used somewhere else
@@ -58,7 +57,7 @@ public class HandManager : MonoBehaviour
         }
     }
 
-    void DrawCard()
+    public void DrawCard()
     {
         if (RemainingDeck.Count > 0)
         {

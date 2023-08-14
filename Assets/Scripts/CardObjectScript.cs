@@ -9,7 +9,7 @@ public class CardObjectScript : MonoBehaviour
     [SerializeField] private float Speed;
     [SerializeField] private Canvas canvas;
     [SerializeField] private TextMeshProUGUI Name;
-    [SerializeField] private TextMeshProUGUI Primary;
+    [SerializeField] private Image Primary;
     [SerializeField] private Image Damage;
     [SerializeField] private Image Arrow;
     [SerializeField] private Image Art;
@@ -17,6 +17,7 @@ public class CardObjectScript : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private Sprite[] arrows;          //arrays store all the sprites for all the states
     [SerializeField] private Sprite[] DamageNums;
+    [SerializeField] private Sprite[] RowInds;
     [SerializeField] private Sprite[] Costs;
     [SerializeField] private Sprite[] ThemesFront;
     [SerializeField] private Sprite[] ThemesBack;
@@ -56,7 +57,7 @@ public class CardObjectScript : MonoBehaviour
             canvas.sortingOrder = sr.sortingOrder + 1;                                  //gonna change later, will be like this for now
         }
 
-        if (sent && Vector2.Distance(transform.position, TargetPos) < 0.05f) Placed();
+        if (sent && Vector2.Distance(transform.position, TargetPos) < 0.01f) Placed();
     }
 
     void DrawStats()
@@ -70,8 +71,7 @@ public class CardObjectScript : MonoBehaviour
         Cost.sprite = Costs[content.cost];
         Cost.color = content.element == Card.elements.dark ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
         sr.sprite = ThemesFront[(int)content.element];
-        Primary.text = content.Primary ? "P" : "S";
-        Primary.color = content.element == Card.elements.dark ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
+        Primary.sprite = RowInds[(content.Primary ? 0 : 1) + (content.element == Card.elements.light ? 0 : 2)];
         Art.sprite = content.Pic;
     }
 
@@ -86,7 +86,7 @@ public class CardObjectScript : MonoBehaviour
     //called when card is placed on the board
     void Placed()
     {
-        GetComponentInParent<HandManager>().RemoveCardFromHand(HandID);
+        if(PlayerCard) GetComponentInParent<HandManager>().RemoveCardFromHand(HandID);
         sr.sortingOrder = sortOrder;
         canvas.sortingOrder = sr.sortingOrder + 1;
         sr.transform.localPosition = Vector2.zero;
@@ -118,6 +118,8 @@ public class CardObjectScript : MonoBehaviour
     {
         if (PlayerCard && boardManager.PlayersTurn)
         {
+            sr.sortingOrder = 102;
+            canvas.sortingOrder = 103;
             Dragin = true;
             anim.SetBool("selected", false);
         }

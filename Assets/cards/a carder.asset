@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37e6f0e86318af048a3d8e4815f88cc2, type: 3}
-  m_Name: test guy
+  m_Name: a carder
   m_EditorClassIdentifier: 
-  Name: test guy
+  Name: boomba
   Pic: {fileID: 2111496456, guid: c8c3ae5770ebb2749b4a4de20e1ad511, type: 3}
-  damage: 5
+  damage: 8
   Primary: 1
-  element: 0
-  cost: 4
-  direction: 0
+  element: 1
+  cost: 6
+  direction: 2
