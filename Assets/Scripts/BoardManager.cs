@@ -23,12 +23,12 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Slider LuxMeter;
     [SerializeField] private float MaxUmbra;
     [SerializeField] private Slider UmbraMeter;
-    [SerializeField] private int PlayerMaxHealth;
-    [SerializeField] private int EnemyMaxHealth;
+    [SerializeField] private int PlayerMaxHealth = 10;
+    [SerializeField] private int EnemyMaxHealth = 10;
     [SerializeField] private TextMeshProUGUI PlayerHealthText;
     [SerializeField] private TextMeshProUGUI EnemyHealthText;
-    int PlayerHealth = 10;                                                //I think we should just store them in a seperate variable instead of Parsing text every time
-    int EnemyHealth = 10;
+    int PlayerHealth;                                                //I think we should just store them in a seperate variable instead of Parsing text every time
+    int EnemyHealth;                                                   // Yeah, I was gonna change that, it was just for debugging
     float Lux;
     float Umbra;
 
@@ -57,6 +57,17 @@ public class BoardManager : MonoBehaviour
         turnAnouncerAnim.SetTrigger("go");
         if(!PlayersTurn) AI.doTurn();
         CalculateTurn();
+        if(EnemyHealth <= 0)
+        {
+            turnAnouncerText.text = "Victory";
+            if(PlayerHealth <= 0) turnAnouncerText.text = "Draw";
+            turnAnouncerAnim.SetTrigger("go");
+        }else if(PlayerHealth <= 0)
+        {
+            turnAnouncerText.text = "Defeat";
+            turnAnouncerAnim.SetTrigger("go");
+        }
+        
         NextTurnButton.SetActive(PlayersTurn);
     }
 
@@ -114,39 +125,39 @@ public class BoardManager : MonoBehaviour
         for(int i = TheBoard.Length / 4; i < TheBoard.Length/2; i++) { //This calculates primary row only on enemy's side
             CardObjectScript enemyCard = TheBoard[i];
             CardObjectScript playerCard = TheBoard[i + TheBoard.Length / 4];
-            ApplyCardEffects(playerCard);                                        //instead of calling them in two different places, let's just check if they're null in the function itself
+            ApplyCardEffects(playerCard);
             ApplyCardEffects(enemyCard);
 
             //TODO: make the hit dirrection actualy do stuff
 
             if (playerCard != null && enemyCard != null)
             {
-                //instead of checking for every scenario, I just made both card hit eachother and then deal with consequences
-
                 int UnmodifiedPlayerDamage = playerCard.content.damage;                 //playerCard damage before it gets hit
                 playerCard.content.damage -= enemyCard.content.damage;
                 enemyCard.content.damage -= UnmodifiedPlayerDamage;
 
-                //I think all damage should be sinked into the killed enemy, but if you don't, uncoment the code before "Destroy card" lines
                 if (playerCard.content.damage <= 0)
                 {
-                    //PlayerHealth += playerCard.content.damage;         //if damage is negative - opposing card delt more damage than needed, that damage transfers to the player (overflow damage), uncoment to enable
                     Destroy(playerCard.gameObject);                      //gameobject gets destroyed and so is the script attached to it, automaticly making TheBoard value null
                 }
                 if (enemyCard.content.damage <= 0)
                 {
-                    //EnemyHealth += enemyCard.content.damage;           //if damage is negative - opposing card delt more damage than needed, that damage transfers to the enemy (overflow damage), uncoment to enable
                     Destroy(playerCard.gameObject);
                 }
             }
-            else if (enemyCard != null) PlayerHealth -= enemyCard.content.damage;     //made theese a single line so it looks better :)
-            else if(playerCard != null) EnemyHealth -= playerCard.content.damage;
-
-            //just put them here instead of inserting multiple times in a single function
+            if (enemyCard != null) //If you eliminate the elses you only apply the damage of the cards with remaining damage points as they are not destroyed
+            {
+                PlayerHealth -= enemyCard.content.damage;
+                enemyCard.UpdateStats(); //This updates the damage points
+            }
+            else if (playerCard != null) 
+            { 
+                EnemyHealth -= playerCard.content.damage;playerCard.UpdateStats();
+            }
             PlayerHealthText.text = PlayerHealth.ToString();
             EnemyHealthText.text = EnemyHealth.ToString();
         }
-        print($"EnemyHealth: {EnemyHealthText.text} PlayerHealth: {PlayerHealthText.text}");    //if you put $ before string you can put variables in { } to use their values
+        print($"EnemyHealth: {EnemyHealthText.text} PlayerHealth: {PlayerHealthText.text}");
     }
 
     private void ApplyCardEffects(CardObjectScript card)

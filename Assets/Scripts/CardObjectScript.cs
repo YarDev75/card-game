@@ -24,7 +24,7 @@ public class CardObjectScript : MonoBehaviour
     public bool PlayerCard;                            //whether or not the card belongs to a player
     public SpriteRenderer sr;
     public Vector3 TargetPos;                          //where the card is going
-    public Card content;
+    public Card content;  //Use Card_2 instead of Card
     public int HandID;                                 //Index in the Hand array in HandManager
     BoardManager boardManager;
     int sortOrder;                                     //SpriteRenderer's sorting order, keeping track cause changing it in a few places
@@ -75,7 +75,7 @@ public class CardObjectScript : MonoBehaviour
         canvas.worldCamera = Camera.main;
         Name.text = content.Name;
         Name.color = content.element == Card.elements.light ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
-        Damage.sprite = DamageNums[content.damage + (9 * (content.element == Card.elements.light ? 1 : 0))];
+        Damage.sprite = DamageNums[content.damage + (10 * (content.element == Card.elements.light ? 1 : 0))];
         Arrow.sprite = arrows[(int)content.direction + (4 * (content.element == Card.elements.light ? 1 : 0))];
         Cost.sprite = Costs[content.cost];
         Cost.color = content.element == Card.elements.dark ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
@@ -142,5 +142,8 @@ public class CardObjectScript : MonoBehaviour
         }
     }
 
-
+    public void UpdateStats()
+    {
+        DrawStats(); //This is just a patch, if you have a better solution, changed you know this part of the code better
+    }
 }
