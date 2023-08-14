@@ -1277,7 +1277,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.12941177, g: 0.09411766, b: 0.10588236, a: 0}
+  m_BackGroundColor: {r: 0.12941177, g: 0.09411766, b: 0.10588236, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1887,6 +1887,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 303b2f4b6bdd20c47a205a939c1e8f1a, type: 2}
   - {fileID: 11400000, guid: 303b2f4b6bdd20c47a205a939c1e8f1a, type: 2}
   - {fileID: 11400000, guid: 303b2f4b6bdd20c47a205a939c1e8f1a, type: 2}
+  - {fileID: 11400000, guid: 24b95443a568fe94abe634387fcbe0ee, type: 2}
+  - {fileID: 11400000, guid: c2bc691c0d1cb194abdb5bfd1745079b, type: 2}
+  - {fileID: 11400000, guid: c2bc691c0d1cb194abdb5bfd1745079b, type: 2}
+  - {fileID: 11400000, guid: 24b95443a568fe94abe634387fcbe0ee, type: 2}
   EmptyCard: {fileID: 6442780795839675649, guid: af63b281514cdb940bd9db5cafda3f68, type: 3}
   CardSpawn: {fileID: 1241104559}
   StartCards: 4
@@ -4124,6 +4128,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 303b2f4b6bdd20c47a205a939c1e8f1a, type: 2}
   - {fileID: 11400000, guid: 303b2f4b6bdd20c47a205a939c1e8f1a, type: 2}
   - {fileID: 11400000, guid: 303b2f4b6bdd20c47a205a939c1e8f1a, type: 2}
+  - {fileID: 11400000, guid: 24b95443a568fe94abe634387fcbe0ee, type: 2}
+  - {fileID: 11400000, guid: 24b95443a568fe94abe634387fcbe0ee, type: 2}
+  - {fileID: 11400000, guid: c2bc691c0d1cb194abdb5bfd1745079b, type: 2}
+  - {fileID: 11400000, guid: c2bc691c0d1cb194abdb5bfd1745079b, type: 2}
   EmptyCard: {fileID: 6442780795839675649, guid: af63b281514cdb940bd9db5cafda3f68, type: 3}
   CardSpawn: {fileID: 711708224}
   StartCards: 4

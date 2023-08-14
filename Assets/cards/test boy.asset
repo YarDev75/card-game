@@ -17,5 +17,5 @@ MonoBehaviour:
   damage: 4
   Primary: 0
   element: 1
-  cost: 1
-  direction: 1
+  cost: 2
+  direction: 3
