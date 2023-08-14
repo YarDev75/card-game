@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class BoardManager : MonoBehaviour
 {
@@ -40,11 +41,6 @@ public class BoardManager : MonoBehaviour
         UmbraMeter.value = Umbra;
     }
 
-    void DoCombat()
-    {
-
-    }
-
     //anounces who's turn it is and let's that side place cards
     public void NextTurn()
     {
@@ -52,6 +48,7 @@ public class BoardManager : MonoBehaviour
         turnAnouncerText.text = (PlayersTurn ? "Player's" : "Enenemy's") + " turn!";
         turnAnouncerAnim.SetTrigger("go");
         if(!PlayersTurn) AI.doTurn();
+        CalculateTurn();
         NextTurnButton.SetActive(PlayersTurn);
     }
 
@@ -104,9 +101,10 @@ public class BoardManager : MonoBehaviour
     }
 
     public void CalculateTurn() {
-        for(int i = 0; i < TheBoard.Length/4; i++) { //It's length/4 and not length/2 because only Primary row cards engage in battle, dunno what to do with the others yet
-            Card playerCard = TheBoard[i];
-            Card enemyCard = TheBoard[i + TheBoard.Length/2];
+        for(int i = TheBoard.Length / 4; i < TheBoard.Length/2; i++) { //This calculates primary row only on enemy's side
+            Card enemyCard = TheBoard[i];
+            int playerCardPos = i + TheBoard.Length / 4;
+            Card playerCard = TheBoard[playerCardPos];
             if(playerCard != null && enemyCard != null)
             {
                 ApplyCardEffects(playerCard);
@@ -115,12 +113,12 @@ public class BoardManager : MonoBehaviour
                 {
                     //Here we should trigger animation playerCard attacks enemyCard
                     playerCard.damage -= enemyCard.damage;
-                    //Here we need to Destroy() the enemy card player has attacked thus removing it from the view
-                    TheBoard[i + TheBoard.Length / 2] = null;
+                    Destroy(enemyCard.GameObject());//Here we need to Destroy() the enemy card player has attacked thus removing it from the view
+                    TheBoard[i] = null;
                     if(playerCard.damage == 0)
                     {
                         //Here we need to Destroy() the card that has attacked in this turn thus removing it from the view
-                        TheBoard[i] = null;
+                        TheBoard[playerCardPos] = null;
                     }else EnemyHealth.text = (int.Parse(EnemyHealth.text) - playerCard.damage).ToString();
                 }
                 else //enemyCard is stronger than playerCard
