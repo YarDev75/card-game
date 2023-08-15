@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e6f0e86318af048a3d8e4815f88cc2, type: 3}
   m_Name: test guy
   m_EditorClassIdentifier: 
-  Name: test guy
+  Name: healer
   Pic: {fileID: 2111496456, guid: c8c3ae5770ebb2749b4a4de20e1ad511, type: 3}
   damage: 1
-  Primary: 1
+  Primary: 0
   element: 0
-  cost: 4
+  cost: 3
   direction: 0
+  effects: 03000000
+  deathEffect: 0
+  passives: 

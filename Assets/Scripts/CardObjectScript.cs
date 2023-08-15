@@ -105,6 +105,7 @@ public class CardObjectScript : MonoBehaviour
         canvas.sortingOrder = sr.sortingOrder + 1;
         anim.SetBool("placed", true);
         placed = true;
+        GetComponent<BoxCollider2D>().enabled = false;
     }
 
     private void OnMouseEnter()

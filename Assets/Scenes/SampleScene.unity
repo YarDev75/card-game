@@ -1005,6 +1005,8 @@ MonoBehaviour:
   MaxUmbra: 12
   UmbraMeter: {fileID: 1718974837}
   personality: {fileID: 11400000, guid: 0f86e7d3cb775df458b92e05ec8c1a29, type: 2}
+  Lux: 0
+  Umbra: 0
 --- !u!1 &356093501
 GameObject:
   m_ObjectHideFlags: 0

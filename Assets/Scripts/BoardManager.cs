@@ -64,9 +64,12 @@ public class BoardManager : MonoBehaviour
         if(!PlayersTurn) AI.doTurn();
         for (int i = 0; i < TheBoard.Length; i++)
         {
-            if (TheBoard[i].damage <= 0) Destroy(TheBoard[i].gameObject);
+            if (TheBoard[i] != null)
+            {
+                if (TheBoard[i].damage <= 0) Destroy(TheBoard[i].gameObject);
+                TheBoard[i].TurnDamage = TheBoard[i].damage;
+            }
         }
-        for (int i = 4; i < 12; i++) TheBoard[i].TurnDamage = TheBoard[i].damage;
         CalculateTurn();
         if(EnemyHealth <= 0)
         {
@@ -130,75 +133,76 @@ public class BoardManager : MonoBehaviour
         else return false;
     }
 
-    //Cards are doing double damage for some reason, I really need to go to bed now, so please fix it :)
+
     public void CalculateTurn() 
     {
         for(int i = 0; i < TheBoard.Length/4; i++) //just goes through one row and then calculates all cards in the column
         {
             int enemySecondaryInd = i;
             int enemyPrimaryInd = i + TheBoard.Length / 4;
-            CardObjectScript enemyPrimary = TheBoard[enemyPrimaryInd];
-            int playerSecondaryInd = i + (TheBoard.Length / 4 * 3);
             int playerPrimaryInd = i + (TheBoard.Length / 4 * 2);
-            CardObjectScript playerPrimary = TheBoard[playerPrimaryInd];
-            ApplyCardEffects(playerPrimary);
-            ApplyCardEffects(enemyPrimary);
+            int playerSecondaryInd = i + (TheBoard.Length / 4 * 3);
+            ApplyCardEffects(playerPrimaryInd, true);
+            ApplyCardEffects(enemyPrimaryInd, false);
 
-            //new approach: treating damage as a shockwave going through a column
-            int playerDamage = TheBoard[playerPrimaryInd].TurnDamage;
-            int enemyDamage = TheBoard[enemyPrimaryInd].TurnDamage;
+            //new approach: treating damage as a shockwave going through a column (like, first we damage the oposing primary, if there's leftover damage, then secondary, if there's still leftover damage, then the hp bar)
 
-            //player card attack (here order doesn't matter, both of them attack and the damage is stored independently)
-
-            //calculating offset (so the card attacks to the left or to the right, depending on the direction of the card)
             int offset = 0;
-            switch (TheBoard[playerPrimaryInd].content.direction)
+            //player card attack (here order doesn't matter, both of them attack and the damage is stored independently)
+            if (TheBoard[playerPrimaryInd] != null)
             {
-                case Card.directions.front:
-                    offset = 0;
-                    break;
-                case Card.directions.right:
-                    offset = 1;
-                    break;
-                case Card.directions.left:
-                    offset = -1;
-                    break;
-                case Card.directions.fork:
-                    offset = -1;
-                    CalculateCardAttack(playerPrimaryInd, enemyPrimaryInd, enemySecondaryInd, playerDamage, ref EnemyHealth, offset); //additional attack for fork type
-                    offset = 1;
-                    break;
+                int playerDamage = TheBoard[playerPrimaryInd].TurnDamage;
+                //calculating offset (so the card attacks to the left or to the right, depending on the direction of the card)
+                switch (TheBoard[playerPrimaryInd].content.direction)
+                {
+                    case Card.directions.front:
+                        offset = 0;
+                        break;
+                    case Card.directions.right:
+                        offset = 1;
+                        break;
+                    case Card.directions.left:
+                        offset = -1;
+                        break;
+                    case Card.directions.fork:
+                        offset = -1;
+                        CalculateCardAttack(playerPrimaryInd, enemyPrimaryInd, enemySecondaryInd, playerDamage, ref EnemyHealth, offset); //additional attack for fork type
+                        offset = 1;
+                        break;
+                }
+                CalculateCardAttack(playerPrimaryInd, enemyPrimaryInd, enemySecondaryInd, playerDamage, ref EnemyHealth, offset);
             }
-            CalculateCardAttack(playerPrimaryInd, enemyPrimaryInd, enemySecondaryInd, playerDamage, ref EnemyHealth, offset);
 
             //enemy card attacks
-            switch (TheBoard[playerPrimaryInd].content.direction)
+            if (TheBoard[enemyPrimaryInd] != null)
             {
-                case Card.directions.front:
-                    offset = 0;
-                    break;
-                case Card.directions.right:
-                    offset = 1;
-                    break;
-                case Card.directions.left:
-                    offset = -1;
-                    break;
-                case Card.directions.fork:
-                    offset = -1;
-                    CalculateCardAttack(enemyPrimaryInd, playerPrimaryInd, playerSecondaryInd, enemyDamage, ref PlayerHealth, offset); //additional attack for fork type
-                    offset = 1;
-                    break;
-            }
-            CalculateCardAttack(enemyPrimaryInd, playerPrimaryInd, playerSecondaryInd, enemyDamage, ref PlayerHealth, offset);
+                int enemyDamage = TheBoard[enemyPrimaryInd].TurnDamage;
+                switch (TheBoard[playerPrimaryInd].content.direction)
+                {
+                    case Card.directions.front:
+                        offset = 0;
+                        break;
+                    case Card.directions.right:
+                        offset = 1;
+                        break;
+                    case Card.directions.left:
+                        offset = -1;
+                        break;
+                    case Card.directions.fork:
+                        offset = -1;
+                        CalculateCardAttack(enemyPrimaryInd, playerPrimaryInd, playerSecondaryInd, enemyDamage, ref PlayerHealth, offset); //additional attack for fork type
+                        offset = 1;
+                        break;
+                }
+                CalculateCardAttack(enemyPrimaryInd, playerPrimaryInd, playerSecondaryInd, enemyDamage, ref PlayerHealth, offset);
 
+            }
 
             //secondary cards do stuff
+            ApplyCardEffects(playerSecondaryInd, true);
+            ApplyCardEffects(enemySecondaryInd, false);
 
-
-            PlayerHealthText.text = PlayerHealth.ToString();
-            PlayerHealthBar.value = PlayerHealth;
-            EnemyHealthText.text = EnemyHealth.ToString();
-            EnemyHealthBar.value = EnemyHealth;
+            UpdateUIStats();
         }
         print($"EnemyHealth: {EnemyHealthText.text} PlayerHealth: {PlayerHealthText.text}");
     }
@@ -211,7 +215,7 @@ public class BoardManager : MonoBehaviour
             //damaging the primary
             if (TheBoard[opposingPInd + offset] != null)
             {
-                TheBoard[opposingPInd + offset].damage -= damage;
+                TheBoard[opposingPInd + offset].damage -= damage; //note that we're decreasing the damage variable, and for the attack card uses TurnDamage, which is stored before the turn starts and is not affected during the turn
                 if (TheBoard[opposingPInd + offset].damage <= 0)
                 {
                     damage = Mathf.Abs(TheBoard[opposingPInd + offset].damage); //Mathf.Abs removes the sign, so if the enemy has -3 damage, the damage variable becomes 3
@@ -230,7 +234,7 @@ public class BoardManager : MonoBehaviour
                 }
                 else damage = 0; //used it all up on an enemy, not killing it
             }
-            //damaging the enemy, if still damage left
+            //damaging the enemy/player, if still damage left
             if (damage > 0)
             {
                 opposingHp -= damage;  //opposingHp is a 'ref' variable, so the operation is done directly to the EnemyHealth or PlayerHealth, whichever is the argument
@@ -239,11 +243,94 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void ApplyCardEffects(CardObjectScript card)
+    private void ApplyCardEffects(int BoardID, bool PlayersCard)
     {
-        if(card != null)
+        if(TheBoard[BoardID] != null)
         {
-
+            for (int i = 0; i < TheBoard[BoardID].content.effects.Length; i++)
+            {
+                //effects can be changed on the card asset
+                switch (TheBoard[BoardID].content.effects[i])
+                {
+                    case Card.SpecialEffects.RecoverLux:
+                        if (PlayersCard) Lux += TheBoard[BoardID].TurnDamage;
+                        else AI.Lux += TheBoard[BoardID].TurnDamage;
+                        UpdateUIStats();
+                        break;
+                    case Card.SpecialEffects.RecoverUmbra:
+                        if (PlayersCard) Umbra += TheBoard[BoardID].TurnDamage;
+                        else AI.Umbra += TheBoard[BoardID].TurnDamage;
+                        UpdateUIStats();
+                        break;
+                    case Card.SpecialEffects.DamageOwner:
+                        if (PlayersCard) PlayerHealth -= TheBoard[BoardID].TurnDamage;
+                        else EnemyHealth -= TheBoard[BoardID].TurnDamage;
+                        UpdateUIStats();
+                        break;
+                    case Card.SpecialEffects.HealOwner:
+                        if (PlayersCard) PlayerHealth += TheBoard[BoardID].TurnDamage;
+                        else EnemyHealth += TheBoard[BoardID].TurnDamage;
+                        UpdateUIStats();
+                        break;
+                    case Card.SpecialEffects.BoostPrimary: //boost as in add damage
+                        int offset = 0;
+                        switch (TheBoard[BoardID].content.direction)
+                        {
+                            case Card.directions.front:
+                                offset = 0;
+                                break;
+                            case Card.directions.right:
+                                offset = 1;
+                                break;
+                            case Card.directions.left:
+                                offset = -1;
+                                break;
+                            case Card.directions.fork:
+                                offset = -1;
+                                if ((BoardID % 4) + offset >= 0 && (BoardID % 4) + offset < 4)
+                                {
+                                    if (PlayersCard)
+                                    {
+                                        TheBoard[BoardID + (TheBoard.Length / 4) + offset].damage += TheBoard[BoardID].TurnDamage;
+                                        TheBoard[BoardID + (TheBoard.Length / 4) + offset].UpdateStats();
+                                    }
+                                    else
+                                    {
+                                        TheBoard[BoardID - (TheBoard.Length / 4) + offset].damage += TheBoard[BoardID].TurnDamage;
+                                        TheBoard[BoardID - (TheBoard.Length / 4) + offset].UpdateStats();
+                                    }
+                                }
+                                offset = 1;
+                                break;
+                        }
+                        if((BoardID%4) + offset >= 0 && (BoardID % 4) + offset < 4)
+                        {
+                            if (PlayersCard)
+                            {
+                                TheBoard[BoardID + (TheBoard.Length / 4) + offset].damage += TheBoard[BoardID].TurnDamage;
+                                TheBoard[BoardID + (TheBoard.Length / 4) + offset].UpdateStats();
+                            }
+                            else
+                            {
+                                TheBoard[BoardID - (TheBoard.Length / 4) + offset].damage += TheBoard[BoardID].TurnDamage;
+                                TheBoard[BoardID - (TheBoard.Length / 4) + offset].UpdateStats();
+                            }
+                        }
+                        break;
+                }
+            }
         }
+    }
+
+    void UpdateUIStats()
+    {
+        PlayerHealthText.text = PlayerHealth.ToString();
+        PlayerHealthBar.value = PlayerHealth;
+        EnemyHealthText.text = EnemyHealth.ToString();
+        EnemyHealthBar.value = EnemyHealth;
+        LuxMeter.value = Lux;
+        UmbraMeter.value = Umbra;
+        AI.LuxMeter.value = AI.Lux;
+        AI.UmbraMeter.value = AI.Umbra;
     }
 }

@@ -5,19 +5,42 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new card", menuName = "card")]
 public class Card : ScriptableObject
 {
-    public enum elements 
+    public enum elements
     {
         light,
         dark,
     }
 
-    public enum directions 
+    public enum directions
     {
         front,
         fork,
         right,
-        left
+        left,
+        none
     }
+
+    public enum PassiveEffects //not implemented
+    {
+        Leeching,
+    }
+
+    public enum SpecialEffects
+    {
+        RecoverLux,
+        RecoverUmbra,
+        DamageOwner,
+        HealOwner,
+        BoostPrimary,
+    }
+
+    public enum DeathEffects //not implemented
+    {
+        none,
+        DrainLux,
+        DrainUmbra,
+    }
+
 
 
     public string Name;
@@ -27,4 +50,7 @@ public class Card : ScriptableObject
     public elements element;
     public int cost;
     public directions direction;
+    public SpecialEffects[] effects;
+    public DeathEffects deathEffect;
+    public PassiveEffects[] passives;
 }

@@ -10,12 +10,12 @@ public class EnenemyAI : MonoBehaviour
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private TextMeshProUGUI ThinkingBubble;      //the three dots thing
     [SerializeField] private float MaxLux;
-    [SerializeField] private Slider LuxMeter;
+    [SerializeField] public Slider LuxMeter;
     [SerializeField] private float MaxUmbra;
-    [SerializeField] private Slider UmbraMeter;
+    [SerializeField] public Slider UmbraMeter;
     public EnemyPerson personality;
-    float Lux;
-    float Umbra;
+    public float Lux;
+    public float Umbra;
     float Timer;
     float TimerGoal;
 
@@ -75,9 +75,9 @@ public class EnenemyAI : MonoBehaviour
                 }
                 if (AffordableCards.Count == 0)
                 {
-                    boardManager.NextTurn();
                     ThinkingBubble.text = personality.OutOfManaDialogue[Random.Range(0, personality.OutOfManaDialogue.Length)];
                     Invoke("ClearDialogueText", 3f);
+                    boardManager.NextTurn();
                     return;
                 }
                 var cardInd = AffordableCards[Random.Range(0, AffordableCards.Count)];

@@ -651,6 +651,7 @@ MonoBehaviour:
   content: {fileID: 0}
   HandID: 0
   damage: 0
+  TurnDamage: 0
 --- !u!61 &1321384306294966732
 BoxCollider2D:
   m_ObjectHideFlags: 0
