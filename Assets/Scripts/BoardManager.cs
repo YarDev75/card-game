@@ -107,6 +107,11 @@ public class BoardManager : MonoBehaviour
                 turnAnouncerText.text = "Place your cards!";
                 AIHand.DrawCard(2);
                 PlayerHand.DrawCard(2);
+                AI.Lux++;
+                AI.Umbra++;
+                Lux++;
+                Umbra++;
+                UpdateUIStats();
                 AI.doTurn();
                 NextTurnButton.SetActive(true);
             }
