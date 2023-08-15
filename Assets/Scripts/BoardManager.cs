@@ -26,7 +26,9 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private int PlayerMaxHealth = 10;
     [SerializeField] private int EnemyMaxHealth = 10;
     [SerializeField] private TextMeshProUGUI PlayerHealthText;
+    [SerializeField] private Slider PlayerHealthBar;
     [SerializeField] private TextMeshProUGUI EnemyHealthText;
+    [SerializeField] private Slider EnemyHealthBar;
     int PlayerHealth;                                                //I think we should just store them in a seperate variable instead of Parsing text every time
     int EnemyHealth;                                                   // Yeah, I was gonna change that, it was just for debugging
     float Lux;
@@ -38,6 +40,10 @@ public class BoardManager : MonoBehaviour
         EnemyHealth = EnemyMaxHealth;
         PlayerHealthText.text = PlayerHealth.ToString();
         EnemyHealthText.text = EnemyHealth.ToString();
+        PlayerHealthBar.maxValue = PlayerMaxHealth;
+        PlayerHealthBar.value = PlayerHealth;
+        EnemyHealthBar.maxValue = EnemyMaxHealth;
+        EnemyHealthBar.value = EnemyHealth;
         TheBoard = new CardObjectScript[16];
         PlayersTurn = true;
         //setting up meters (sliders)
@@ -56,6 +62,11 @@ public class BoardManager : MonoBehaviour
         turnAnouncerText.text = (PlayersTurn ? "Player's" : "Enenemy's") + " turn!";
         turnAnouncerAnim.SetTrigger("go");
         if(!PlayersTurn) AI.doTurn();
+        for (int i = 0; i < TheBoard.Length; i++)
+        {
+            if (TheBoard[i].damage <= 0) Destroy(TheBoard[i].gameObject);
+        }
+        for (int i = 4; i < 12; i++) TheBoard[i].TurnDamage = TheBoard[i].damage;
         CalculateTurn();
         if(EnemyHealth <= 0)
         {
@@ -122,42 +133,110 @@ public class BoardManager : MonoBehaviour
     //Cards are doing double damage for some reason, I really need to go to bed now, so please fix it :)
     public void CalculateTurn() 
     {
-        for(int i = TheBoard.Length / 4; i < TheBoard.Length/2; i++) { //This calculates primary row only on enemy's side
-            CardObjectScript enemyCard = TheBoard[i];
-            CardObjectScript playerCard = TheBoard[i + TheBoard.Length / 4];
-            ApplyCardEffects(playerCard);
-            ApplyCardEffects(enemyCard);
+        for(int i = 0; i < TheBoard.Length/4; i++) //just goes through one row and then calculates all cards in the column
+        {
+            int enemySecondaryInd = i;
+            int enemyPrimaryInd = i + TheBoard.Length / 4;
+            CardObjectScript enemyPrimary = TheBoard[enemyPrimaryInd];
+            int playerSecondaryInd = i + (TheBoard.Length / 4 * 3);
+            int playerPrimaryInd = i + (TheBoard.Length / 4 * 2);
+            CardObjectScript playerPrimary = TheBoard[playerPrimaryInd];
+            ApplyCardEffects(playerPrimary);
+            ApplyCardEffects(enemyPrimary);
 
-            //TODO: make the hit dirrection actualy do stuff
+            //new approach: treating damage as a shockwave going through a column
+            int playerDamage = TheBoard[playerPrimaryInd].TurnDamage;
+            int enemyDamage = TheBoard[enemyPrimaryInd].TurnDamage;
 
-            if (playerCard != null && enemyCard != null)
+            //player card attack (here order doesn't matter, both of them attack and the damage is stored independently)
+
+            //calculating offset (so the card attacks to the left or to the right, depending on the direction of the card)
+            int offset = 0;
+            switch (TheBoard[playerPrimaryInd].content.direction)
             {
-                int UnmodifiedPlayerDamage = playerCard.content.damage;                 //playerCard damage before it gets hit
-                playerCard.content.damage -= enemyCard.content.damage;
-                enemyCard.content.damage -= UnmodifiedPlayerDamage;
+                case Card.directions.front:
+                    offset = 0;
+                    break;
+                case Card.directions.right:
+                    offset = 1;
+                    break;
+                case Card.directions.left:
+                    offset = -1;
+                    break;
+                case Card.directions.fork:
+                    offset = -1;
+                    CalculateCardAttack(playerPrimaryInd, enemyPrimaryInd, enemySecondaryInd, playerDamage, ref EnemyHealth, offset); //additional attack for fork type
+                    offset = 1;
+                    break;
+            }
+            CalculateCardAttack(playerPrimaryInd, enemyPrimaryInd, enemySecondaryInd, playerDamage, ref EnemyHealth, offset);
 
-                if (playerCard.content.damage <= 0)
-                {
-                    Destroy(playerCard.gameObject);                      //gameobject gets destroyed and so is the script attached to it, automaticly making TheBoard value null
-                }
-                if (enemyCard.content.damage <= 0)
-                {
-                    Destroy(playerCard.gameObject);
-                }
-            }
-            if (enemyCard != null) //If you eliminate the elses you only apply the damage of the cards with remaining damage points as they are not destroyed
+            //enemy card attacks
+            switch (TheBoard[playerPrimaryInd].content.direction)
             {
-                PlayerHealth -= enemyCard.content.damage;
-                enemyCard.UpdateStats(); //This updates the damage points
+                case Card.directions.front:
+                    offset = 0;
+                    break;
+                case Card.directions.right:
+                    offset = 1;
+                    break;
+                case Card.directions.left:
+                    offset = -1;
+                    break;
+                case Card.directions.fork:
+                    offset = -1;
+                    CalculateCardAttack(enemyPrimaryInd, playerPrimaryInd, playerSecondaryInd, enemyDamage, ref PlayerHealth, offset); //additional attack for fork type
+                    offset = 1;
+                    break;
             }
-            else if (playerCard != null) 
-            { 
-                EnemyHealth -= playerCard.content.damage;playerCard.UpdateStats();
-            }
+            CalculateCardAttack(enemyPrimaryInd, playerPrimaryInd, playerSecondaryInd, enemyDamage, ref PlayerHealth, offset);
+
+
+            //secondary cards do stuff
+
+
             PlayerHealthText.text = PlayerHealth.ToString();
+            PlayerHealthBar.value = PlayerHealth;
             EnemyHealthText.text = EnemyHealth.ToString();
+            EnemyHealthBar.value = EnemyHealth;
         }
         print($"EnemyHealth: {EnemyHealthText.text} PlayerHealth: {PlayerHealthText.text}");
+    }
+
+    void CalculateCardAttack(int boardID, int opposingPInd, int opposingSInd, int damage, ref int opposingHp, int offset)
+    {
+        //checks if the tearget is within boundries (so that direction doesn't lead out the board)
+        if ((boardID % 4) + offset >= 0 && (boardID % 4) + offset < 4)
+        {
+            //damaging the primary
+            if (TheBoard[opposingPInd + offset] != null)
+            {
+                TheBoard[opposingPInd + offset].damage -= damage;
+                if (TheBoard[opposingPInd + offset].damage <= 0)
+                {
+                    damage = Mathf.Abs(TheBoard[opposingPInd + offset].damage); //Mathf.Abs removes the sign, so if the enemy has -3 damage, the damage variable becomes 3
+                    //don't destroy the card before it can attack, cards with no damage will be destroyed at the end of the turn 
+                }
+                else damage = 0; //used it all up on an enemy, not killing it
+            }
+            //damaging the secondary, if enough damage left
+            if (TheBoard[opposingSInd + offset] != null && damage > 0)
+            {
+                TheBoard[opposingSInd + offset].damage -= damage;
+                if (TheBoard[opposingSInd + offset].damage <= 0)
+                {
+                    damage = Mathf.Abs(TheBoard[opposingSInd + offset].damage);
+                    //don't destroy the card before it can attack, cards with no damage will be destroyed at the end of the turn
+                }
+                else damage = 0; //used it all up on an enemy, not killing it
+            }
+            //damaging the enemy, if still damage left
+            if (damage > 0)
+            {
+                opposingHp -= damage;  //opposingHp is a 'ref' variable, so the operation is done directly to the EnemyHealth or PlayerHealth, whichever is the argument
+            }
+
+        }
     }
 
     private void ApplyCardEffects(CardObjectScript card)

@@ -26,6 +26,8 @@ public class CardObjectScript : MonoBehaviour
     public Vector3 TargetPos;                          //where the card is going
     public Card content;  //Use Card_2 instead of Card
     public int HandID;                                 //Index in the Hand array in HandManager
+    public int damage;                                 //actual damage stat of the card
+    public int TurnDamage;                             //damage for the current turn (so everyone attacks at the same time, noone gets the damage lowered before attacking)
     BoardManager boardManager;
     int sortOrder;                                     //SpriteRenderer's sorting order, keeping track cause changing it in a few places
     bool Dragin;                                       //whether or not the card is currently draged
@@ -34,6 +36,7 @@ public class CardObjectScript : MonoBehaviour
 
     private void Start()
     {
+        damage = content.damage;
         boardManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<BoardManager>();
         if (PlayerCard) DrawStats();
         else
@@ -69,13 +72,15 @@ public class CardObjectScript : MonoBehaviour
         }
     }
 
+
+
     void DrawStats()
     {
         canvas.gameObject.SetActive(true);
         canvas.worldCamera = Camera.main;
         Name.text = content.Name;
         Name.color = content.element == Card.elements.light ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
-        Damage.sprite = DamageNums[content.damage + (10 * (content.element == Card.elements.light ? 1 : 0))];
+        Damage.sprite = DamageNums[damage + (10 * (content.element == Card.elements.light ? 1 : 0))];
         Arrow.sprite = arrows[(int)content.direction + (4 * (content.element == Card.elements.light ? 1 : 0))];
         Cost.sprite = Costs[content.cost];
         Cost.color = content.element == Card.elements.dark ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
