@@ -53,4 +53,5 @@ public class Card : ScriptableObject
     public SpecialEffects[] effects;
     public DeathEffects deathEffect;
     public PassiveEffects[] passives;
+    public string description;
 }

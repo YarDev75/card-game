@@ -22,3 +22,4 @@ MonoBehaviour:
   effects: 04000000
   deathEffect: 0
   passives: 
+  description: adds 1 damage to the card in front of it

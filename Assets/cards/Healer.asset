@@ -22,3 +22,4 @@ MonoBehaviour:
   effects: 03000000
   deathEffect: 0
   passives: 
+  description: restores your hp equal to its damage

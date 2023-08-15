@@ -22,3 +22,4 @@ MonoBehaviour:
   effects: 00000000
   deathEffect: 0
   passives: 
+  description: restores 1 Lux per turn

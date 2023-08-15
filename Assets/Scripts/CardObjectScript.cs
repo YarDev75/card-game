@@ -9,6 +9,7 @@ public class CardObjectScript : MonoBehaviour
     [SerializeField] private float Speed;
     [SerializeField] private Canvas canvas;
     [SerializeField] private TextMeshProUGUI Name;
+    [SerializeField] private TextMeshProUGUI Description;
     [SerializeField] private Image Primary;
     [SerializeField] private Image Damage;
     [SerializeField] private Image Arrow;
@@ -37,6 +38,7 @@ public class CardObjectScript : MonoBehaviour
     private void Start()
     {
         damage = content.damage;
+        Description.text = content.description;
         boardManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<BoardManager>();
         if (PlayerCard) DrawStats();
         else

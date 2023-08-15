@@ -22,3 +22,4 @@ MonoBehaviour:
   effects: 
   deathEffect: 0
   passives: 
+  description: hits really hard
