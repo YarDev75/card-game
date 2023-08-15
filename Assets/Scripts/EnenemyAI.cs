@@ -9,10 +9,12 @@ public class EnenemyAI : MonoBehaviour
     [SerializeField] private HandManager Hand;
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private TextMeshProUGUI ThinkingBubble;      //the three dots thing
-    [SerializeField] private float MaxLux;
-    [SerializeField] public Slider LuxMeter;
-    [SerializeField] private float MaxUmbra;
-    [SerializeField] public Slider UmbraMeter;
+    public float MaxLux;
+    public Slider LuxMeter;
+    public TextMeshProUGUI LuxText;
+    public float MaxUmbra;
+    public Slider UmbraMeter;
+    public TextMeshProUGUI UmbraText;
     public EnemyPerson personality;
     public float Lux;
     public float Umbra;
@@ -117,14 +119,8 @@ public class EnenemyAI : MonoBehaviour
             Hand.Hand[cardInd].Send(boardManager.EnemySlots[AvailablePlaces[placeInd]].position);
             if (Hand.Hand[cardInd].content.element == Card.elements.light) Lux -= Hand.Hand[cardInd].content.cost;
             else Umbra -= Hand.Hand[cardInd].content.cost;
-            UpdateSliders();
+            boardManager.UpdateUIStats();
             Hand.RemoveCardFromHand(cardInd);
         }
-    }
-
-    void UpdateSliders()
-    {
-        LuxMeter.value = Lux;
-        UmbraMeter.value = Umbra;
     }
 }

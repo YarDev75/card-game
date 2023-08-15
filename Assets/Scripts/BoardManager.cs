@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
@@ -10,6 +11,8 @@ public class BoardManager : MonoBehaviour
     public CardObjectScript[] TheBoard;                                          //0-7 - enemy 8-15 - player
 
     [SerializeField] private EnenemyAI AI;
+    [SerializeField] private HandManager AIHand;
+    [SerializeField] private HandManager PlayerHand;
     [SerializeField] private Animator turnAnouncerAnim;
     [SerializeField] private TextMeshProUGUI turnAnouncerText;
     [SerializeField] private GameObject NextTurnButton;
@@ -21,8 +24,10 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private float SnapDistance;                     //for Drag&Drop mechanic
     [SerializeField] private float MaxLux;                           //Lux & Umbra -- resources for placing cards
     [SerializeField] private Slider LuxMeter;
+    [SerializeField] private TextMeshProUGUI LuxText;
     [SerializeField] private float MaxUmbra;
     [SerializeField] private Slider UmbraMeter;
+    [SerializeField] private TextMeshProUGUI UmbraText;
     [SerializeField] private int PlayerMaxHealth = 10;
     [SerializeField] private int EnemyMaxHealth = 10;
     [SerializeField] private TextMeshProUGUI PlayerHealthText;
@@ -40,21 +45,15 @@ public class BoardManager : MonoBehaviour
     {
         PlayerHealth = PlayerMaxHealth;
         EnemyHealth = EnemyMaxHealth;
-        PlayerHealthText.text = PlayerHealth.ToString();
-        EnemyHealthText.text = EnemyHealth.ToString();
         PlayerHealthBar.maxValue = PlayerMaxHealth;
-        PlayerHealthBar.value = PlayerHealth;
         EnemyHealthBar.maxValue = EnemyMaxHealth;
-        EnemyHealthBar.value = EnemyHealth;
         TheBoard = new CardObjectScript[16];
         PlacingTurn = true;
-        //setting up meters (sliders)
         Lux = MaxLux;
         LuxMeter.maxValue = MaxLux;
-        LuxMeter.value = Lux;
         Umbra = MaxUmbra;
         UmbraMeter.maxValue = MaxUmbra;
-        UmbraMeter.value = Umbra;
+        UpdateUIStats();
     }
 
     private void Update()
@@ -83,28 +82,41 @@ public class BoardManager : MonoBehaviour
         PlacingTurn = !PlacingTurn;
         if (!PlacingTurn)
         {
-            turnAnouncerText.text = "Combat";
+            turnAnouncerText.text = "Combat"; 
+            for (int i = 0; i < TheBoard.Length; i++)
+            {
+                if (TheBoard[i] != null) TheBoard[i].UpdateStats();
+            }
             Invoke("CalculateTurn",1f);
         }
         else
         {
-            //if (EnemyHealth <= 0)                                          //needs to be relocated
-            //{
-            //    turnAnouncerText.text = "Victory";
-            //    if (PlayerHealth <= 0) turnAnouncerText.text = "Draw";
-            //}
-            //else if (PlayerHealth <= 0)
-            //{
-            //    turnAnouncerText.text = "Defeat";
-            //}
-            turnAnouncerText.text = "Place your cards!";
-            AI.doTurn();
-            NextTurnButton.SetActive(true);
+            if (EnemyHealth <= 0)                                          
+            {
+                turnAnouncerText.text = "Victory";
+                if (PlayerHealth <= 0) turnAnouncerText.text = "Draw";
+                Invoke("BattleOver", 1.5f);
+            }
+            else if (PlayerHealth <= 0)
+            {
+                turnAnouncerText.text = "Defeat";
+                Invoke("BattleOver", 2f);
+            }
+            else
+            {
+                turnAnouncerText.text = "Place your cards!";
+                AIHand.DrawCard(2);
+                PlayerHand.DrawCard(2);
+                AI.doTurn();
+                NextTurnButton.SetActive(true);
+            }
         }
         turnAnouncerAnim.SetTrigger("go");
-       
+    }
 
-        
+    void BattleOver()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);  //restarts the scene
     }
 
     //for player
@@ -127,18 +139,10 @@ public class BoardManager : MonoBehaviour
         if(Slot != null && (card.content.Primary == ind < 4) && ((card.content.element == Card.elements.light && Lux >= card.content.cost) || (card.content.element == Card.elements.dark && Umbra >= card.content.cost)))
         {
             obj.transform.position = Slot.position;
-            if (card.content.element == Card.elements.light)
-            {
-                Lux -= card.content.cost;
-                LuxMeter.value = Lux;
-            }
-            else
-            {
-                Umbra -= card.content.cost;
-                UmbraMeter.value = Umbra;
-            }
+            if (card.content.element == Card.elements.light) Lux -= card.content.cost;
+            else Umbra -= card.content.cost;
             TheBoard[8 + ind] = card;
-
+            UpdateUIStats();
             return true;
         }
         return false;
@@ -203,7 +207,7 @@ public class BoardManager : MonoBehaviour
             if (TheBoard[enemyPrimaryInd] != null)
             {
                 int enemyDamage = TheBoard[enemyPrimaryInd].TurnDamage;
-                switch (TheBoard[playerPrimaryInd].content.direction)
+                switch (TheBoard[enemyPrimaryInd].content.direction)
                 {
                     case Card.directions.front:
                         offset = 0;
@@ -230,10 +234,13 @@ public class BoardManager : MonoBehaviour
             ApplyCardEffects(enemySecondaryInd, false);
             if (TheBoard[enemySecondaryInd] != null) TheBoard[enemySecondaryInd].anim.SetTrigger("Secondary");
         }
-        print($"EnemyHealth: {EnemyHealthText.text} PlayerHealth: {PlayerHealthText.text}");
         for (int i = 0; i < TheBoard.Length; i++)
         {
-            if (TheBoard[i] != null && TheBoard[i].damage <= 0) Destroy(TheBoard[i].gameObject);
+            if (TheBoard[i] != null)
+            {
+                if(TheBoard[i].damage <= 0) Destroy(TheBoard[i].gameObject);
+                else TheBoard[i].UpdateStats();
+            }
         }
         UpdateUIStats();
         Invoke("NextTurn", 2f);
@@ -301,8 +308,8 @@ public class BoardManager : MonoBehaviour
                         UpdateUIStats();
                         break;
                     case Card.SpecialEffects.HealOwner:
-                        if (PlayersCard) PlayerHealth += TheBoard[BoardID].TurnDamage;
-                        else EnemyHealth += TheBoard[BoardID].TurnDamage;
+                        if (PlayersCard) PlayerHealth = Mathf.Clamp(PlayerHealth + TheBoard[BoardID].TurnDamage, 0, PlayerMaxHealth);
+                        else Mathf.Clamp(EnemyHealth + TheBoard[BoardID].TurnDamage, 0, EnemyMaxHealth);
                         UpdateUIStats();
                         break;
                     case Card.SpecialEffects.BoostPrimary: //boost as in add damage
@@ -340,13 +347,19 @@ public class BoardManager : MonoBehaviour
                         {
                             if (PlayersCard)
                             {
-                                TheBoard[BoardID + (TheBoard.Length / 4) + offset].damage += TheBoard[BoardID].TurnDamage;
-                                TheBoard[BoardID + (TheBoard.Length / 4) + offset].UpdateStats();
+                                if (TheBoard[BoardID - (TheBoard.Length / 4) + offset] != null)
+                                {
+                                    TheBoard[BoardID - (TheBoard.Length / 4) + offset].damage += TheBoard[BoardID].TurnDamage;
+                                    TheBoard[BoardID - (TheBoard.Length / 4) + offset].UpdateStats();
+                                }
                             }
                             else
                             {
-                                TheBoard[BoardID - (TheBoard.Length / 4) + offset].damage += TheBoard[BoardID].TurnDamage;
-                                TheBoard[BoardID - (TheBoard.Length / 4) + offset].UpdateStats();
+                                if (TheBoard[BoardID + (TheBoard.Length / 4) + offset] != null)
+                                {
+                                    TheBoard[BoardID + (TheBoard.Length / 4) + offset].damage += TheBoard[BoardID].TurnDamage;
+                                    TheBoard[BoardID + (TheBoard.Length / 4) + offset].UpdateStats();
+                                }
                             }
                         }
                         break;
@@ -355,7 +368,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    void UpdateUIStats()
+    public void UpdateUIStats()
     {
         PlayerHealthText.text = PlayerHealth.ToString();
         PlayerHealthBar.value = PlayerHealth;
@@ -365,5 +378,9 @@ public class BoardManager : MonoBehaviour
         UmbraMeter.value = Umbra;
         AI.LuxMeter.value = AI.Lux;
         AI.UmbraMeter.value = AI.Umbra;
+        LuxText.text = $"{Lux}/{MaxLux}";
+        UmbraText.text = $"{Umbra}/{MaxUmbra}";
+        AI.LuxText.text = $"{AI.Lux}/{AI.MaxLux}";
+        AI.UmbraText.text = $"{AI.Umbra}/{AI.MaxUmbra}";
     }
 }

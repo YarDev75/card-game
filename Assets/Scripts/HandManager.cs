@@ -30,7 +30,7 @@ public class HandManager : MonoBehaviour
             timer -= Time.deltaTime;
             if(timer <= 0)
             {
-                DrawCard();
+                DrawCard(1);
                 timer = DrawDelay;
                 if (Hand.Count >= StartCards) InitialDraw = false;
             }
@@ -57,21 +57,24 @@ public class HandManager : MonoBehaviour
         }
     }
 
-    public void DrawCard()
+    public void DrawCard(int amount)
     {
-        if (RemainingDeck.Count > 0)
+        for (int j = 0; j < amount; j++)
         {
-            var newCard = Instantiate(EmptyCard, CardSpawn.position, Quaternion.identity).GetComponent<CardObjectScript>();
-            var i = Random.Range(0, RemainingDeck.Count);   //used in 2 places, therefore a variable
-            newCard.content = RemainingDeck[i];
-            newCard.transform.parent = transform;
-            newCard.HandID = Hand.Count;
-            newCard.PlayerCard = !Enemy;
-            RemainingDeck.RemoveAt(i);
-            Hand.Add(newCard);
-            PositionCards();
+            if (RemainingDeck.Count > 0)
+            {
+                var newCard = Instantiate(EmptyCard, CardSpawn.position, Quaternion.identity).GetComponent<CardObjectScript>();
+                var i = Random.Range(0, RemainingDeck.Count);   //used in 2 places, therefore a variable
+                newCard.content = RemainingDeck[i];
+                newCard.transform.parent = transform;
+                newCard.HandID = Hand.Count;
+                newCard.PlayerCard = !Enemy;
+                RemainingDeck.RemoveAt(i);
+                Hand.Add(newCard);
+                PositionCards();
+            }
+            else print("deck empty");
         }
-        else print("deck empty");
     }
 
     public void RemoveCardFromHand(int ind)

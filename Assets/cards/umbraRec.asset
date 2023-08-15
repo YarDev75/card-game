@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e6f0e86318af048a3d8e4815f88cc2, type: 3}
+  m_Name: umbraRec
+  m_EditorClassIdentifier: 
+  Name: darky
+  Pic: {fileID: 2111496456, guid: c8c3ae5770ebb2749b4a4de20e1ad511, type: 3}
+  damage: 1
+  Primary: 0
+  element: 1
+  cost: 2
+  direction: 0
+  effects: 01000000
+  deathEffect: 0
+  passives: 

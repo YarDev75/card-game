@@ -80,7 +80,8 @@ public class CardObjectScript : MonoBehaviour
         canvas.worldCamera = Camera.main;
         Name.text = content.Name;
         Name.color = content.element == Card.elements.light ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
-        Damage.sprite = DamageNums[damage + (10 * (content.element == Card.elements.light ? 1 : 0))];
+        if (damage >= 0 && damage < 10) Damage.sprite = DamageNums[damage + (10 * (content.element == Card.elements.light ? 1 : 0))];
+        else Destroy(gameObject);
         Arrow.sprite = arrows[(int)content.direction + (4 * (content.element == Card.elements.light ? 1 : 0))];
         Cost.sprite = Costs[content.cost];
         Cost.color = content.element == Card.elements.dark ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
@@ -94,7 +95,6 @@ public class CardObjectScript : MonoBehaviour
     {
         TargetPos = pos;
         sent = true;
-        DrawStats();
     }
 
     //called when card is placed on the board
