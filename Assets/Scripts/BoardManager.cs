@@ -14,7 +14,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI turnAnouncerText;
     [SerializeField] private GameObject NextTurnButton;
     public Transform[] EnemySlots;                                   //positions for cards on enemy side
-    public bool PlayersTurn;                                         //bool 'cause only 2 states
+    public bool PlacingTurn;                                        //bool 'cause only 2 states
 
     //player stuff
     [SerializeField] private Transform[] PlayerSlots;                //positions for cards on Player side
@@ -33,6 +33,8 @@ public class BoardManager : MonoBehaviour
     int EnemyHealth;                                                   // Yeah, I was gonna change that, it was just for debugging
     float Lux;
     float Umbra;
+    bool PlayerReady;
+    bool EnemyReady;
 
     private void Start()
     {
@@ -45,7 +47,7 @@ public class BoardManager : MonoBehaviour
         EnemyHealthBar.maxValue = EnemyMaxHealth;
         EnemyHealthBar.value = EnemyHealth;
         TheBoard = new CardObjectScript[16];
-        PlayersTurn = true;
+        PlacingTurn = true;
         //setting up meters (sliders)
         Lux = MaxLux;
         LuxMeter.maxValue = MaxLux;
@@ -55,34 +57,54 @@ public class BoardManager : MonoBehaviour
         UmbraMeter.value = Umbra;
     }
 
+    private void Update()
+    {
+        if(PlayerReady && EnemyReady)
+        {
+            NextTurn();
+            PlayerReady = false;
+            EnemyReady = false;
+        }
+    }
+
+    public void Ready(bool Player)
+    {
+        if (Player)
+        {
+            PlayerReady = true;
+            NextTurnButton.SetActive(false);
+        }
+        else EnemyReady = true;
+    }
+
     //anounces who's turn it is and let's that side place cards
     public void NextTurn()
     {
-        PlayersTurn = !PlayersTurn;
-        turnAnouncerText.text = (PlayersTurn ? "Player's" : "Enenemy's") + " turn!";
+        PlacingTurn = !PlacingTurn;
+        if (!PlacingTurn)
+        {
+            turnAnouncerText.text = "Combat";
+            Invoke("CalculateTurn",1f);
+        }
+        else
+        {
+            //if (EnemyHealth <= 0)                                          //needs to be relocated
+            //{
+            //    turnAnouncerText.text = "Victory";
+            //    if (PlayerHealth <= 0) turnAnouncerText.text = "Draw";
+            //}
+            //else if (PlayerHealth <= 0)
+            //{
+            //    turnAnouncerText.text = "Defeat";
+            //}
+            turnAnouncerText.text = "Place your cards!";
+            AI.doTurn();
+            NextTurnButton.SetActive(true);
+        }
         turnAnouncerAnim.SetTrigger("go");
-        if(!PlayersTurn) AI.doTurn();
-        for (int i = 0; i < TheBoard.Length; i++)
-        {
-            if (TheBoard[i] != null)
-            {
-                if (TheBoard[i].damage <= 0) Destroy(TheBoard[i].gameObject);
-                TheBoard[i].TurnDamage = TheBoard[i].damage;
-            }
-        }
-        CalculateTurn();
-        if(EnemyHealth <= 0)
-        {
-            turnAnouncerText.text = "Victory";
-            if(PlayerHealth <= 0) turnAnouncerText.text = "Draw";
-            turnAnouncerAnim.SetTrigger("go");
-        }else if(PlayerHealth <= 0)
-        {
-            turnAnouncerText.text = "Defeat";
-            turnAnouncerAnim.SetTrigger("go");
-        }
+       
+
         
-        NextTurnButton.SetActive(PlayersTurn);
     }
 
     //for player
@@ -134,9 +156,13 @@ public class BoardManager : MonoBehaviour
     }
 
 
-    public void CalculateTurn() 
+    public void CalculateTurn()
     {
-        for(int i = 0; i < TheBoard.Length/4; i++) //just goes through one row and then calculates all cards in the column
+        for (int i = 0; i < TheBoard.Length; i++)
+        {
+            if (TheBoard[i] != null) TheBoard[i].TurnDamage = TheBoard[i].damage;
+        }
+        for (int i = 0; i < TheBoard.Length/4; i++) //just goes through one row and then calculates all cards in the column
         {
             int enemySecondaryInd = i;
             int enemyPrimaryInd = i + TheBoard.Length / 4;
@@ -200,11 +226,17 @@ public class BoardManager : MonoBehaviour
 
             //secondary cards do stuff
             ApplyCardEffects(playerSecondaryInd, true);
+            if(TheBoard[playerSecondaryInd] != null) TheBoard[playerSecondaryInd].anim.SetTrigger("Secondary");
             ApplyCardEffects(enemySecondaryInd, false);
-
-            UpdateUIStats();
+            if (TheBoard[enemySecondaryInd] != null) TheBoard[enemySecondaryInd].anim.SetTrigger("Secondary");
         }
         print($"EnemyHealth: {EnemyHealthText.text} PlayerHealth: {PlayerHealthText.text}");
+        for (int i = 0; i < TheBoard.Length; i++)
+        {
+            if (TheBoard[i] != null && TheBoard[i].damage <= 0) Destroy(TheBoard[i].gameObject);
+        }
+        UpdateUIStats();
+        Invoke("NextTurn", 2f);
     }
 
     void CalculateCardAttack(int boardID, int opposingPInd, int opposingSInd, int damage, ref int opposingHp, int offset)
@@ -239,7 +271,8 @@ public class BoardManager : MonoBehaviour
             {
                 opposingHp -= damage;  //opposingHp is a 'ref' variable, so the operation is done directly to the EnemyHealth or PlayerHealth, whichever is the argument
             }
-
+            if(boardID > 7) TheBoard[boardID].anim.SetTrigger("PlayerAttack");
+            else TheBoard[boardID].anim.SetTrigger("EnemyAttack");
         }
     }
 

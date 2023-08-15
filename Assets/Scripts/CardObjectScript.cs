@@ -14,7 +14,7 @@ public class CardObjectScript : MonoBehaviour
     [SerializeField] private Image Arrow;
     [SerializeField] private Image Art;
     [SerializeField] private Image Cost;
-    [SerializeField] private Animator anim;
+    [SerializeField] public Animator anim;
     [SerializeField] private Sprite[] arrows;          //arrays store all the sprites for all the states
     [SerializeField] private Sprite[] DamageNums;
     [SerializeField] private Sprite[] RowInds;
@@ -24,7 +24,7 @@ public class CardObjectScript : MonoBehaviour
     public bool PlayerCard;                            //whether or not the card belongs to a player
     public SpriteRenderer sr;
     public Vector3 TargetPos;                          //where the card is going
-    public Card content;  //Use Card_2 instead of Card
+    public Card content;  
     public int HandID;                                 //Index in the Hand array in HandManager
     public int damage;                                 //actual damage stat of the card
     public int TurnDamage;                             //damage for the current turn (so everyone attacks at the same time, noone gets the damage lowered before attacking)
@@ -52,7 +52,7 @@ public class CardObjectScript : MonoBehaviour
         {
             if (Dragin)
             {
-                if (!boardManager.PlayersTurn) Dragin = false;
+                if (!boardManager.PlacingTurn) Dragin = false;
                 var MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 transform.position = new Vector3(MousePos.x, MousePos.y, 0);
             }
@@ -130,7 +130,7 @@ public class CardObjectScript : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (PlayerCard && boardManager.PlayersTurn)
+        if (PlayerCard && boardManager.PlacingTurn)
         {
             sr.sortingOrder = 102;
             canvas.sortingOrder = 103;

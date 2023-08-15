@@ -17,7 +17,8 @@ public class EnenemyAI : MonoBehaviour
     public float Lux;
     public float Umbra;
     float Timer;
-    float TimerGoal;
+    int CardsToPlace;
+    bool Placing;
 
     private void Start()
     {
@@ -28,19 +29,30 @@ public class EnenemyAI : MonoBehaviour
         Umbra = MaxUmbra;
         UmbraMeter.maxValue = MaxUmbra;
         UmbraMeter.value = Umbra;
+        Invoke("doTurn", 3f);
     }
 
     private void Update()
     {
         //a bit funky so it can do the dots thing
-        if(TimerGoal > 0)
+        if(Placing)
         {
-            Timer += Time.deltaTime;
-            if(Timer >= TimerGoal)
+            Timer -= Time.deltaTime;
+            if(Timer <= 0)
             {
-                TimerGoal = -1;
-                ThinkingBubble.text = " ";
-                PlaceCards();
+                if (CardsToPlace > 0)
+                {
+                    Timer = Random.Range(1f, 3f);
+                    PlaceCard();
+                    CardsToPlace--;
+                }
+                else
+                {
+                    Placing = false;
+                    ThinkingBubble.text = personality.EndTurnDialogue[Random.Range(0, personality.EndTurnDialogue.Length)];
+                    Invoke("ClearDialogueText", 3f);
+                    boardManager.Ready(false);
+                }
             }
         }
     }
@@ -48,9 +60,19 @@ public class EnenemyAI : MonoBehaviour
     //called on turn start, starts the thinking thing
     public void doTurn()
     {
-        TimerGoal = Random.Range(1f, 6f);
-        Timer = 0;
-        ThinkingBubble.text = personality.ThinkingDialogue[Random.Range(0, personality.ThinkingDialogue.Length)];
+        if (Hand.Hand.Count > 0)
+        {
+            CardsToPlace = Random.Range(1, Hand.Hand.Count);
+            Timer = Random.Range(1f, 3f);
+            Placing = true;
+            ThinkingBubble.text = personality.ThinkingDialogue[Random.Range(0, personality.ThinkingDialogue.Length)];
+        }
+        else
+        {
+            ThinkingBubble.text = personality.DeckEmptyDialogue[Random.Range(0, personality.DeckEmptyDialogue.Length)];
+            Invoke("ClearDialogueText", 3f);
+            boardManager.Ready(false);
+        }
     }
 
     void ClearDialogueText()
@@ -58,62 +80,46 @@ public class EnenemyAI : MonoBehaviour
         ThinkingBubble.text = " ";
     }
 
-    void PlaceCards() //that's where the actual card placement AI should be at
+    void PlaceCard() //that's where the actual card placement AI should be at
     {
-
-        //needs some work
-        if (Hand.Hand.Count > 0)
+        var AffordableCards = new List<int>();
+        for (int j = 0; j < Hand.Hand.Count; j++)
         {
-            ThinkingBubble.text = personality.EndTurnDialogue[Random.Range(0, personality.EndTurnDialogue.Length)];
+            if (Hand.Hand[j].content.cost <= (Hand.Hand[j].content.element == Card.elements.light ? Lux : Umbra)) AffordableCards.Add(j);
+        }
+        if (AffordableCards.Count == 0)
+        {
+            ThinkingBubble.text = personality.OutOfManaDialogue[Random.Range(0, personality.OutOfManaDialogue.Length)];
             Invoke("ClearDialogueText", 3f);
-            for (int i = 0; i < Random.Range(1, Hand.Hand.Count); i++)
+            boardManager.Ready(false);
+            Placing = false;
+            return;
+        }
+        var cardInd = AffordableCards[Random.Range(0, AffordableCards.Count)];
+        var AvailablePlaces = new List<int>();
+        if (Hand.Hand[cardInd].content.Primary)
+        {
+            for (int j = 4; j < 8; j++)
             {
-                var AffordableCards = new List<int>();
-                for (int j = 0; j < Hand.Hand.Count; j++)
-                {
-                    if (Hand.Hand[j].content.cost <= (Hand.Hand[j].content.element == Card.elements.light ? Lux : Umbra)) AffordableCards.Add(j);
-                }
-                if (AffordableCards.Count == 0)
-                {
-                    ThinkingBubble.text = personality.OutOfManaDialogue[Random.Range(0, personality.OutOfManaDialogue.Length)];
-                    Invoke("ClearDialogueText", 3f);
-                    boardManager.NextTurn();
-                    return;
-                }
-                var cardInd = AffordableCards[Random.Range(0, AffordableCards.Count)];
-                var AvailablePlaces = new List<int>();
-                if (Hand.Hand[cardInd].content.Primary)
-                {
-                    for (int j = 4; j < 8; j++)
-                    {
-                        if (boardManager.TheBoard[j] == null) AvailablePlaces.Add(j);
-                    }
-                }
-                else
-                {
-                    for (int j = 0; j < 4; j++)
-                    {
-                        if (boardManager.TheBoard[j] == null) AvailablePlaces.Add(j);
-                    }
-                }
-                var placeInd = Random.Range(0, AvailablePlaces.Count);
-                if (boardManager.PlaceCard(Hand.Hand[cardInd], AvailablePlaces[placeInd]))
-                {
-                    Hand.Hand[cardInd].Send(boardManager.EnemySlots[AvailablePlaces[placeInd]].position);
-                    if (Hand.Hand[cardInd].content.element == Card.elements.light) Lux -= Hand.Hand[cardInd].content.cost;
-                    else Umbra -= Hand.Hand[cardInd].content.cost;
-                    UpdateSliders();
-                    Hand.RemoveCardFromHand(cardInd);
-                }
+                if (boardManager.TheBoard[j] == null) AvailablePlaces.Add(j);
             }
         }
         else
         {
-            ThinkingBubble.text = personality.DeckEmptyDialogue[Random.Range(0, personality.DeckEmptyDialogue.Length)];
-            Invoke("ClearDialogueText", 3f);
+            for (int j = 0; j < 4; j++)
+            {
+                if (boardManager.TheBoard[j] == null) AvailablePlaces.Add(j);
+            }
         }
-
-        boardManager.NextTurn();
+        var placeInd = Random.Range(0, AvailablePlaces.Count);
+        if (boardManager.PlaceCard(Hand.Hand[cardInd], AvailablePlaces[placeInd]))
+        {
+            Hand.Hand[cardInd].Send(boardManager.EnemySlots[AvailablePlaces[placeInd]].position);
+            if (Hand.Hand[cardInd].content.element == Card.elements.light) Lux -= Hand.Hand[cardInd].content.cost;
+            else Umbra -= Hand.Hand[cardInd].content.cost;
+            UpdateSliders();
+            Hand.RemoveCardFromHand(cardInd);
+        }
     }
 
     void UpdateSliders()

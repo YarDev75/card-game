@@ -18,7 +18,7 @@ MonoBehaviour:
   Primary: 1
   element: 0
   cost: 5
-  direction: 0
+  direction: 2
   effects: 
   deathEffect: 0
   passives: 
