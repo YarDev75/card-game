@@ -113,14 +113,18 @@ public class EnenemyAI : MonoBehaviour
                 if (boardManager.TheBoard[j] == null) AvailablePlaces.Add(j);
             }
         }
-        var placeInd = Random.Range(0, AvailablePlaces.Count);
-        if (boardManager.PlaceCard(Hand.Hand[cardInd], AvailablePlaces[placeInd]))
+        if (AvailablePlaces.Count > 0)
         {
-            Hand.Hand[cardInd].Send(boardManager.EnemySlots[AvailablePlaces[placeInd]].position);
-            if (Hand.Hand[cardInd].content.element == Card.elements.light) Lux -= Hand.Hand[cardInd].content.cost;
-            else Umbra -= Hand.Hand[cardInd].content.cost;
-            boardManager.UpdateUIStats();
-            Hand.RemoveCardFromHand(cardInd);
+            var placeInd = Random.Range(0, AvailablePlaces.Count);
+            if (boardManager.PlaceCard(Hand.Hand[cardInd], AvailablePlaces[placeInd]))
+            {
+                Hand.Hand[cardInd].Send(boardManager.EnemySlots[AvailablePlaces[placeInd]].position);
+                if (Hand.Hand[cardInd].content.element == Card.elements.light) Lux -= Hand.Hand[cardInd].content.cost;
+                else Umbra -= Hand.Hand[cardInd].content.cost;
+                boardManager.UpdateUIStats();
+                Hand.RemoveCardFromHand(cardInd);
+            }
         }
+
     }
 }
