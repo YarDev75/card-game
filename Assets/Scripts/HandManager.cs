@@ -21,6 +21,7 @@ public class HandManager : MonoBehaviour
     {
         Initialize();
         InitialDraw = true;
+        timer = 1.5f;
     }
 
     public void SetDeck(EnemyPerson deck)

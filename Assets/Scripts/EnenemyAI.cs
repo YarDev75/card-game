@@ -32,8 +32,8 @@ public class EnenemyAI : MonoBehaviour
 
     private void Awake()
     {
-        personality = person;
-        Hand.SetDeck(person);
+        if(person!=null) personality = person;
+        Hand.SetDeck(personality);
     }
 
     private void Start()
@@ -52,7 +52,7 @@ public class EnenemyAI : MonoBehaviour
         Umbra = MaxUmbra;
         UmbraMeter.maxValue = MaxUmbra;
         UmbraMeter.value = Umbra;
-        Invoke("doTurn", 3f);
+        Invoke("doTurn", 3.5f);
     }
 
     private void Update()
