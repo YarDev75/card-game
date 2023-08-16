@@ -23,6 +23,11 @@ public class HandManager : MonoBehaviour
         InitialDraw = true;
     }
 
+    public void SetDeck(EnemyPerson deck)
+    {
+        Deck = deck.Deck;
+    }
+
     private void Update()
     {
         if (InitialDraw)

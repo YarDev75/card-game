@@ -6,9 +6,14 @@ using TMPro;
 
 public class EnenemyAI : MonoBehaviour
 {
+    public static EnemyPerson person;
+
     [SerializeField] private HandManager Hand;
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private TextMeshProUGUI ThinkingBubble;      //the three dots thing
+    [SerializeField] private Image Looks;
+    public Sprite[] Animation;
+    public float frametime;
     public float MaxLux;
     public Slider LuxMeter;
     public TextMeshProUGUI LuxText;
@@ -19,12 +24,21 @@ public class EnenemyAI : MonoBehaviour
     public float Lux;
     public float Umbra;
     float Timer;
+    float AnimTimer;
     int CardsToPlace;
     bool Placing;
+    int ind;
+
+    private void Awake()
+    {
+        personality = person;
+        Hand.SetDeck(person);
+    }
 
     private void Start()
     {
         //setting up meters (sliders)
+        Animation = person.Art;
         Lux = MaxLux;
         LuxMeter.maxValue = MaxLux;
         LuxMeter.value = Lux;
@@ -36,7 +50,6 @@ public class EnenemyAI : MonoBehaviour
 
     private void Update()
     {
-        //a bit funky so it can do the dots thing
         if(Placing)
         {
             Timer -= Time.deltaTime;
@@ -57,6 +70,13 @@ public class EnenemyAI : MonoBehaviour
                 }
             }
         }
+        if(AnimTimer < 0)
+        {
+            AnimTimer = frametime;
+            Looks.sprite = Animation[ind];
+            ind = (ind+1)%Animation.Length;
+        }
+        AnimTimer -= Time.deltaTime;
     }
 
     //called on turn start, starts the thinking thing

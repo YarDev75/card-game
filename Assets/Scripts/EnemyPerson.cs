@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyPerson : ScriptableObject
 {
     public Card[] Deck;
-    public Sprite Art;
+    public Sprite[] Art;
     public string[] ThinkingDialogue;
     public string[] TakenDamageDialogue;
     public string[] EndTurnDialogue;
