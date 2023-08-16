@@ -34,6 +34,7 @@ public class CardObjectScript : MonoBehaviour
     bool Dragin;                                       //whether or not the card is currently draged
     bool sent;                                         //funky thing for the enemy AI
     bool placed;
+    bool zoomed = false;
 
     private void Start()
     {
@@ -107,7 +108,7 @@ public class CardObjectScript : MonoBehaviour
         canvas.sortingOrder = sr.sortingOrder + 1;
         anim.SetBool("placed", true);
         placed = true;
-        GetComponent<BoxCollider2D>().enabled = false;
+        //GetComponent<BoxCollider2D>().enabled = false;
     }
 
     private void OnMouseEnter()
@@ -139,11 +140,26 @@ public class CardObjectScript : MonoBehaviour
             Dragin = true;
             anim.SetBool("selected", false);
         }
+        if (placed && !zoomed)
+        {
+            anim.SetTrigger("ZoomIn");
+            Invoke("changeZoomed", 1f);
+            gameObject.GetComponents<Collider2D>()[1].enabled = true;   //This is so you can click on the big version of the card
+            gameObject.GetComponents<Collider2D>()[0].enabled = false;
+        }
+        if (zoomed)
+        {
+            anim.SetTrigger("ZoomOut");
+            Invoke("changeZoomed", 1f);
+            gameObject.GetComponentInChildren<Canvas>().sortingOrder = 3;
+            gameObject.GetComponents<Collider2D>()[1].enabled = false;
+            gameObject.GetComponents<Collider2D>()[0].enabled = true;
+        }
     }
 
     private void OnMouseUp()
     {
-        if (Dragin)
+        if (Dragin && !placed)
         {
             if(boardManager.PlaceCard(this, gameObject)) Placed();
             else Dragin = false;
@@ -152,6 +168,7 @@ public class CardObjectScript : MonoBehaviour
 
     public void UpdateStats()
     {
-        DrawStats(); //This is just a patch, if you have a better solution, changed you know this part of the code better
+        DrawStats(); //This is just a patch, if you have a better solution, change it you know this part of the code better
     }
+    private void changeZoomed() { zoomed = !zoomed; }
 }
