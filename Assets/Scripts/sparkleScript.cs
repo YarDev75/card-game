@@ -20,7 +20,6 @@ public class sparkleScript : MonoBehaviour
         if(Timer <= 0)
         {
             Timer = Random.Range(1f, 2f);
-            print("spark");
             anim.SetTrigger(Random.Range(0, 2) == 0 ? "one" : "two");
             Invoke("Jump", 0.7f);
         }

@@ -375,6 +375,8 @@ public class BoardManager : MonoBehaviour
 
     public void UpdateUIStats()
     {
+        PlayerHealth = Mathf.Clamp(PlayerHealth, 0, PlayerMaxHealth);
+        EnemyHealth = Mathf.Clamp(EnemyHealth, 0, EnemyMaxHealth);
         PlayerHealthText.text = PlayerHealth.ToString();
         PlayerHealthBar.value = PlayerHealth;
         EnemyHealthText.text = EnemyHealth.ToString();
