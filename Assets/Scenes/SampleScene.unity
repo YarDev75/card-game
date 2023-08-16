@@ -2332,6 +2332,7 @@ MonoBehaviour:
   - {fileID: 1518055595}
   - {fileID: 1379321048}
   PlacingTurn: 0
+  Zooming: 0
   PlayerSlots:
   - {fileID: 1159314305}
   - {fileID: 527603054}

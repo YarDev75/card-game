@@ -18,6 +18,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private GameObject NextTurnButton;
     public Transform[] EnemySlots;                                   //positions for cards on enemy side
     public bool PlacingTurn;                                        //bool 'cause only 2 states
+    public bool Zooming;
 
     //player stuff
     [SerializeField] private Transform[] PlayerSlots;                //positions for cards on Player side
