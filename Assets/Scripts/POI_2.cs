@@ -51,6 +51,12 @@ public class POI_2 : ScriptableObject                //made it a Scriptable obje
         {
             points[i+deltaX-1] = new Vector3Int((int)previous.x, (int)previous.y + i * step);
         }
-        return points;
+        return points;  //We will also need to use the wall layer of the tile palette to check wether a leading point is going through a wall
+        
+        //Tilemap walltilemap = GameObject.FindGameObjectWithTag("Wall").GetComponent<Tilemap>();  //Something like this
+        //foreach(Vector3Int point in points)
+        //{
+        //    if(walltilemap.GetTile(point) != null) changePath()
+        //}
     }
 }
