@@ -8,6 +8,7 @@ public class EnenemyAI : MonoBehaviour
 {
     public static EnemyPerson person;
 
+    [SerializeField] private AudioSource ThemePlayer;
     [SerializeField] private HandManager Hand;
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private TextMeshProUGUI ThinkingBubble;      //the three dots thing
@@ -38,6 +39,12 @@ public class EnenemyAI : MonoBehaviour
     private void Start()
     {
         //setting up meters (sliders)
+        if(personality.Intro != null)
+        {
+            ThemePlayer.clip = personality.Intro;
+            ThemePlayer.loop = false;
+            ThemePlayer.Play();
+        }
         Animation = person.Art;
         Lux = MaxLux;
         LuxMeter.maxValue = MaxLux;
@@ -77,6 +84,12 @@ public class EnenemyAI : MonoBehaviour
             ind = (ind+1)%Animation.Length;
         }
         AnimTimer -= Time.deltaTime;
+        if(ThemePlayer.clip == personality.Intro && !ThemePlayer.isPlaying)
+        {
+            ThemePlayer.clip = personality.Music;
+            ThemePlayer.loop = true;
+            ThemePlayer.Play();
+        }
     }
 
     //called on turn start, starts the thinking thing

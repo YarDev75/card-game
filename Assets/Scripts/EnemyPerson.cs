@@ -7,6 +7,8 @@ public class EnemyPerson : ScriptableObject
 {
     public Card[] Deck;
     public Sprite[] Art;
+    public AudioClip Intro;
+    public AudioClip Music;
     public string[] ThinkingDialogue;
     public string[] TakenDamageDialogue;
     public string[] EndTurnDialogue;
