@@ -38,8 +38,8 @@ MonoBehaviour:
   - {fileID: -1210246295, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
   - {fileID: -38011565, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
   - {fileID: 2143849571, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
-  Intro: {fileID: 8300000, guid: 7d892a9f5382e894fad6e63a1ef7611e, type: 3}
-  Music: {fileID: 8300000, guid: 52bff6a14bb38864890465a2388f360f, type: 3}
+  Intro: {fileID: 0}
+  Music: {fileID: 8300000, guid: 122224167fc036c43bb559befdaf22ea, type: 3}
   ThinkingDialogue:
   - hmm
   - what

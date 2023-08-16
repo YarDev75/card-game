@@ -1053,17 +1053,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20133c7b7dc68ec45997f8b6b7fb5d6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeadingDots:
-  - {x: -5, y: -4, z: 0}
-  - {x: -5, y: -3, z: 0}
-  - {x: -5, y: -2, z: 0}
-  - {x: -4, y: -2, z: 0}
-  - {x: -3, y: -2, z: 0}
-  - {x: -2, y: -2, z: 0}
-  - {x: -1, y: -2, z: 0}
-  FollowingPOIs: []
-  PreviousPOI: {fileID: 0}
-  Encounter: {fileID: 11400000, guid: 0f86e7d3cb775df458b92e05ec8c1a29, type: 2}
+  person: {fileID: 11400000, guid: 0f86e7d3cb775df458b92e05ec8c1a29, type: 2}
+  contents: {fileID: 0}
 --- !u!4 &650231656
 Transform:
   m_ObjectHideFlags: 0

@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour
 {
+    public static bool FirstLoad;                  //for later, if we'll add random generation
+    public static POI[] POIs;
+    public static Vector3 SavedPlayerPos;
+
     [SerializeField] private Tilemap dots;
     [SerializeField] private Tile SmallDotNew;
     [SerializeField] private Tile SmallDotDone;
@@ -32,22 +36,28 @@ public class DungeonManager : MonoBehaviour
     private void Start()
     {
         AvailablePOIs = new POIScript[] { FirstPOI };
+        if(POIs != null) print(POIs[0]);
         EnableHints();
+    }
+
+    void Load()
+    {
+
     }
 
     private void Update()
     {
         if (Moving)
         {
-            var dot = dots.CellToWorld(Target.LeadingDots[ind]);
+            var dot = dots.CellToWorld(Target.contents.LeadingDots[ind]);
             dot = new Vector3(dot.x + 0.5f, dot.y + 0.5f, dot.z);
             var dir = dot - Player.position;
             Player.position += dir * Time.deltaTime * PlayerSpeed;
             if(Vector2.Distance(dot,Player.position) < 0.1f)
             {
-                dots.SetTile(Target.LeadingDots[ind], (ind == Target.LeadingDots.Length-1)? CombatDotDone : SmallDotDone);
+                dots.SetTile(Target.contents.LeadingDots[ind], (ind == Target.contents.LeadingDots.Length-1)? CombatDotDone : SmallDotDone);
                 ind++;
-                if(ind >= Target.LeadingDots.Length)
+                if(ind >= Target.contents.LeadingDots.Length)
                 {
                     StartEncounter();
                 }
@@ -59,7 +69,7 @@ public class DungeonManager : MonoBehaviour
     {
         for (int i = 0; i < AvailablePOIs.Length; i++)
         {
-            var dir = AvailablePOIs[i].LeadingDots[0] - PlayerGridPos;
+            var dir = AvailablePOIs[i].contents.LeadingDots[0] - PlayerGridPos;
             if (dir.y == 1) Hints[0].SetActive(true);
             else if (dir.y == -1) Hints[2].SetActive(true);
             else if (dir.x == 1) Hints[1].SetActive(true);
@@ -69,7 +79,8 @@ public class DungeonManager : MonoBehaviour
 
     void StartEncounter()
     {
-        EnenemyAI.person = Target.Encounter;
+        POIs = new POI[] { Target.contents };
+        EnenemyAI.person = Target.contents.Encounter;
         SceneManager.LoadScene(1);
     }
 
@@ -85,7 +96,7 @@ public class DungeonManager : MonoBehaviour
     {
         for (int i = 0; i < AvailablePOIs.Length; i++)
         {
-            var dir = AvailablePOIs[i].LeadingDots[0] - PlayerGridPos;
+            var dir = AvailablePOIs[i].contents.LeadingDots[0] - PlayerGridPos;
             switch (direction)
             {
                 case (int)Directions.up:
