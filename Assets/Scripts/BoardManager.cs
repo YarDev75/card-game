@@ -55,6 +55,8 @@ public class BoardManager : MonoBehaviour
         Umbra = MaxUmbra;
         UmbraMeter.maxValue = MaxUmbra;
         UpdateUIStats();
+        turnAnouncerText.text = "fight!";
+        turnAnouncerAnim.SetTrigger("go");
     }
 
     private void Update()

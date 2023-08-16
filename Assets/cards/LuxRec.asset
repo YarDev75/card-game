@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: brighty
   Pic: {fileID: 2111496456, guid: c8c3ae5770ebb2749b4a4de20e1ad511, type: 3}
-  damage: 1
+  damage: 3
   Primary: 0
   element: 0
   cost: 2
