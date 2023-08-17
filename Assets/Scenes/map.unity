@@ -1688,7 +1688,7 @@ GameObject:
   - component: {fileID: 1533338234}
   m_Layer: 0
   m_Name: startingPoint
-  m_TagString: Untagged
+  m_TagString: Origin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1952,6 +1952,7 @@ MonoBehaviour:
   - {fileID: 1214212494}
   FirstPOI: {fileID: 650231655}
   PlayerGridPos: {x: -5, y: -5, z: 0}
+  dataSave: {fileID: 11400000, guid: 69974f44f37094e4dbde1133f87840b7, type: 2}
 --- !u!4 &1797886869
 Transform:
   m_ObjectHideFlags: 0
@@ -2323,7 +2324,7 @@ GameObject:
   - component: {fileID: 768401393489854581}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
