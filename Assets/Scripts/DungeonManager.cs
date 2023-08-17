@@ -13,6 +13,7 @@ public class DungeonManager : MonoBehaviour
     [SerializeField] private Tile SmallDotDone;
     [SerializeField] private Tile CombatDotNew;
     [SerializeField] private Tile CombatDotDone;
+    [SerializeField] private Tile Wall;
     [SerializeField] private Transform Player;
     [SerializeField] private float PlayerSpeed;
     [SerializeField] private GameObject[] Hints;  //must be assigned as follows: 0 - up; 1 - right; 2 - down; 3 - left;
@@ -109,6 +110,7 @@ public class DungeonManager : MonoBehaviour
             AllPOIs[i] = poi;
         }
         Target = AllPOIs[dataSave.currentFoe];
+        GenerateWalls();
     }
 
     void Save()
@@ -150,6 +152,7 @@ public class DungeonManager : MonoBehaviour
         {
             AllPOIs[i] = generatedPOIs[i];
         }
+        GenerateWalls();
     }
 
     POIScript GeneratePOI(Vector3Int StartPos, int SlotInd)
@@ -219,6 +222,46 @@ public class DungeonManager : MonoBehaviour
         return null;
     }
 
+    void GenerateWalls()
+    {
+        for (int i = 0; i < AllPOIs.Length; i++)
+        {
+            foreach (var dot in AllPOIs[i].contents.LeadingDots)
+            {
+                for (int y = -2; y < 3; y++)
+                {
+                    for (int x = -2; x < 3; x++)
+                    {
+                        var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
+                        if(dots.GetTile(pos) == null)
+                        {
+                            dots.SetTile(pos, Wall);
+                        }
+                    }
+                    
+                }
+            }
+        }
+        for (int i = 0; i < AllPOIs.Length; i++)
+        {
+            foreach (var dot in AllPOIs[i].contents.LeadingDots)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    for (int x = -1; x < 2; x++)
+                    {
+                        var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
+                        if (dots.GetTile(pos) == Wall)
+                        {
+                            dots.SetTile(pos, null);
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
     void StartEncounter()
     {
         Target.contents.Done = true;
@@ -252,16 +295,16 @@ public class DungeonManager : MonoBehaviour
             switch (direction)
             {
                 case (int)Directions.up:
-                    if (dir.y == 1) matches = true;
+                    if (dir.y == 1 && Mathf.Abs(dir.y) < 2) matches = true;
                     break;
                 case (int)Directions.right:
-                    if (dir.x == 1) matches = true;
+                    if (dir.x == 1 && Mathf.Abs(dir.y) < 2) matches = true;
                     break;
                 case (int)Directions.down:
-                    if (dir.y == -1) matches = true;
+                    if (dir.y == -1 && Mathf.Abs(dir.x) < 2) matches = true;
                     break;
                 case (int)Directions.left:
-                    if (dir.x == -1) matches = true;
+                    if (dir.x == -1 && Mathf.Abs(dir.x) < 2) matches = true;
                     break;
             }
             if (matches)
