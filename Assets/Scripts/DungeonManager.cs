@@ -13,7 +13,7 @@ public class DungeonManager : MonoBehaviour
     [SerializeField] private Tile SmallDotDone;
     [SerializeField] private Tile CombatDotNew;
     [SerializeField] private Tile CombatDotDone;
-    [SerializeField] private Tile Wall;
+    [SerializeField] private Tile[] Walls;
     [SerializeField] private Transform Player;
     [SerializeField] private float PlayerSpeed;
     [SerializeField] private GameObject[] Hints;  //must be assigned as follows: 0 - up; 1 - right; 2 - down; 3 - left;
@@ -233,10 +233,8 @@ public class DungeonManager : MonoBehaviour
                     for (int x = -2; x < 3; x++)
                     {
                         var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
-                        if(dots.GetTile(pos) == null)
-                        {
-                            dots.SetTile(pos, Wall);
-                        }
+                        var daDot = dots.GetTile(pos);
+                        if(daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew) SmartWall(pos, (y < 2 && y > -2) ? 3 : 1);
                     }
                     
                 }
@@ -251,12 +249,102 @@ public class DungeonManager : MonoBehaviour
                     for (int x = -1; x < 2; x++)
                     {
                         var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
-                        if (dots.GetTile(pos) == Wall)
-                        {
-                            dots.SetTile(pos, null);
-                        }
+                        var daDot = dots.GetTile(pos);
+                        if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew) SmartWall(pos, 8);
                     }
 
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// sets a wall with correct sprite, default orientations: 1 - horizontal, 3 - vertical, 8 - clearTile
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <param name="DefOrient"></param>
+    void SmartWall(Vector3Int pos, int DefOrient)
+    {
+        if (DefOrient < 8)
+        {
+            var availableWalls = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7 };
+            int nullCounter = 0;                                                    //if this hits 4 - there are no wall around, use defOrient as guidence
+            if (dots.GetTile(new Vector3Int(pos.x, pos.y + 1)) == null)
+            {
+                availableWalls.Remove(3);
+                availableWalls.Remove(5);
+                availableWalls.Remove(6);
+                availableWalls.Remove(7);
+                nullCounter++;
+            }
+
+            if (dots.GetTile(new Vector3Int(pos.x + 1, pos.y)) == null)
+            {
+                availableWalls.Remove(0);
+                availableWalls.Remove(1);
+                availableWalls.Remove(4);
+                availableWalls.Remove(6);
+                nullCounter++;
+            }
+            else
+            {
+                availableWalls.Remove(2);
+                availableWalls.Remove(3);
+                availableWalls.Remove(5);
+                availableWalls.Remove(7);
+            }
+
+            if (dots.GetTile(new Vector3Int(pos.x, pos.y - 1)) == null)
+            {
+                availableWalls.Remove(0);
+                availableWalls.Remove(2);
+                availableWalls.Remove(3);
+                availableWalls.Remove(4);
+                nullCounter++;
+            }
+            else
+            {
+                availableWalls.Remove(1);
+                availableWalls.Remove(5);
+                availableWalls.Remove(6);
+                availableWalls.Remove(7);
+            }
+
+            if (dots.GetTile(new Vector3Int(pos.x - 1, pos.y)) == null)
+            {
+                availableWalls.Remove(1);
+                availableWalls.Remove(2);
+                availableWalls.Remove(4);
+                availableWalls.Remove(7);
+                nullCounter++;
+            }
+            else
+            {
+                availableWalls.Remove(0);
+                availableWalls.Remove(3);
+                availableWalls.Remove(5);
+                availableWalls.Remove(6);
+            }
+
+            if (nullCounter == 4 || availableWalls.Count == 0) availableWalls = new List<int>() { DefOrient };
+            //string line = "";
+            //for (int i = 0; i < availableWalls.Count; i++) line += availableWalls[i].ToString();
+            //print(line);
+            dots.SetTile(pos, Walls[availableWalls[0]]);
+        }
+        else
+        {
+            dots.SetTile(pos, null);
+            for (int x = -1; x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
+                {
+                    var Pos = new Vector3Int(pos.x + x, pos.y + y, 0);
+                    var DotToCheck = dots.GetTile(Pos);
+                    for (int i = 0; i < Walls.Length; i++)
+                    {
+                        if (DotToCheck == Walls[i]) SmartWall(Pos, y == 0 ? 3 : 1);
+                    }
                 }
             }
         }

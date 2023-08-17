@@ -351,7 +351,7 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 0
+      e00: 7.440411e-39
       e01: 0
       e02: 5.995199e+19
       e03: 5.995199e+19
@@ -360,16 +360,16 @@ Tilemap:
       e12: 6.03e-43
       e13: 6.03e-43
       e20: -5.515468e+30
-      e21: -4.6903655e-18
-      e22: -4.6538215e-19
-      e23: -9.821766e+9
+      e21: -2.7142015e-23
+      e22: -5.4028336e-19
+      e23: -8.849261e+9
       e30: 4.5904e-41
       e31: 6.05e-43
       e32: 6.03e-43
       e33: 6.05e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 3.5139e-41, g: 3.5139e-41, b: 3.5139e-41, a: 3.5139e-41}
+    m_Data: {r: 3.4853e-41, g: 3.4853e-41, b: 3.4853e-41, a: 3.4853e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1486,7 +1486,15 @@ MonoBehaviour:
   SmallDotDone: {fileID: 11400000, guid: 18c1867251fa773488a964b99627e439, type: 2}
   CombatDotNew: {fileID: 11400000, guid: 7f4c03083233617468cae98b980df445, type: 2}
   CombatDotDone: {fileID: 11400000, guid: b9721bfcf65212e4bab8240aa62fd98e, type: 2}
-  Wall: {fileID: 11400000, guid: 4a9fb39fbc17ef142a940561fb451d29, type: 2}
+  Walls:
+  - {fileID: 11400000, guid: 42b9337e75bfab849b1ce2c742a25af5, type: 2}
+  - {fileID: 11400000, guid: 4a9fb39fbc17ef142a940561fb451d29, type: 2}
+  - {fileID: 11400000, guid: a7f1acf70fd2de44a81b94011cc58ef0, type: 2}
+  - {fileID: 11400000, guid: 7c7cf766a8b356c4b929428f88dda896, type: 2}
+  - {fileID: 11400000, guid: b83280f9352f61a429ca95227c230baf, type: 2}
+  - {fileID: 11400000, guid: bee6c459fc693b842a40fd68defe8c33, type: 2}
+  - {fileID: 11400000, guid: ecb2f6a9acc785348b9e1ea799420d2f, type: 2}
+  - {fileID: 11400000, guid: 84444a73659c19c40991deca99713900, type: 2}
   Player: {fileID: 1263260972}
   PlayerSpeed: 5
   Hints:
