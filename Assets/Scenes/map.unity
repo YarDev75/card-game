@@ -1486,6 +1486,7 @@ MonoBehaviour:
   SmallDotDone: {fileID: 11400000, guid: 18c1867251fa773488a964b99627e439, type: 2}
   CombatDotNew: {fileID: 11400000, guid: 7f4c03083233617468cae98b980df445, type: 2}
   CombatDotDone: {fileID: 11400000, guid: b9721bfcf65212e4bab8240aa62fd98e, type: 2}
+  BossDot: {fileID: 0}
   Walls:
   - {fileID: 11400000, guid: 42b9337e75bfab849b1ce2c742a25af5, type: 2}
   - {fileID: 11400000, guid: 4a9fb39fbc17ef142a940561fb451d29, type: 2}
@@ -1516,6 +1517,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  Door:
+  - {fileID: 11400000, guid: 6c9e6b52897c6244b9e01864e4610de9, type: 2}
+  - {fileID: 11400000, guid: 79547a78863012a4e8109db91fb5b91f, type: 2}
+  - {fileID: 11400000, guid: 99cae47451837df41bdebcdd9a2d3ebd, type: 2}
+  - {fileID: 11400000, guid: 04cc319f30fba03488ab58983c1c6a54, type: 2}
+  - {fileID: 11400000, guid: 750f6fd3d0ea7a14890ed857f0f94463, type: 2}
+  - {fileID: 11400000, guid: 9f665cdb325925744ae99a137f649088, type: 2}
   Player: {fileID: 1263260972}
   PlayerSpeed: 5
   Hints:

@@ -8,5 +8,6 @@ public class POI : ScriptableObject                //made it a Scriptable object
     public Vector3Int[] LeadingDots;
     public EnemyPerson Encounter;
     public bool Done;
+    public bool IsBoss;
     //public bool IsUsed;
 }

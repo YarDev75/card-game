@@ -13,8 +13,10 @@ public class DungeonManager : MonoBehaviour
     [SerializeField] private Tile SmallDotDone;
     [SerializeField] private Tile CombatDotNew;
     [SerializeField] private Tile CombatDotDone;
+    [SerializeField] private Tile BossDot;
     [SerializeField] private Tile[] Walls;
     [SerializeField] private Tile[] Decor;
+    [SerializeField] private Tile[] Door;
     [SerializeField] private Transform Player;
     [SerializeField] private float PlayerSpeed;
     [SerializeField] private GameObject[] Hints;  //must be assigned as follows: 0 - up; 1 - right; 2 - down; 3 - left;
@@ -216,6 +218,15 @@ public class DungeonManager : MonoBehaviour
                     }
                     dots.SetTile(poi.contents.LeadingDots[j-1], j == Dots ? CombatDotNew : SmallDotNew);
                 }
+                //var Pos = poi.contents.LeadingDots[poi.contents.LeadingDots.Length - 1];
+                //bool Doorable = true;
+                //for (int y = 1; y < 6; y++)
+                //{
+                //    for (int x = -1; x < 2; x++)
+                //    {
+                //        var dot = dots.GetTile(new Vector3Int(Pos.x + x, Pos.y + y, 0))
+                //    }
+                //}
                 return poi;
             }
             Dir = (Dir + 1) % 4;
@@ -225,8 +236,10 @@ public class DungeonManager : MonoBehaviour
 
     void GenerateWalls()
     {
+        POIScript BossPOI = AllPOIs[0];
         for (int i = 0; i < AllPOIs.Length; i++)
         {
+            if (AllPOIs[i].contents.IsBoss) BossPOI = AllPOIs[i];
             foreach (var dot in AllPOIs[i].contents.LeadingDots)
             {
                 for (int y = -2; y < 3; y++)
@@ -257,6 +270,20 @@ public class DungeonManager : MonoBehaviour
                 }
             }
         }
+
+        //piece of code for generating daDoor next to the bossDot
+        //var Pos = BossPOI.contents.LeadingDots[BossPOI.contents.LeadingDots.Length - 1];
+        //ind = 0;
+        //for (int y = 2; y < 4; y++)
+        //{
+        //    for (int x = -1; x < 2; x++)
+        //    {
+        //        var Dpos = new Vector3Int(Pos.x + x, Pos.y + y);
+        //        dots.SetTile(Dpos, Door[ind]);
+        //        ind++;
+        //    }
+        //}
+
     }
 
     /// <summary>
