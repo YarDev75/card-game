@@ -24,6 +24,7 @@ public class DungeonManager : MonoBehaviour
     bool Moving;
     POIScript Target;
     int ind;                         //index of the target dot;
+    [SerializeField] RoomSaveState dataSave;
 
     public enum Directions
     {
@@ -35,7 +36,13 @@ public class DungeonManager : MonoBehaviour
 
     private void Start()
     {
-        AvailablePOIs = new POIScript[] { FirstPOI };
+        dataSave.roomNo = 0; //We should include a PlaySaveState so we can carry some info across the rooms, including roomNo which should increment
+        dataSave.currentFoe = -1;                                                                                   // before advancing to next room
+        if (dataSave.firstTime)
+        {
+            AvailablePOIs = new POIScript[] { FirstPOI };
+            dataSave.pois = AvailablePOIs;
+        }dataSave.firstTime = false;
         if(POIs != null) print(POIs[0]);
         EnableHints();
     }
@@ -81,6 +88,8 @@ public class DungeonManager : MonoBehaviour
     {
         POIs = new POI[] { Target.contents };
         EnenemyAI.person = Target.contents.Encounter;
+        dataSave.currentFoe = 0; //We'll need to identify POI index
+        dataSave.poiAttempted[dataSave.currentFoe] = true;
         SceneManager.LoadScene(1);
     }
 

@@ -42,6 +42,8 @@ public class BoardManager : MonoBehaviour
     bool PlayerReady;
     bool EnemyReady;
 
+    [SerializeField] RoomSaveState dataSave;
+
     private void Start()
     {
         PlayerHealth = PlayerMaxHealth;
@@ -97,7 +99,11 @@ public class BoardManager : MonoBehaviour
             if (EnemyHealth <= 0)                                          
             {
                 turnAnouncerText.text = "Victory";
-                if (PlayerHealth <= 0) turnAnouncerText.text = "Draw";
+                dataSave.poiDefeated[dataSave.currentFoe] = true;
+                if (PlayerHealth <= 0) {
+                    turnAnouncerText.text = "Draw";
+                    dataSave.poiDefeated[dataSave.currentFoe] = false;
+                }
                 Invoke("BattleOver", 1.5f);
             }
             else if (PlayerHealth <= 0)
