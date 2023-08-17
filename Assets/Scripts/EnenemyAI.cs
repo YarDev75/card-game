@@ -45,7 +45,7 @@ public class EnenemyAI : MonoBehaviour
             ThemePlayer.loop = false;
             ThemePlayer.Play();
         }
-        Animation = person.Art;
+        Animation = personality.Art;
         Lux = MaxLux;
         LuxMeter.maxValue = MaxLux;
         LuxMeter.value = Lux;

@@ -42,8 +42,6 @@ public class BoardManager : MonoBehaviour
     bool PlayerReady;
     bool EnemyReady;
 
-    [SerializeField] RoomSaveState dataSave;
-
     private void Start()
     {
         PlayerHealth = PlayerMaxHealth;
@@ -99,10 +97,8 @@ public class BoardManager : MonoBehaviour
             if (EnemyHealth <= 0)                                          
             {
                 turnAnouncerText.text = "Victory";
-                dataSave.poiDefeated[dataSave.currentFoe] = true;
                 if (PlayerHealth <= 0) {
                     turnAnouncerText.text = "Draw";
-                    dataSave.poiDefeated[dataSave.currentFoe] = false;
                 }
                 Invoke("BattleOver", 1.5f);
             }
@@ -130,7 +126,7 @@ public class BoardManager : MonoBehaviour
 
     void BattleOver()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);  //restarts the scene
+        SceneManager.LoadScene(0);  //goes back to map
     }
 
     //for player
