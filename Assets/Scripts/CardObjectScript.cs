@@ -37,8 +37,11 @@ public class CardObjectScript : MonoBehaviour
     bool placed;
     bool zoomed = false;
 
+    private SFXPlayer sfxPlayer;
+
     private void Start()
     {
+        sfxPlayer = GameObject.FindWithTag("AudioPlayer").GetComponent<SFXPlayer>();
         damage = content.damage;
         boardManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<BoardManager>();
         if (PlayerCard) DrawStats();
@@ -75,6 +78,7 @@ public class CardObjectScript : MonoBehaviour
             transform.position += new Vector3(shift.x, shift.y, 0);
             if(zoomed && Input.GetMouseButtonDown(0))
             {
+                sfxPlayer.play("Deny");
                 anim.SetTrigger("ZoomOut");
                 Invoke("changeZoomed", 1f);
                 TargetPos = BoardPos;
@@ -115,6 +119,7 @@ public class CardObjectScript : MonoBehaviour
     //called when card is placed on the board
     void Placed()
     {
+        sfxPlayer.play("Place_Card");   //I know this should be in BoardManager but it's here so we don't have to set sfxPlayer into it
         if(PlayerCard) GetComponentInParent<HandManager>().RemoveCardFromHand(HandID);
         TargetPos = transform.position;
         sr.sortingOrder = sortOrder;
@@ -128,6 +133,7 @@ public class CardObjectScript : MonoBehaviour
     {
         if (!Dragin && PlayerCard)
         {
+            sfxPlayer.play("Hover");
             anim.SetBool("selected", true);
             Description.transform.parent.gameObject.SetActive(Description.text != " ");
             sortOrder = sr.sortingOrder;
@@ -151,11 +157,13 @@ public class CardObjectScript : MonoBehaviour
         {
             sr.sortingOrder = 102;
             canvas.sortingOrder = 103;
+            sfxPlayer.play("Card_Draw");
             Dragin = true;
             anim.SetBool("selected", false);
         }
         if (placed && !zoomed && !boardManager.Zooming)
         {
+            sfxPlayer.play("Confirm");
             anim.SetTrigger("ZoomIn");
             Description.transform.parent.gameObject.SetActive(Description.text != " ");
             boardManager.Zooming = true;
@@ -179,7 +187,7 @@ public class CardObjectScript : MonoBehaviour
 
     public void UpdateStats()
     {
-        DrawStats(); //This is just a patch, if you have a better solution, change it you know this part of the code better
+        DrawStats(); //This is just a patch, if you have a better solution, change it, you know this part of the code better
     }
     private void changeZoomed() 
     { 

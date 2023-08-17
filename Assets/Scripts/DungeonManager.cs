@@ -30,6 +30,8 @@ public class DungeonManager : MonoBehaviour
     POIScript Target;
     int ind;                         //index of the target dot;
 
+    public AudioClip map_movement;
+
     public enum Directions
     {
         up,
@@ -61,9 +63,10 @@ public class DungeonManager : MonoBehaviour
             dot = new Vector3(dot.x + 0.5f, dot.y + 0.5f, dot.z);
             var dir = dot - Player.position;
             Player.position += dir * Time.deltaTime * PlayerSpeed;
-
+            
             if(Vector2.Distance(dot,Player.position) < 0.1f)
             {
+                gameObject.GetComponent<AudioSource>().PlayOneShot(map_movement, 2);
                 PlayerGridPos = Target.contents.LeadingDots[ind];
                 if (!BackTracking) dots.SetTile(Target.contents.LeadingDots[ind], (ind == Target.contents.LeadingDots.Length - 1) ? CombatDotDone : SmallDotDone);
                 ind += BackTracking ? -1 : 1;

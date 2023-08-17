@@ -2383,7 +2383,6 @@ MonoBehaviour:
   PlayerHealthBar: {fileID: 590751441}
   EnemyHealthText: {fileID: 1418312372}
   EnemyHealthBar: {fileID: 1499770656}
-  dataSave: {fileID: 0}
 --- !u!4 &582880485
 Transform:
   m_ObjectHideFlags: 0
@@ -2733,9 +2732,10 @@ GameObject:
   m_Component:
   - component: {fileID: 625724054}
   - component: {fileID: 625724055}
+  - component: {fileID: 625724056}
   m_Layer: 0
   m_Name: ThemePlayer
-  m_TagString: Untagged
+  m_TagString: AudioPlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2769,8 +2769,8 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
-  Mute: 0
+  Loop: 1
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
@@ -2851,6 +2851,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &625724056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625724053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aba19fb044be004fb35dd337b9160ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 2508de1c38ffa1d488faa828affe54b9, type: 3}
+  - {fileID: 8300000, guid: 3d7a4c29e794e344aae650e45b5e0bc1, type: 3}
+  - {fileID: 8300000, guid: 1c3253df95769e841a61fbd438ad35a8, type: 3}
+  - {fileID: 8300000, guid: 00fb2c77ce14b004a871c791306067d6, type: 3}
+  - {fileID: 8300000, guid: 4c6599a6d41b4aa46bc8e7a161d028b8, type: 3}
 --- !u!1 &634142637
 GameObject:
   m_ObjectHideFlags: 0
