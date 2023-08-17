@@ -1495,6 +1495,27 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bee6c459fc693b842a40fd68defe8c33, type: 2}
   - {fileID: 11400000, guid: ecb2f6a9acc785348b9e1ea799420d2f, type: 2}
   - {fileID: 11400000, guid: 84444a73659c19c40991deca99713900, type: 2}
+  Decor:
+  - {fileID: 11400000, guid: c19b9b59e3a298b488894d1b4ae7e6a2, type: 2}
+  - {fileID: 11400000, guid: d1648184670cf9844b35f0641175401c, type: 2}
+  - {fileID: 11400000, guid: 042130e634a15ed42a4c0e733b2b1a49, type: 2}
+  - {fileID: 11400000, guid: 45377ded77db0a9468082a70b42fa617, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Player: {fileID: 1263260972}
   PlayerSpeed: 5
   Hints:

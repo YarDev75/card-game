@@ -14,6 +14,7 @@ public class DungeonManager : MonoBehaviour
     [SerializeField] private Tile CombatDotNew;
     [SerializeField] private Tile CombatDotDone;
     [SerializeField] private Tile[] Walls;
+    [SerializeField] private Tile[] Decor;
     [SerializeField] private Transform Player;
     [SerializeField] private float PlayerSpeed;
     [SerializeField] private GameObject[] Hints;  //must be assigned as follows: 0 - up; 1 - right; 2 - down; 3 - left;
@@ -269,7 +270,7 @@ public class DungeonManager : MonoBehaviour
         {
             var availableWalls = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7 };
             int nullCounter = 0;                                                    //if this hits 4 - there are no wall around, use defOrient as guidence
-            if (dots.GetTile(new Vector3Int(pos.x, pos.y + 1)) == null)
+            if (!IsWall(dots.GetTile(new Vector3Int(pos.x, pos.y + 1))))
             {
                 availableWalls.Remove(3);
                 availableWalls.Remove(5);
@@ -278,7 +279,7 @@ public class DungeonManager : MonoBehaviour
                 nullCounter++;
             }
 
-            if (dots.GetTile(new Vector3Int(pos.x + 1, pos.y)) == null)
+            if (!IsWall(dots.GetTile(new Vector3Int(pos.x + 1, pos.y))))
             {
                 availableWalls.Remove(0);
                 availableWalls.Remove(1);
@@ -294,7 +295,7 @@ public class DungeonManager : MonoBehaviour
                 availableWalls.Remove(7);
             }
 
-            if (dots.GetTile(new Vector3Int(pos.x, pos.y - 1)) == null)
+            if (!IsWall(dots.GetTile(new Vector3Int(pos.x, pos.y - 1))))
             {
                 availableWalls.Remove(0);
                 availableWalls.Remove(2);
@@ -310,7 +311,7 @@ public class DungeonManager : MonoBehaviour
                 availableWalls.Remove(7);
             }
 
-            if (dots.GetTile(new Vector3Int(pos.x - 1, pos.y)) == null)
+            if (!IsWall(dots.GetTile(new Vector3Int(pos.x - 1, pos.y))))
             {
                 availableWalls.Remove(1);
                 availableWalls.Remove(2);
@@ -327,9 +328,6 @@ public class DungeonManager : MonoBehaviour
             }
 
             if (nullCounter == 4 || availableWalls.Count == 0) availableWalls = new List<int>() { DefOrient };
-            //string line = "";
-            //for (int i = 0; i < availableWalls.Count; i++) line += availableWalls[i].ToString();
-            //print(line);
             dots.SetTile(pos, Walls[availableWalls[0]]);
         }
         else
@@ -347,7 +345,17 @@ public class DungeonManager : MonoBehaviour
                     }
                 }
             }
+            dots.SetTile(pos, Decor[Random.Range(0, Decor.Length)]);
         }
+    }
+    
+    bool IsWall(TileBase tile)
+    {
+        for (int i = 0; i < Walls.Length; i++)
+        {
+            if (tile == Walls[i]) return true;
+        }
+        return false;
     }
 
     void StartEncounter()
