@@ -24,10 +24,12 @@ public class DungeonManager : MonoBehaviour
     [SerializeField] private Vector3Int PlayerGridPos;
     [SerializeField] private GameObject POIObjectPrefab;
     [SerializeField] private EnemyPerson[] AvailablePersons;
+    [SerializeField] private EnemyPerson[] AvailableBosses;
     private POIScript[] AllPOIs;
     bool Moving;
     bool BackTracking;
     POIScript Target;
+    POIScript BossPOI;
     int ind;                         //index of the target dot;
 
     public enum Directions
@@ -44,7 +46,10 @@ public class DungeonManager : MonoBehaviour
         // dataSave.currentFoe = -1;                                                                                   // before advancing to next room
         if (dataSave.firstTime)
         {
-            Generate(POIAmount);
+            while (BossPOI == null)
+            {
+                Generate(POIAmount);
+            }
             Save();
             dataSave.firstTime = false;
         }
@@ -107,10 +112,12 @@ public class DungeonManager : MonoBehaviour
             {
                 dots.SetTile(dataSave.pois[i].LeadingDots[j], dataSave.pois[i].Done ? SmallDotDone : SmallDotNew);
             }
-            dots.SetTile(dataSave.pois[i].LeadingDots[dataSave.pois[i].LeadingDots.Length - 1], dataSave.pois[i].Done ? CombatDotDone : CombatDotNew);
+            if (!dataSave.pois[i].IsBoss) dots.SetTile(dataSave.pois[i].LeadingDots[dataSave.pois[i].LeadingDots.Length - 1], dataSave.pois[i].Done ? CombatDotDone : CombatDotNew);
+            else dots.SetTile(dataSave.pois[i].LeadingDots[dataSave.pois[i].LeadingDots.Length - 1], BossDot);
             var poi = Instantiate(POIObjectPrefab).GetComponent<POIScript>();
             poi.contents = dataSave.pois[i];
             AllPOIs[i] = poi;
+            if (poi.contents.IsBoss) BossPOI = poi;
         }
         Target = AllPOIs[dataSave.currentFoe];
         GenerateWalls();
@@ -129,6 +136,7 @@ public class DungeonManager : MonoBehaviour
 
     void Generate(int POIsAmount)
     {
+        bool BossAdded = false;
         var generatedPOIs = new List<POIScript>();
         var nextPositions = new List<Vector3Int>();
         nextPositions.Add(PlayerGridPos);
@@ -136,10 +144,11 @@ public class DungeonManager : MonoBehaviour
         int Hold = 0;
         for (int i = 0; i < POIsAmount; i++)
         {
-            var poi = GeneratePOI(nextPositions[PosInd], i);
+            var poi = GeneratePOI(nextPositions[PosInd], i, (i >= POIAmount - 3) && !BossAdded);
             if (poi != null)
             {
-                nextPositions.Add(poi.contents.LeadingDots[poi.contents.LeadingDots.Length - 1]);
+                if (!poi.contents.IsBoss) nextPositions.Add(poi.contents.LeadingDots[poi.contents.LeadingDots.Length - 1]);
+                else BossAdded = true;
                 generatedPOIs.Add(poi);
             }
             if (Random.Range(0, 2) == 0 && Hold < 3 && i > 0) Hold++;
@@ -158,7 +167,7 @@ public class DungeonManager : MonoBehaviour
         GenerateWalls();
     }
 
-    POIScript GeneratePOI(Vector3Int StartPos, int SlotInd)
+    POIScript GeneratePOI(Vector3Int StartPos, int SlotInd, bool ForceBoss)
     {
         int Dir = Random.Range(0, 4);       //0 - up, then clockwise
         int Dots = Random.Range(3, 6);     //how long the path will be (in dots)
@@ -198,6 +207,7 @@ public class DungeonManager : MonoBehaviour
                 poi.contents = POISlots[SlotInd];
                 poi.contents.Encounter = AvailablePersons[Random.Range(0, AvailablePersons.Length)];
                 poi.contents.Done = false;
+                poi.contents.IsBoss = false;
                 poi.contents.LeadingDots = new Vector3Int[Dots];
                 for (int j = 1; j < Dots+1; j++)
                 {
@@ -218,15 +228,26 @@ public class DungeonManager : MonoBehaviour
                     }
                     dots.SetTile(poi.contents.LeadingDots[j-1], j == Dots ? CombatDotNew : SmallDotNew);
                 }
-                //var Pos = poi.contents.LeadingDots[poi.contents.LeadingDots.Length - 1];
-                //bool Doorable = true;
-                //for (int y = 1; y < 6; y++)
-                //{
-                //    for (int x = -1; x < 2; x++)
-                //    {
-                //        var dot = dots.GetTile(new Vector3Int(Pos.x + x, Pos.y + y, 0))
-                //    }
-                //}
+                if (BossPOI == null && Dir != 2 && ForceBoss)
+                {
+                    var Pos = poi.contents.LeadingDots[poi.contents.LeadingDots.Length - 1];
+                    bool Doorable = true;
+                    for (int y = 1; y < 6; y++)
+                    {
+                        for (int x = -1; x < 2; x++)
+                        {
+                            var dot = dots.GetTile(new Vector3Int(Pos.x + x, Pos.y + y, 0));
+                            if (dot == SmallDotDone || dot == SmallDotNew || dot == CombatDotDone || dot == CombatDotNew) Doorable = false;
+                        }
+                    }
+                    if (Doorable)
+                    {
+                        poi.contents.IsBoss = true;
+                        BossPOI = poi;
+                        dots.SetTile(poi.contents.LeadingDots[poi.contents.LeadingDots.Length - 1], BossDot);
+                        poi.contents.Encounter = AvailableBosses[Random.Range(0, AvailableBosses.Length)];
+                    }
+                }
                 return poi;
             }
             Dir = (Dir + 1) % 4;
@@ -236,10 +257,8 @@ public class DungeonManager : MonoBehaviour
 
     void GenerateWalls()
     {
-        POIScript BossPOI = AllPOIs[0];
         for (int i = 0; i < AllPOIs.Length; i++)
         {
-            if (AllPOIs[i].contents.IsBoss) BossPOI = AllPOIs[i];
             foreach (var dot in AllPOIs[i].contents.LeadingDots)
             {
                 for (int y = -2; y < 3; y++)
@@ -248,7 +267,7 @@ public class DungeonManager : MonoBehaviour
                     {
                         var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
                         var daDot = dots.GetTile(pos);
-                        if(daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew) SmartWall(pos, (y < 2 && y > -2) ? 3 : 1);
+                        if(daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot) SmartWall(pos, (y < 2 && y > -2) ? 3 : 1);
                     }
                     
                 }
@@ -264,7 +283,7 @@ public class DungeonManager : MonoBehaviour
                     {
                         var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
                         var daDot = dots.GetTile(pos);
-                        if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew) SmartWall(pos, 8);
+                        if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot) SmartWall(pos, 8);
                     }
 
                 }
@@ -272,18 +291,20 @@ public class DungeonManager : MonoBehaviour
         }
 
         //piece of code for generating daDoor next to the bossDot
-        //var Pos = BossPOI.contents.LeadingDots[BossPOI.contents.LeadingDots.Length - 1];
-        //ind = 0;
-        //for (int y = 2; y < 4; y++)
-        //{
-        //    for (int x = -1; x < 2; x++)
-        //    {
-        //        var Dpos = new Vector3Int(Pos.x + x, Pos.y + y);
-        //        dots.SetTile(Dpos, Door[ind]);
-        //        ind++;
-        //    }
-        //}
-
+        if (BossPOI != null)
+        {
+            var Pos = BossPOI.contents.LeadingDots[BossPOI.contents.LeadingDots.Length - 1];
+            ind = 0;
+            for (int y = 2; y < 4; y++)
+            {
+                for (int x = -1; x < 2; x++)
+                {
+                    var Dpos = new Vector3Int(Pos.x + x, Pos.y + y);
+                    dots.SetTile(Dpos, Door[ind]);
+                    ind++;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -445,5 +466,10 @@ public class DungeonManager : MonoBehaviour
         Target = target;
         ind = returning ? (Target.contents.LeadingDots.Length-2) : 0;
         for (int i = 0; i < Hints.Length; i++) Hints[i].SetActive(false);
+    }
+
+    public void EditDeck()
+    {
+        SceneManager.LoadScene(2);
     }
 }

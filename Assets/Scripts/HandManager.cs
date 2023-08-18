@@ -28,6 +28,15 @@ public class HandManager : MonoBehaviour
     {
         Deck = deck.Deck;
     }
+    public void SetDeck(RunSaveState deck)
+    {
+        var cards = new List<Card>();
+        for (int i = 0; i < deck.Deck.Length; i++)
+        {
+            if(deck.Deck[i] != null) cards.Add(deck.Deck[i]);
+        }
+        Deck = cards.ToArray();
+    }
 
     private void Update()
     {
