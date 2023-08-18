@@ -32,6 +32,7 @@ public class tsManager : MonoBehaviour
 
     public void NewGame()
     {
+        saveState.character = character.GetComponent<SpriteRenderer>().sprite;
         saveState.Collection = null;
         saveState.Deck = null;
         saveState.roomNo = 0;
