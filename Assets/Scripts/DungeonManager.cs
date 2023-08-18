@@ -18,7 +18,7 @@ public class DungeonManager : MonoBehaviour
     [SerializeField] private Tile[] Walls;
     [SerializeField] private Tile[] Decor;
     [SerializeField] private Tile[] Door;
-    [SerializeField] private Transform Player;
+    [SerializeField] private GameObject Player;
     [SerializeField] private float PlayerSpeed;
     [SerializeField] private GameObject[] Hints;  //must be assigned as follows: 0 - up; 1 - right; 2 - down; 3 - left;
     [SerializeField] private int POIAmount;
@@ -45,6 +45,7 @@ public class DungeonManager : MonoBehaviour
 
     private void Start()
     {
+        Player.GetComponent<SpriteRenderer>().sprite = huh.character;
         dataSave.roomNo = 0; //We should include a PlaySaveState so we can carry some info across the rooms, including roomNo which should increment
         // dataSave.currentFoe = -1;                                                                                   // before advancing to next room
         if (dataSave.firstTime)
@@ -68,10 +69,10 @@ public class DungeonManager : MonoBehaviour
             Vector3 dot;
             dot = dots.CellToWorld(Target.contents.LeadingDots[ind]);
             dot = new Vector3(dot.x + 0.5f, dot.y + 0.5f, dot.z);
-            var dir = dot - Player.position;
-            Player.position += dir * Time.deltaTime * PlayerSpeed;
+            var dir = dot - Player.transform.position;
+            Player.transform.position += dir * Time.deltaTime * PlayerSpeed;
             
-            if(Vector2.Distance(dot,Player.position) < 0.1f)
+            if(Vector2.Distance(dot,Player.transform.position) < 0.1f)
             {
                 gameObject.GetComponent<AudioSource>().PlayOneShot(map_movement, 2);
                 PlayerGridPos = Target.contents.LeadingDots[ind];
@@ -109,7 +110,7 @@ public class DungeonManager : MonoBehaviour
     {
         PlayerGridPos = dataSave.PlayerPos;
         var DotsPos = dots.CellToWorld(PlayerGridPos);
-        Player.position = new Vector3(DotsPos.x + 0.5f, DotsPos.y + 0.5f, 0);
+        Player.transform.position = new Vector3(DotsPos.x + 0.5f, DotsPos.y + 0.5f, 0);
         AllPOIs = new POIScript[dataSave.pois.Length];
         for (int i = 0; i < dataSave.pois.Length; i++)
         {

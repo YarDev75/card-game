@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class tsManager : MonoBehaviour
 {
     [SerializeField] private RunSaveState saveState;
+    [SerializeField] private RoomSaveState mapGenerator;
     [SerializeField] private GameObject character;
     [SerializeField] private GameObject charSwapButton;
     [SerializeField] private GameObject continueButton;
@@ -36,6 +37,7 @@ public class tsManager : MonoBehaviour
         saveState.Collection = null;
         saveState.Deck = null;
         saveState.roomNo = 0;
+        mapGenerator.firstTime = true;
         SceneManager.LoadScene(1);
     }
 

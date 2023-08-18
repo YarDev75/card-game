@@ -230,6 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveState: {fileID: 0}
+  mapGenerator: {fileID: 0}
   character: {fileID: 0}
   charSwapButton: {fileID: 0}
   continueButton: {fileID: 0}
@@ -1268,6 +1269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveState: {fileID: 11400000, guid: ec7f6443d6f447a42b3ca81d75be58e6, type: 2}
+  mapGenerator: {fileID: 11400000, guid: 69974f44f37094e4dbde1133f87840b7, type: 2}
   character: {fileID: 1785332832}
   charSwapButton: {fileID: 1318522711}
   continueButton: {fileID: 1021766256}

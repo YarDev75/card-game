@@ -1130,7 +1130,7 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0}
     oldSize: {x: 1.1, y: 0.8}
     newSize: {x: 0.33, y: 0.24}
     adaptiveTilingThreshold: 0.5
@@ -1502,7 +1502,7 @@ MonoBehaviour:
   SmallDotDone: {fileID: 11400000, guid: 18c1867251fa773488a964b99627e439, type: 2}
   CombatDotNew: {fileID: 11400000, guid: 7f4c03083233617468cae98b980df445, type: 2}
   CombatDotDone: {fileID: 11400000, guid: b9721bfcf65212e4bab8240aa62fd98e, type: 2}
-  BossDot: {fileID: 0}
+  BossDot: {fileID: 11400000, guid: 7515f795d9d178844934b958da875f6f, type: 2}
   Walls:
   - {fileID: 11400000, guid: 42b9337e75bfab849b1ce2c742a25af5, type: 2}
   - {fileID: 11400000, guid: 4a9fb39fbc17ef142a940561fb451d29, type: 2}
@@ -1540,7 +1540,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 04cc319f30fba03488ab58983c1c6a54, type: 2}
   - {fileID: 11400000, guid: 750f6fd3d0ea7a14890ed857f0f94463, type: 2}
   - {fileID: 11400000, guid: 9f665cdb325925744ae99a137f649088, type: 2}
-  Player: {fileID: 1263260972}
+  Player: {fileID: 1263260967}
   PlayerSpeed: 5
   Hints:
   - {fileID: 1749144536}
