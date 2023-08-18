@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HandManager : MonoBehaviour
 {
+    [SerializeField] private SFXPlayer sfxer;
     [SerializeField] private bool Enemy;               //whether or not the card belongs to enemy
     [SerializeField] private Card[] Deck;              //all available cards (assigned through inspector for now)
     [SerializeField] private GameObject EmptyCard;     //prefab
@@ -78,6 +79,7 @@ public class HandManager : MonoBehaviour
         {
             if (RemainingDeck.Count > 0)
             {
+                sfxer.play(2);
                 var newCard = Instantiate(EmptyCard, CardSpawn.position, Quaternion.identity).GetComponent<CardObjectScript>();
                 var i = Random.Range(0, RemainingDeck.Count);   //used in 2 places, therefore a variable
                 newCard.content = RemainingDeck[i];

@@ -133,6 +133,7 @@ public class CardObjectScript : MonoBehaviour
     {
         if (!Dragin && PlayerCard)
         {
+            sfxPlayer.play(0);
             sfxPlayer.play("Hover");
             anim.SetBool("selected", true);
             Description.transform.parent.gameObject.SetActive(Description.text != " ");

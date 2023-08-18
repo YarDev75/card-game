@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 
 public class BoardManager : MonoBehaviour
 {
+    [SerializeField] private SFXPlayer sfxer;
     [SerializeField] private RunSaveState RunSS;
     public CardObjectScript[] TheBoard;                                          //0-7 - enemy 8-15 - player
 
@@ -80,6 +81,7 @@ public class BoardManager : MonoBehaviour
     {
         if (Player)
         {
+            sfxer.play(3);
             PlayerReady = true;
             NextTurnButton.SetActive(false);
         }
@@ -161,6 +163,7 @@ public class BoardManager : MonoBehaviour
             else Umbra -= card.content.cost;
             TheBoard[8 + ind] = card;
             UpdateUIStats();
+            sfxer.play(1);
             return true;
         }
         return false;
@@ -172,6 +175,7 @@ public class BoardManager : MonoBehaviour
         if (TheBoard[ind] == null)
         {
             TheBoard[ind] = card;
+            sfxer.play(1);
             return true;
         }
         else return false;

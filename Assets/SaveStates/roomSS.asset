@@ -23,8 +23,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a17537093bed9e74a9a442b8b8e2db94, type: 2}
   - {fileID: 11400000, guid: 93d9c8d985e56774b9270d9801346ae8, type: 2}
   - {fileID: 11400000, guid: d77ac46739441b941bfb65f5470ace96, type: 2}
-  PlayerPos: {x: -2, y: 0, z: 0}
+  PlayerPos: {x: -5, y: -5, z: 0}
   roomNo: 0
   doorKeys: 
-  currentFoe: 2
+  currentFoe: 7
   firstTime: 0
