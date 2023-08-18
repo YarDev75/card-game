@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b00aadb5f5ed86489ea02a02ea048bd, type: 3}
   m_Name: runSS
   m_EditorClassIdentifier: 
-  roomNo: 0
+  roomNo: -1
+  character: {fileID: 21300000, guid: 9c0d30330b39784448db7789338a4bf3, type: 3}
   Deck:
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
   - {fileID: 11400000, guid: aec6eab7d31a233478d1b256e27b5256, type: 2}
@@ -53,3 +54,4 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  firstRun: 0
