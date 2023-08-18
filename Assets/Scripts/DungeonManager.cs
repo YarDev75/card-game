@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour
 {
+    [SerializeField] RunSaveState huh;
     [SerializeField] RoomSaveState dataSave;
     [SerializeField] private POI[] POISlots;
     [SerializeField] private Tilemap dots;

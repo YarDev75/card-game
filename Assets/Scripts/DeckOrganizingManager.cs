@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class DeckOrganizingManager : MonoBehaviour
 {
     [SerializeField] private RunSaveState RunSave;
+    [SerializeField] private RoomSaveState MaybeThisWillHelp;
     [SerializeField] private Transform[] CollectionFrames;
     [SerializeField] private Transform[] DeckFrames;
     [SerializeField] private GameObject CardPrefab;
