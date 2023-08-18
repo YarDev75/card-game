@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Build.Reporting;
+//using Unity.VisualScripting;
+//using UnityEditor.Build.Reporting;
 using UnityEngine;
-using UnityEngine.Assertions;
+//using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 
 public class POI_2 : ScriptableObject                //made it a Scriptable object, so it can be saved when unloading the scene, if you have a better solution, I'm all ears

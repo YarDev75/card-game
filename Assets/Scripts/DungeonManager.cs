@@ -46,9 +46,10 @@ public class DungeonManager : MonoBehaviour
         // dataSave.currentFoe = -1;                                                                                   // before advancing to next room
         if (dataSave.firstTime)
         {
-            while (BossPOI == null)
+            for (int i = 0; i < 5; i++)
             {
                 Generate(POIAmount);
+                if (BossPOI != null) break;
             }
             Save();
             dataSave.firstTime = false;
@@ -157,7 +158,7 @@ public class DungeonManager : MonoBehaviour
                 PosInd++;
                 Hold = 0;
             }
-            if (PosInd > nextPositions.Count) break;
+            if (PosInd >= nextPositions.Count) break;
         }
         AllPOIs = new POIScript[generatedPOIs.Count];
         for (int i = 0; i < generatedPOIs.Count; i++)
