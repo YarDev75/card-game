@@ -9,6 +9,7 @@ public class EnemyPerson : ScriptableObject
     public Sprite[] Art;
     public AudioClip Intro;
     public AudioClip Music;
+    public bool IsBoss;
     public string[] ThinkingDialogue;
     public string[] TakenDamageDialogue;
     public string[] EndTurnDialogue;

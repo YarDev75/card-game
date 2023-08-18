@@ -8,8 +8,10 @@ using Unity.VisualScripting;
 
 public class BoardManager : MonoBehaviour
 {
+    [SerializeField] private RunSaveState RunSS;
     public CardObjectScript[] TheBoard;                                          //0-7 - enemy 8-15 - player
 
+    [SerializeField] private RoomSaveState DungeonSave;
     [SerializeField] private EnenemyAI AI;
     [SerializeField] private HandManager AIHand;
     [SerializeField] private HandManager PlayerHand;
@@ -41,6 +43,11 @@ public class BoardManager : MonoBehaviour
     float Umbra;
     bool PlayerReady;
     bool EnemyReady;
+
+    private void Awake()
+    {
+        PlayerHand.SetDeck(RunSS);
+    }
 
     private void Start()
     {
@@ -126,6 +133,7 @@ public class BoardManager : MonoBehaviour
 
     void BattleOver()
     {
+        if (EnenemyAI.person.IsBoss) DungeonSave.firstTime = true;
         SceneManager.LoadScene(0);  //goes back to map
     }
 
