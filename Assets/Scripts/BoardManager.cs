@@ -8,6 +8,8 @@ using Unity.VisualScripting;
 
 public class BoardManager : MonoBehaviour
 {
+    [SerializeField] private GameObject VictoryPopUp;
+    [SerializeField] private GameObject DefeatPopUp;
     [SerializeField] private SFXPlayer sfxer;
     [SerializeField] private RunSaveState RunSS;
     public CardObjectScript[] TheBoard;                                          //0-7 - enemy 8-15 - player
@@ -44,6 +46,7 @@ public class BoardManager : MonoBehaviour
     float Umbra;
     bool PlayerReady;
     bool EnemyReady;
+    bool won;
 
     private void Awake()
     {
@@ -106,15 +109,21 @@ public class BoardManager : MonoBehaviour
             if (EnemyHealth <= 0)                                          
             {
                 turnAnouncerText.text = "Victory";
-                if (PlayerHealth <= 0) {
+                if (PlayerHealth <= 0)
+                {
                     turnAnouncerText.text = "Draw";
+                    Invoke("BackToMap", 1.5f);
                 }
-                Invoke("BattleOver", 1.5f);
+                else
+                {
+                    won = true;
+                    Invoke("BattleOver", 1.5f);
+                }
             }
             else if (PlayerHealth <= 0)
             {
                 turnAnouncerText.text = "Defeat";
-                Invoke("BattleOver", 2f);
+                Invoke("BattleOver", 1.5f);
             }
             else
             {
@@ -134,6 +143,14 @@ public class BoardManager : MonoBehaviour
     }
 
     void BattleOver()
+    {
+        Zooming = true;
+        AI.ThemePlayer.mute = true;
+        if (won) VictoryPopUp.SetActive(true);
+        else DefeatPopUp.SetActive(true);
+    }
+
+    public void BackToMap()
     {
         if (EnenemyAI.person.IsBoss) DungeonSave.firstTime = true;
         SceneManager.LoadScene(0);  //goes back to map

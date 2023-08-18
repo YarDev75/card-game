@@ -8,7 +8,7 @@ public class EnenemyAI : MonoBehaviour
 {
     public static EnemyPerson person;
 
-    [SerializeField] private AudioSource ThemePlayer;
+    [SerializeField] public AudioSource ThemePlayer;
     [SerializeField] private HandManager Hand;
     [SerializeField] private BoardManager boardManager;
     [SerializeField] private TextMeshProUGUI ThinkingBubble;      //the three dots thing

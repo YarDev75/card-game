@@ -29,6 +29,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 24b95443a568fe94abe634387fcbe0ee, type: 2}
   - {fileID: 11400000, guid: 7824c106884bb1b46a69bfa3fea6e454, type: 2}
   - {fileID: 11400000, guid: 7824c106884bb1b46a69bfa3fea6e454, type: 2}
+  RewardPool:
+  - {fileID: 11400000, guid: 303b2f4b6bdd20c47a205a939c1e8f1a, type: 2}
+  - {fileID: 11400000, guid: 303b2f4b6bdd20c47a205a939c1e8f1a, type: 2}
+  - {fileID: 11400000, guid: c2bc691c0d1cb194abdb5bfd1745079b, type: 2}
+  - {fileID: 11400000, guid: c2bc691c0d1cb194abdb5bfd1745079b, type: 2}
+  - {fileID: 11400000, guid: 035943b7f329b014da7df75d534cdef5, type: 2}
+  - {fileID: 11400000, guid: 9b3b5042befb93e498574dec3e98ddab, type: 2}
+  - {fileID: 11400000, guid: 7824c106884bb1b46a69bfa3fea6e454, type: 2}
+  - {fileID: 11400000, guid: 7824c106884bb1b46a69bfa3fea6e454, type: 2}
   Art:
   - {fileID: -1648195321, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
   - {fileID: -895288540, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
@@ -40,6 +49,7 @@ MonoBehaviour:
   - {fileID: 2143849571, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
   Intro: {fileID: 0}
   Music: {fileID: 8300000, guid: 122224167fc036c43bb559befdaf22ea, type: 3}
+  IsBoss: 0
   ThinkingDialogue:
   - hmm
   - what

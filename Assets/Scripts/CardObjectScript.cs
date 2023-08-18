@@ -6,8 +6,9 @@ using TMPro;
 
 public class CardObjectScript : MonoBehaviour
 {
+    public bool decorative;
     [SerializeField] private float Speed;
-    [SerializeField] private Canvas canvas;
+    [SerializeField] public Canvas canvas;
     [SerializeField] private TextMeshProUGUI Name;
     [SerializeField] private TextMeshProUGUI Description;
     [SerializeField] private Image Primary;
@@ -44,7 +45,7 @@ public class CardObjectScript : MonoBehaviour
         sfxPlayer = GameObject.FindWithTag("AudioPlayer").GetComponent<SFXPlayer>();
         damage = content.damage;
         boardManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<BoardManager>();
-        if (PlayerCard) DrawStats();
+        if (PlayerCard || decorative) DrawStats();
         else
         {
             sr.sprite = ThemesBack[(int)content.element];
@@ -54,39 +55,43 @@ public class CardObjectScript : MonoBehaviour
 
     private void Update()
     {
-        if (!placed)
+        if (!decorative)
         {
-            if (Dragin)
+            if (!placed)
             {
-                if (!boardManager.PlacingTurn) Dragin = false;
-                var MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                transform.position = new Vector3(MousePos.x, MousePos.y, 0);
+                if (Dragin)
+                {
+                    if (!boardManager.PlacingTurn) Dragin = false;
+                    var MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    transform.position = new Vector3(MousePos.x, MousePos.y, 0);
+                }
+                else
+                {
+                    var shift = (TargetPos - transform.position) * Time.deltaTime * Speed;
+                    transform.position += new Vector3(shift.x, shift.y, 0);
+                    canvas.sortingOrder = sr.sortingOrder + 1;                                  //gonna change later, will be like this for now
+                }
+
+                if (sent && Vector2.Distance(transform.position, TargetPos) < 0.01f) Placed();
             }
             else
             {
+                //put all the code for card behavior on board here if needed
                 var shift = (TargetPos - transform.position) * Time.deltaTime * Speed;
                 transform.position += new Vector3(shift.x, shift.y, 0);
-                canvas.sortingOrder = sr.sortingOrder + 1;                                  //gonna change later, will be like this for now
+                if (zoomed && Input.GetMouseButtonDown(0))
+                {
+                    sfxPlayer.play("Deny");
+                    anim.SetTrigger("ZoomOut");
+                    Invoke("changeZoomed", 1f);
+                    TargetPos = BoardPos;
+                    boardManager.Zooming = false;
+                    gameObject.GetComponents<Collider2D>()[1].enabled = false;
+                }
             }
 
-            if (sent && Vector2.Distance(transform.position, TargetPos) < 0.01f) Placed();
-        }
-        else
-        {
-            //put all the code for card behavior on board here if needed
-            var shift = (TargetPos - transform.position) * Time.deltaTime * Speed;
-            transform.position += new Vector3(shift.x, shift.y, 0);
-            if(zoomed && Input.GetMouseButtonDown(0))
-            {
-                sfxPlayer.play("Deny");
-                anim.SetTrigger("ZoomOut");
-                Invoke("changeZoomed", 1f);
-                TargetPos = BoardPos;
-                boardManager.Zooming = false;
-                gameObject.GetComponents<Collider2D>()[1].enabled = false;
-            }
-        }
 
+        }
 
     }
 

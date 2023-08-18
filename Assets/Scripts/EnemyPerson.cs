@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyPerson : ScriptableObject
 {
     public Card[] Deck;
+    public Card[] RewardPool;
     public Sprite[] Art;
     public AudioClip Intro;
     public AudioClip Music;
