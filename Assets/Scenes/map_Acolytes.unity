@@ -1484,6 +1484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b737995973df78847a93ce0015d04981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  huh: {fileID: 11400000, guid: ec7f6443d6f447a42b3ca81d75be58e6, type: 2}
   dataSave: {fileID: 11400000, guid: 69974f44f37094e4dbde1133f87840b7, type: 2}
   POISlots:
   - {fileID: 11400000, guid: 80a1673e2de529f459406c7f57a8fdf2, type: 2}
@@ -1552,6 +1553,7 @@ MonoBehaviour:
   AvailablePersons:
   - {fileID: 11400000, guid: 0f86e7d3cb775df458b92e05ec8c1a29, type: 2}
   - {fileID: 11400000, guid: 657a1cba78f51a94f9764baca6d178af, type: 2}
+  AvailableBosses: []
   map_movement: {fileID: 8300000, guid: 739cb8d973c85a947a1c4233bc06e53a, type: 3}
 --- !u!4 &1797886869
 Transform:
