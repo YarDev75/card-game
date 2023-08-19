@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e6f0e86318af048a3d8e4815f88cc2, type: 3}
+  m_Name: void chalice
+  m_EditorClassIdentifier: 
+  Name: void chalice
+  Pic: {fileID: 832667617, guid: 32cd8959d3e69ae47af7f451b12c0361, type: 3}
+  damage: 2
+  Primary: 0
+  element: 1
+  cost: 2
+  direction: 0
+  effects: 01000000010000000100000002000000
+  deathEffect: 0
+  passives: 
+  description: recovers a lot of Umbra, at the cost of your health
