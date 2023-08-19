@@ -20,7 +20,7 @@ MonoBehaviour:
   RewardPool: []
   Art:
   - {fileID: 21300000, guid: 246994b860242c54598f242ecaed784d, type: 3}
-  Intro: {fileID: 0}
+  Intro: {fileID: 8300000, guid: 74f1e61c4417a4a4f93eebbc5b7acf13, type: 3}
   Music: {fileID: 8300000, guid: 26f292bcaf998884fae96a761aa1177b, type: 3}
   IsBoss: 1
   IsEmpress: 1

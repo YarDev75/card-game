@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c27e8f5e6f527b4fb3da70ce59a4dc0, type: 3}
+  m_Name: Priest of light
+  m_EditorClassIdentifier: 
+  Deck: []
+  RewardPool: []
+  Art: []
+  Intro: {fileID: 8300000, guid: ac1c6cb3b1f8b1748ab472388a9f2b93, type: 3}
+  Music: {fileID: 8300000, guid: 718fc83d69c3db04ca563a3ca75cf78c, type: 3}
+  IsBoss: 0
+  IsEmpress: 0
+  ThinkingDialogue:
+  - Let the light guide me
+  - I will purge this blasphemous entity
+  TakenDamageDialogue: []
+  EndTurnDialogue:
+  - Thou wilst fall
+  - Suffer the consequences of your stupiidty
+  DeckEmptyDialogue:
+  - No, light cannot abandon me
+  OutOfManaDialogue:
+  - My force is vanishing
