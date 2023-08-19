@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e6f0e86318af048a3d8e4815f88cc2, type: 3}
   m_Name: knight
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Knight
   Pic: {fileID: 0}
-  damage: 0
-  Primary: 0
+  damage: 2
+  Primary: 1
   element: 0
-  cost: 0
+  cost: 1
   direction: 0
   effects: 
   deathEffect: 0
   passives: 
-  description: 
+  description: fights for the powers of light
