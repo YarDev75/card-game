@@ -1154,7 +1154,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1512938643}
+        m_TargetAssemblyTypeName: tsManager, Assembly-CSharp
+        m_MethodName: SetMusic
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &890577459
 GameObject:
   m_ObjectHideFlags: 0
@@ -2437,14 +2449,12 @@ MonoBehaviour:
   - take theese...
   - you'll get more if you're good enough...
   - now go...
-  mixer: {fileID: 0}
+  mixer: {fileID: 24100000, guid: c7f85b31f03afca478a6181db14f5141, type: 2}
   Sfx: {fileID: 1803470978}
   Music: {fileID: 772441715}
   transition: {fileID: 1313944328}
   saveState: {fileID: 11400000, guid: ec7f6443d6f447a42b3ca81d75be58e6, type: 2}
   mapGenerator: {fileID: 11400000, guid: 69974f44f37094e4dbde1133f87840b7, type: 2}
-  character: {fileID: 1785332832}
-  charSwapButton: {fileID: 0}
   continueButton: {fileID: 1021766256}
   initDeck:
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
@@ -3139,7 +3149,19 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1512938643}
+        m_TargetAssemblyTypeName: tsManager, Assembly-CSharp
+        m_MethodName: SetSfx
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1808136327
 GameObject:
   m_ObjectHideFlags: 0
