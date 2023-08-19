@@ -8,8 +8,10 @@ using Unity.VisualScripting;
 
 public class BoardManager : MonoBehaviour
 {
+    [SerializeField] Animator EndThing;
+    [SerializeField] Animator Transition;
+    [SerializeField] private int GameOversceneInd;
     [SerializeField] private GameObject VictoryPopUp;
-    [SerializeField] private GameObject DefeatPopUp;
     [SerializeField] private SFXPlayer sfxer;
     [SerializeField] private RunSaveState RunSS;
     public CardObjectScript[] TheBoard;                                          //0-7 - enemy 8-15 - player
@@ -26,6 +28,7 @@ public class BoardManager : MonoBehaviour
     public bool Zooming;
 
     //player stuff
+    [SerializeField] private Animator RecoveryAnim;
     [SerializeField] private Transform[] PlayerSlots;                //positions for cards on Player side
     [SerializeField] private float SnapDistance;                     //for Drag&Drop mechanic
     [SerializeField] private float MaxLux;                           //Lux & Umbra -- resources for placing cards
@@ -35,18 +38,19 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Slider UmbraMeter;
     [SerializeField] private TextMeshProUGUI UmbraText;
     [SerializeField] private int PlayerMaxHealth = 10;
-    [SerializeField] private int EnemyMaxHealth = 10;
+    [SerializeField] public int EnemyMaxHealth = 10;
     [SerializeField] private TextMeshProUGUI PlayerHealthText;
     [SerializeField] private Slider PlayerHealthBar;
     [SerializeField] private TextMeshProUGUI EnemyHealthText;
     [SerializeField] private Slider EnemyHealthBar;
     int PlayerHealth;                                                //I think we should just store them in a seperate variable instead of Parsing text every time
-    int EnemyHealth;                                                   // Yeah, I was gonna change that, it was just for debugging
+    public int EnemyHealth;                                                   // Yeah, I was gonna change that, it was just for debugging
     float Lux;
     float Umbra;
     bool PlayerReady;
     bool EnemyReady;
     bool won;
+    bool Recovery;
 
     private void Awake()
     {
@@ -68,6 +72,11 @@ public class BoardManager : MonoBehaviour
         UpdateUIStats();
         turnAnouncerText.text = "fight!";
         turnAnouncerAnim.SetTrigger("go");
+        if (AI.personality.IsBoss && RunSS.HaveRecover)
+        {
+            RunSS.HaveRecover = false;
+            RecoveryAnim.SetTrigger("Disciple");
+        }
     }
 
     private void Update()
@@ -77,6 +86,30 @@ public class BoardManager : MonoBehaviour
             NextTurn();
             PlayerReady = false;
             EnemyReady = false;
+        }
+        if (Recovery)
+        {
+            if(EnemyHealthBar.value <= 0 && PlayerHealth >= PlayerMaxHealth)
+            {
+                Recovery = false;
+                RecoveryAnim.SetBool("going", false);
+                Transition.SetTrigger("go");
+                Invoke("BackToMap", 1.5f);
+            }
+            if (EnemyHealthBar.value > 0)
+            {
+                EnemyHealthBar.value -= Time.deltaTime * 2;
+                EnemyHealth = Mathf.CeilToInt(EnemyHealthBar.value);
+            }
+            if (PlayerHealth < PlayerMaxHealth)
+            {
+                PlayerHealthBar.value += Time.deltaTime * 2;
+                PlayerHealth = Mathf.FloorToInt(PlayerHealthBar.value);
+            }
+            PlayerHealth = Mathf.Clamp(PlayerHealth, 0, PlayerMaxHealth);
+            EnemyHealth = Mathf.Clamp(EnemyHealth, 0, EnemyMaxHealth);
+            PlayerHealthText.text = PlayerHealth.ToString();
+            EnemyHealthText.text = EnemyHealth.ToString();
         }
     }
 
@@ -142,18 +175,62 @@ public class BoardManager : MonoBehaviour
         turnAnouncerAnim.SetTrigger("go");
     }
 
+    void EndScreen()
+    {
+        SceneManager.LoadScene(GameOversceneInd + 1);
+    }
+
     void BattleOver()
     {
         Zooming = true;
         AI.ThemePlayer.mute = true;
-        if (won) VictoryPopUp.SetActive(true);
-        else DefeatPopUp.SetActive(true);
+        if (won)
+        {
+            if (EnenemyAI.person.IsEmpress)
+            {
+                EndThing.SetTrigger("go");
+                Invoke("EndScreen", 4f);
+            }
+            else
+            {
+                VictoryPopUp.SetActive(true);
+                if (EnenemyAI.person.IsBoss)
+                {
+                    DungeonSave.roomNo += 1;
+                    DungeonSave.firstTime = true;
+                    RunSS.roomNo = DungeonSave.roomNo;
+                }
+            }
+        }
+        else
+        {
+            if (RunSS.HaveRecover && !EnenemyAI.person.IsBoss)
+            {
+                Invoke("StartRecovery", 2f);
+                RecoveryAnim.SetBool("going", true);
+                RunSS.HaveRecover = false;
+            }
+            else
+            {
+                DungeonSave.roomNo = -1;
+                Transition.SetTrigger("go");
+                Invoke("GameOverScreen", 1.5f);
+            }
+        }
+    }
+    void GameOverScreen()
+    {
+        SceneManager.LoadScene(GameOversceneInd);
+    }
+
+    void StartRecovery()
+    {
+        Recovery = true;
     }
 
     public void BackToMap()
     {
-        if (EnenemyAI.person.IsBoss) DungeonSave.firstTime = true;
-        SceneManager.LoadScene(0);  //goes back to map
+        SceneManager.LoadScene(3 + DungeonSave.roomNo);  //goes back to map
     }
 
     //for player

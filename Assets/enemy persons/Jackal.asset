@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c27e8f5e6f527b4fb3da70ce59a4dc0, type: 3}
-  m_Name: person 2
+  m_Name: Jackal
   m_EditorClassIdentifier: 
   Deck:
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
@@ -45,23 +45,16 @@ MonoBehaviour:
   - {fileID: -1219701404, guid: b0702c4adcfa1194fad70cf4e0883fac, type: 3}
   - {fileID: 1847907714, guid: b0702c4adcfa1194fad70cf4e0883fac, type: 3}
   - {fileID: -1972803131, guid: b0702c4adcfa1194fad70cf4e0883fac, type: 3}
-  Intro: {fileID: 8300000, guid: 7d892a9f5382e894fad6e63a1ef7611e, type: 3}
-  Music: {fileID: 8300000, guid: 52bff6a14bb38864890465a2388f360f, type: 3}
+  Intro: {fileID: 8300000, guid: ac1c6cb3b1f8b1748ab472388a9f2b93, type: 3}
+  Music: {fileID: 8300000, guid: 718fc83d69c3db04ca563a3ca75cf78c, type: 3}
   IsBoss: 0
   ThinkingDialogue:
-  - '* spinning noises *'
-  - hrvshbzzzzzz
-  - no..?
-  TakenDamageDialogue: []
+  - Excelent.
+  TakenDamageDialogue:
+  - Hm. Unexpected.
   EndTurnDialogue:
-  - hahahahaa
-  - '*spinning intensifies*'
-  - sphaget
+  - How wilst thou respond to this?
   DeckEmptyDialogue:
-  - ...no
-  - where
-  - :(
+  - And now, we wait.
   OutOfManaDialogue:
-  - up!!!
-  - circles..
-  - '*spins angrily*'
+  - All as planned.

@@ -11,6 +11,7 @@ public class EnemyPerson : ScriptableObject
     public AudioClip Intro;
     public AudioClip Music;
     public bool IsBoss;
+    public bool IsEmpress;
     public string[] ThinkingDialogue;
     public string[] TakenDamageDialogue;
     public string[] EndTurnDialogue;
