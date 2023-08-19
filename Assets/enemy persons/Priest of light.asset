@@ -12,8 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c27e8f5e6f527b4fb3da70ce59a4dc0, type: 3}
   m_Name: Priest of light
   m_EditorClassIdentifier: 
-  Deck: []
-  RewardPool: []
+  Deck:
+  - {fileID: 11400000, guid: 6098681834143f54d9a36932beb7d138, type: 2}
+  - {fileID: 11400000, guid: 6098681834143f54d9a36932beb7d138, type: 2}
+  - {fileID: 11400000, guid: 6098681834143f54d9a36932beb7d138, type: 2}
+  - {fileID: 11400000, guid: 6098681834143f54d9a36932beb7d138, type: 2}
+  - {fileID: 11400000, guid: 7afb96f9be7b3cf4e8be285dba30a455, type: 2}
+  - {fileID: 11400000, guid: 7afb96f9be7b3cf4e8be285dba30a455, type: 2}
+  RewardPool:
+  - {fileID: 11400000, guid: 6098681834143f54d9a36932beb7d138, type: 2}
+  - {fileID: 11400000, guid: 235ecf66d9bfc414a8698d36f9255dd7, type: 2}
+  - {fileID: 11400000, guid: 9a81e589cbb5f044393fd10e5fc7f0a2, type: 2}
+  - {fileID: 11400000, guid: 15b417515defde249bd2a17e65746d5d, type: 2}
   Art:
   - {fileID: -1648195321, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
   - {fileID: -895288540, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}

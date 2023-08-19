@@ -15,7 +15,7 @@ MonoBehaviour:
   pois:
   - {fileID: 11400000, guid: 8d2539a41b747af4e8dc2a668e25438c, type: 2}
   PlayerPos: {x: -1, y: -1, z: 0}
-  roomNo: 0
+  roomNo: -1
   doorKeys: 
   currentFoe: 0
   firstTime: 0

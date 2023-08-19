@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c27e8f5e6f527b4fb3da70ce59a4dc0, type: 3}
+  m_Name: robot
+  m_EditorClassIdentifier: 
+  Deck:
+  - {fileID: 11400000, guid: 69d766651dac05b4dac24905229b14e1, type: 2}
+  - {fileID: 11400000, guid: 69d766651dac05b4dac24905229b14e1, type: 2}
+  - {fileID: 11400000, guid: 044e4a03ab6b65b46beaeef46e196e4e, type: 2}
+  - {fileID: 11400000, guid: 044e4a03ab6b65b46beaeef46e196e4e, type: 2}
+  - {fileID: 11400000, guid: cbf54c243dd2dc44bbd16bfe48dc1377, type: 2}
+  - {fileID: 11400000, guid: cbf54c243dd2dc44bbd16bfe48dc1377, type: 2}
+  - {fileID: 11400000, guid: 7afb96f9be7b3cf4e8be285dba30a455, type: 2}
+  - {fileID: 11400000, guid: 55309f840b44cdb44bd2475af2d0bd0c, type: 2}
+  RewardPool:
+  - {fileID: 11400000, guid: 55309f840b44cdb44bd2475af2d0bd0c, type: 2}
+  - {fileID: 11400000, guid: 55309f840b44cdb44bd2475af2d0bd0c, type: 2}
+  - {fileID: 11400000, guid: 235ecf66d9bfc414a8698d36f9255dd7, type: 2}
+  - {fileID: 11400000, guid: 235ecf66d9bfc414a8698d36f9255dd7, type: 2}
+  Art:
+  - {fileID: -1198709208, guid: 24e535addf689b446b97799874009a70, type: 3}
+  - {fileID: 567510402, guid: 24e535addf689b446b97799874009a70, type: 3}
+  - {fileID: -956141254, guid: 24e535addf689b446b97799874009a70, type: 3}
+  - {fileID: -1928330924, guid: 24e535addf689b446b97799874009a70, type: 3}
+  - {fileID: 1283710065, guid: 24e535addf689b446b97799874009a70, type: 3}
+  - {fileID: 1025333313, guid: 24e535addf689b446b97799874009a70, type: 3}
+  Intro: {fileID: 8300000, guid: ac1c6cb3b1f8b1748ab472388a9f2b93, type: 3}
+  Music: {fileID: 8300000, guid: 718fc83d69c3db04ca563a3ca75cf78c, type: 3}
+  IsBoss: 0
+  IsEmpress: 0
+  ThinkingDialogue:
+  - calculating...
+  TakenDamageDialogue:
+  - <error>
+  EndTurnDialogue:
+  - calculation finished
+  DeckEmptyDialogue:
+  - insufficient resources
+  OutOfManaDialogue:
+  - insufficient resources

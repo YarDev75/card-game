@@ -3434,12 +3434,12 @@ MonoBehaviour:
   PlayerGridPos: {x: -5, y: -5, z: 0}
   POIObjectPrefab: {fileID: 3087512956400409095, guid: c6e03e46911e7b245bc44333ad0ccea2, type: 3}
   AvailablePersons:
-  - {fileID: 11400000, guid: 0f86e7d3cb775df458b92e05ec8c1a29, type: 2}
+  - {fileID: 11400000, guid: 7d58f5335fca20a419a8e9a51c27484e, type: 2}
   - {fileID: 11400000, guid: 657a1cba78f51a94f9764baca6d178af, type: 2}
   - {fileID: 11400000, guid: 59e75253518145a428bd88c261beba48, type: 2}
   - {fileID: 11400000, guid: d4a3e9149996b38489fba4e34cbc3e5f, type: 2}
   AvailableBosses:
-  - {fileID: 11400000, guid: 9232804b1aec9f44db0f0469a196c93c, type: 2}
+  - {fileID: 11400000, guid: 0f86e7d3cb775df458b92e05ec8c1a29, type: 2}
   map_movement: {fileID: 8300000, guid: 739cb8d973c85a947a1c4233bc06e53a, type: 3}
 --- !u!4 &1797886869
 Transform:

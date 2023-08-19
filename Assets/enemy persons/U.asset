@@ -22,12 +22,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d75d185bb9c56d04c9bef6a68233c544, type: 2}
   - {fileID: 11400000, guid: 6a7bad5804c4293419e35a0f34c517f6, type: 2}
   RewardPool:
-  - {fileID: 11400000, guid: 24b95443a568fe94abe634387fcbe0ee, type: 2}
-  - {fileID: 11400000, guid: 24b95443a568fe94abe634387fcbe0ee, type: 2}
-  - {fileID: 11400000, guid: 24b95443a568fe94abe634387fcbe0ee, type: 2}
-  - {fileID: 11400000, guid: 24b95443a568fe94abe634387fcbe0ee, type: 2}
-  - {fileID: 11400000, guid: 24b95443a568fe94abe634387fcbe0ee, type: 2}
-  - {fileID: 11400000, guid: aec6eab7d31a233478d1b256e27b5256, type: 2}
+  - {fileID: 11400000, guid: 5022c7a1b50d0cc40a6029bf27c2cebf, type: 2}
+  - {fileID: 11400000, guid: 5022c7a1b50d0cc40a6029bf27c2cebf, type: 2}
+  - {fileID: 11400000, guid: 9bced6d347ac7a4499766295afcc8cfe, type: 2}
+  - {fileID: 11400000, guid: 9bced6d347ac7a4499766295afcc8cfe, type: 2}
+  - {fileID: 11400000, guid: e1d0bac61f07c384c89406eca5524905, type: 2}
+  - {fileID: 11400000, guid: 69d766651dac05b4dac24905229b14e1, type: 2}
+  - {fileID: 11400000, guid: d75d185bb9c56d04c9bef6a68233c544, type: 2}
   Art:
   - {fileID: 1660260550, guid: 90949ed322b54734c9ccf08556eb0efc, type: 3}
   - {fileID: 1237574304, guid: 90949ed322b54734c9ccf08556eb0efc, type: 3}

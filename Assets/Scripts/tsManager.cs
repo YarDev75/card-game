@@ -42,15 +42,15 @@ public class tsManager : MonoBehaviour
     }
     public void SetSfx(float value)
     {
-        var newValue = Mathf.Log10(value) * 20;
+        var newValue = value;
         mixer.SetFloat("sfx", newValue);
         Sfx.value = newValue;
     }
     public void SetMusic(float value)
     {
-        var newValue = Mathf.Log10(value) * 20;
+        var newValue = value;
         mixer.SetFloat("music", newValue);
-        Sfx.value = newValue;
+        Music.value = newValue;
     }
 
     private void Update()
@@ -93,6 +93,7 @@ public class tsManager : MonoBehaviour
     public void NewGame()
     {
         //saveState.character = character.GetComponent<SpriteRenderer>().sprite;
+        saveState.Collection = new Card[30];
         saveState.Deck = new Card[8];
         for (int i = 0; i < initDeck.Length; i++)
         {
