@@ -418,7 +418,7 @@ public class DungeonManager : MonoBehaviour
         EnenemyAI.person = Target.contents.Encounter;
         Save();
         //dataSave.currentFoe = 0; //We'll need to identify POI index (no, it's not used anywhere anymore)
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(3);
     }
 
     void EnableHints()

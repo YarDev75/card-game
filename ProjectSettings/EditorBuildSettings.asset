@@ -12,9 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/map_Disciples.unity
     guid: 39c2c529ad7b08f4b8dda72337f63483
   - enabled: 1
+    path: Assets/Scenes/map_Acolytes.unity
+    guid: 57c3f9be5f65bc84e8e128f6ac5779d1
+  - enabled: 1
     path: Assets/Scenes/battle.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/DeckScreen.unity
     guid: 922d9a9859ca8a340aeca05cd824f4de
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: b8928289f741e5c49aaefd8577ad2c59
   m_configObjects: {}
