@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c27e8f5e6f527b4fb3da70ce59a4dc0, type: 3}
-  m_Name: test
+  m_Name: Icardsohedron
   m_EditorClassIdentifier: 
   Deck:
   - {fileID: 11400000, guid: 303b2f4b6bdd20c47a205a939c1e8f1a, type: 2}
@@ -51,19 +51,12 @@ MonoBehaviour:
   Music: {fileID: 8300000, guid: 122224167fc036c43bb559befdaf22ea, type: 3}
   IsBoss: 0
   ThinkingDialogue:
-  - hmm
-  - what
-  - this one's easy
-  TakenDamageDialogue: []
+  - Hmm...
+  TakenDamageDialogue:
+  - Oww!
   EndTurnDialogue:
-  - take that
-  - ehehe
-  - witness the greatness of my stratigical mind
+  - Hope this works!
   DeckEmptyDialogue:
-  - should've taken more cards with me
-  - empty
-  - theese, in my hand? it's just decoration you stupid
+  - Drat!
   OutOfManaDialogue:
-  - why are they so expensive
-  - should've spent less
-  - can someone refill those circles?
+  - Oooo, whoops...

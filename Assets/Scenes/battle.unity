@@ -1723,6 +1723,7 @@ MonoBehaviour:
   boardManager: {fileID: 582880484}
   ThinkingBubble: {fileID: 971701386}
   Looks: {fileID: 1348340231}
+  Difficulty: 3
   Animation: []
   frametime: 0.1
   MaxLux: 10
@@ -3200,6 +3201,7 @@ MonoBehaviour:
   PlayerHealthBar: {fileID: 590751441}
   EnemyHealthText: {fileID: 1418312372}
   EnemyHealthBar: {fileID: 1499770656}
+  EnemyHealth: 0
 --- !u!4 &582880485
 Transform:
   m_ObjectHideFlags: 0

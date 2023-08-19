@@ -36,13 +36,13 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Slider UmbraMeter;
     [SerializeField] private TextMeshProUGUI UmbraText;
     [SerializeField] private int PlayerMaxHealth = 10;
-    [SerializeField] private int EnemyMaxHealth = 10;
+    [SerializeField] public int EnemyMaxHealth = 10;
     [SerializeField] private TextMeshProUGUI PlayerHealthText;
     [SerializeField] private Slider PlayerHealthBar;
     [SerializeField] private TextMeshProUGUI EnemyHealthText;
     [SerializeField] private Slider EnemyHealthBar;
     int PlayerHealth;                                                //I think we should just store them in a seperate variable instead of Parsing text every time
-    int EnemyHealth;                                                   // Yeah, I was gonna change that, it was just for debugging
+    public int EnemyHealth;                                                   // Yeah, I was gonna change that, it was just for debugging
     float Lux;
     float Umbra;
     bool PlayerReady;
