@@ -5,9 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class tsManager : MonoBehaviour
 {
+    [SerializeField] private Animator[] anims;     //hand mouth cards buttons
+    [SerializeField] private TextMeshProUGUI KingDialogue;
+    [SerializeField] private string[] KingTalk;
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private Slider Sfx;
     [SerializeField] private Slider Music;
@@ -17,10 +21,12 @@ public class tsManager : MonoBehaviour
     [SerializeField] private GameObject character;
     [SerializeField] private GameObject charSwapButton;
     [SerializeField] private GameObject continueButton;
-    [SerializeField] private initialDeck initDeck;
+    [SerializeField] private Card[] initDeck;
 
     public Sprite[] ListOfCharacters;
     private int currentChar;
+    int ind = -2;
+    float timer;
 
     void Start()
     {
@@ -75,9 +81,13 @@ public class tsManager : MonoBehaviour
 
     public void NewGame()
     {
-        saveState.character = character.GetComponent<SpriteRenderer>().sprite;
-        saveState.Collection = deleteRepeated(initDeck.cards);
-        saveState.Deck = initDeck.cards;
+        //saveState.character = character.GetComponent<SpriteRenderer>().sprite;
+        saveState.Collection = new Card[30];
+        saveState.Deck = new Card[8];
+        for (int i = 0; i < initDeck.Length; i++)
+        {
+            saveState.Deck[i] = initDeck[i];
+        }
         saveState.roomNo = 0;
         mapGenerator.firstTime = true;
         SceneManager.LoadScene("Intro");
@@ -89,11 +99,11 @@ public class tsManager : MonoBehaviour
     //    character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
     //}
 
-    private Card[] deleteRepeated(Card[] cards)
-    {
-        HashSet<Card> result2 = new HashSet<Card>(cards);
-        Card[] result = new Card[result2.Count];
-        result2.CopyTo(result);
-        return result;
-    }
+    //private Card[] deleteRepeated(Card[] cards)
+    //{
+    //    HashSet<Card> result2 = new HashSet<Card>(cards);
+    //    Card[] result = new Card[result2.Count];
+    //    result2.CopyTo(result);
+    //    return result;
+    //}
 }
