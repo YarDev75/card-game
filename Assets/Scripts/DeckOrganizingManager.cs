@@ -74,7 +74,7 @@ public class DeckOrganizingManager : MonoBehaviour
 
     public void Back()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(3);
     }
 
 

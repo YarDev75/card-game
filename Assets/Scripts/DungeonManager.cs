@@ -445,7 +445,7 @@ public class DungeonManager : MonoBehaviour
             switch (direction)
             {
                 case (int)Directions.up:
-                    if (dir.y == 1 && Mathf.Abs(dir.y) < 2) matches = true;
+                    if (dir.y == 1 && Mathf.Abs(dir.x) < 2) matches = true;
                     break;
                 case (int)Directions.right:
                     if (dir.x == 1 && Mathf.Abs(dir.y) < 2) matches = true;
@@ -454,7 +454,7 @@ public class DungeonManager : MonoBehaviour
                     if (dir.y == -1 && Mathf.Abs(dir.x) < 2) matches = true;
                     break;
                 case (int)Directions.left:
-                    if (dir.x == -1 && Mathf.Abs(dir.x) < 2) matches = true;
+                    if (dir.x == -1 && Mathf.Abs(dir.y) < 2) matches = true;
                     break;
             }
             if (matches)

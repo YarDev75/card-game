@@ -63,6 +63,6 @@ public class VictoryPopUpScript : MonoBehaviour
 
     public void QuitToMap()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(3);
     }
 }

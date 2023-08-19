@@ -28,7 +28,7 @@ public class tsManager : MonoBehaviour
 
     public void Continue()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(3);
     }
 
     public void NewGame()
@@ -38,7 +38,7 @@ public class tsManager : MonoBehaviour
         saveState.Deck = null;
         saveState.roomNo = 0;
         mapGenerator.firstTime = true;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(3);
     }
 
     public void CharSwap()

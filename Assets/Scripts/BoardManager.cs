@@ -8,8 +8,8 @@ using Unity.VisualScripting;
 
 public class BoardManager : MonoBehaviour
 {
+    [SerializeField] private int GameOversceneInd;
     [SerializeField] private GameObject VictoryPopUp;
-    [SerializeField] private GameObject DefeatPopUp;
     [SerializeField] private SFXPlayer sfxer;
     [SerializeField] private RunSaveState RunSS;
     public CardObjectScript[] TheBoard;                                          //0-7 - enemy 8-15 - player
@@ -26,6 +26,7 @@ public class BoardManager : MonoBehaviour
     public bool Zooming;
 
     //player stuff
+    [SerializeField] private Animator RecoveryAnim;
     [SerializeField] private Transform[] PlayerSlots;                //positions for cards on Player side
     [SerializeField] private float SnapDistance;                     //for Drag&Drop mechanic
     [SerializeField] private float MaxLux;                           //Lux & Umbra -- resources for placing cards
@@ -47,6 +48,7 @@ public class BoardManager : MonoBehaviour
     bool PlayerReady;
     bool EnemyReady;
     bool won;
+    bool Recovery;
 
     private void Awake()
     {
@@ -68,6 +70,11 @@ public class BoardManager : MonoBehaviour
         UpdateUIStats();
         turnAnouncerText.text = "fight!";
         turnAnouncerAnim.SetTrigger("go");
+        if (AI.personality.IsBoss && RunSS.HaveRecover)
+        {
+            RunSS.HaveRecover = false;
+            RecoveryAnim.SetTrigger("Disciple");
+        }
     }
 
     private void Update()
@@ -77,6 +84,29 @@ public class BoardManager : MonoBehaviour
             NextTurn();
             PlayerReady = false;
             EnemyReady = false;
+        }
+        if (Recovery)
+        {
+            if(EnemyHealthBar.value <= 0 && PlayerHealth >= PlayerMaxHealth)
+            {
+                Recovery = false;
+                RecoveryAnim.SetBool("going", false);
+                Invoke("BackToMap", 1.5f);
+            }
+            if (EnemyHealthBar.value > 0)
+            {
+                EnemyHealthBar.value -= Time.deltaTime * 2;
+                EnemyHealth = Mathf.CeilToInt(EnemyHealthBar.value);
+            }
+            if (PlayerHealth < PlayerMaxHealth)
+            {
+                PlayerHealthBar.value += Time.deltaTime * 2;
+                PlayerHealth = Mathf.FloorToInt(PlayerHealthBar.value);
+            }
+            PlayerHealth = Mathf.Clamp(PlayerHealth, 0, PlayerMaxHealth);
+            EnemyHealth = Mathf.Clamp(EnemyHealth, 0, EnemyMaxHealth);
+            PlayerHealthText.text = PlayerHealth.ToString();
+            EnemyHealthText.text = EnemyHealth.ToString();
         }
     }
 
@@ -147,13 +177,34 @@ public class BoardManager : MonoBehaviour
         Zooming = true;
         AI.ThemePlayer.mute = true;
         if (won) VictoryPopUp.SetActive(true);
-        else DefeatPopUp.SetActive(true);
+        else
+        {
+            if (RunSS.HaveRecover && !EnenemyAI.person.IsBoss)
+            {
+                Invoke("StartRecovery", 2f);
+                RecoveryAnim.SetBool("going", true);
+                RunSS.HaveRecover = false;
+            }
+            else
+            {
+                SceneManager.LoadScene(GameOversceneInd);
+            }
+        }
+    }
+
+    void StartRecovery()
+    {
+        Recovery = true;
     }
 
     public void BackToMap()
     {
-        if (EnenemyAI.person.IsBoss) DungeonSave.firstTime = true;
-        SceneManager.LoadScene(0);  //goes back to map
+        if (EnenemyAI.person.IsBoss)
+        {
+            RunSS.HaveRecover = true;
+            DungeonSave.firstTime = true;
+        }
+        SceneManager.LoadScene(3);  //goes back to map
     }
 
     //for player
