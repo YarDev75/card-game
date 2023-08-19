@@ -43,6 +43,12 @@ public class tsManager : MonoBehaviour
         mixer.SetFloat("sfx", newValue);
         Sfx.value = newValue;
     }
+    public void SetMusic(float value)
+    {
+        var newValue = Mathf.Log10(value) * 20;
+        mixer.SetFloat("music", newValue);
+        Sfx.value = newValue;
+    }
 
     private void Update()
     {
