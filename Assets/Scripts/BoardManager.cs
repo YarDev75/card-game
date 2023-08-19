@@ -31,10 +31,10 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Animator RecoveryAnim;
     [SerializeField] private Transform[] PlayerSlots;                //positions for cards on Player side
     [SerializeField] private float SnapDistance;                     //for Drag&Drop mechanic
-    [SerializeField] private float MaxLux;                           //Lux & Umbra -- resources for placing cards
+    [SerializeField] private float MaxLux = 8;                           //Lux & Umbra -- resources for placing cards
     [SerializeField] private Slider LuxMeter;
     [SerializeField] private TextMeshProUGUI LuxText;
-    [SerializeField] private float MaxUmbra;
+    [SerializeField] private float MaxUmbra = 8;
     [SerializeField] private Slider UmbraMeter;
     [SerializeField] private TextMeshProUGUI UmbraText;
     [SerializeField] private int PlayerMaxHealth = 10;
