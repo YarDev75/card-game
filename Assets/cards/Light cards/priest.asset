@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37e6f0e86318af048a3d8e4815f88cc2, type: 3}
-  m_Name: lux fountain
+  m_Name: priest
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Battle Priest
   Pic: {fileID: 0}
-  damage: 0
-  Primary: 0
+  damage: 3
+  Primary: 1
   element: 0
-  cost: 0
-  direction: 0
-  effects: 
-  deathEffect: 0
+  cost: 3
+  direction: 2
+  effects: 03000000
+  deathEffect: 2
   passives: 
-  description: 
+  description: High-ranking member of the church of Lux, this individual has studied
+    the Holy Scriptures and they have miracoulous touch

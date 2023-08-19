@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37e6f0e86318af048a3d8e4815f88cc2, type: 3}
-  m_Name: priest
+  m_Name: booster
   m_EditorClassIdentifier: 
-  Name: Priest
+  Name: cheerer
   Pic: {fileID: 0}
-  damage: 3
-  Primary: 1
+  damage: 1
+  Primary: 0
   element: 0
-  cost: 0
-  direction: 2
-  effects: 03000000
-  deathEffect: 2
+  cost: 1
+  direction: 0
+  effects: 04000000
+  deathEffect: 0
   passives: 
-  description: High-ranking member of the church of Lux, this individual has studied
-    the Holy Scriptures and they have miracoulous touch
+  description: adds 1 damage to the card in front of it

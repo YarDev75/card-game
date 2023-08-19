@@ -13,13 +13,21 @@ MonoBehaviour:
   m_Name: Empress
   m_EditorClassIdentifier: 
   Deck:
-  - {fileID: 11400000, guid: 9b3b5042befb93e498574dec3e98ddab, type: 2}
-  - {fileID: 11400000, guid: 9b3b5042befb93e498574dec3e98ddab, type: 2}
-  - {fileID: 11400000, guid: 9b3b5042befb93e498574dec3e98ddab, type: 2}
-  - {fileID: 11400000, guid: 9b3b5042befb93e498574dec3e98ddab, type: 2}
+  - {fileID: 11400000, guid: 6a7bad5804c4293419e35a0f34c517f6, type: 2}
+  - {fileID: 11400000, guid: 6a7bad5804c4293419e35a0f34c517f6, type: 2}
+  - {fileID: 11400000, guid: 6a7bad5804c4293419e35a0f34c517f6, type: 2}
+  - {fileID: 11400000, guid: 6a7bad5804c4293419e35a0f34c517f6, type: 2}
+  - {fileID: 11400000, guid: 6a7bad5804c4293419e35a0f34c517f6, type: 2}
+  - {fileID: 11400000, guid: 6a7bad5804c4293419e35a0f34c517f6, type: 2}
+  - {fileID: 11400000, guid: cb7061beda9e0d642b0ff50e8cc0d839, type: 2}
+  - {fileID: 11400000, guid: cb7061beda9e0d642b0ff50e8cc0d839, type: 2}
+  - {fileID: 11400000, guid: cb7061beda9e0d642b0ff50e8cc0d839, type: 2}
+  - {fileID: 11400000, guid: cb7061beda9e0d642b0ff50e8cc0d839, type: 2}
+  - {fileID: 11400000, guid: cb7061beda9e0d642b0ff50e8cc0d839, type: 2}
+  - {fileID: 11400000, guid: cb7061beda9e0d642b0ff50e8cc0d839, type: 2}
   RewardPool: []
   Art:
-  - {fileID: 21300000, guid: 246994b860242c54598f242ecaed784d, type: 3}
+  - {fileID: 21300000, guid: 47f9716aad66c7340934e836d215b051, type: 3}
   Intro: {fileID: 0}
   Music: {fileID: 8300000, guid: 26f292bcaf998884fae96a761aa1177b, type: 3}
   IsBoss: 1

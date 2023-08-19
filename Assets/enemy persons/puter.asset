@@ -13,10 +13,14 @@ MonoBehaviour:
   m_Name: puter
   m_EditorClassIdentifier: 
   Deck:
-  - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
-  - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
-  - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
-  - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
+  - {fileID: 11400000, guid: 6098681834143f54d9a36932beb7d138, type: 2}
+  - {fileID: 11400000, guid: 6098681834143f54d9a36932beb7d138, type: 2}
+  - {fileID: 11400000, guid: 6098681834143f54d9a36932beb7d138, type: 2}
+  - {fileID: 11400000, guid: 6098681834143f54d9a36932beb7d138, type: 2}
+  - {fileID: 11400000, guid: 7afb96f9be7b3cf4e8be285dba30a455, type: 2}
+  - {fileID: 11400000, guid: 7afb96f9be7b3cf4e8be285dba30a455, type: 2}
+  - {fileID: 11400000, guid: 7afb96f9be7b3cf4e8be285dba30a455, type: 2}
+  - {fileID: 11400000, guid: 7afb96f9be7b3cf4e8be285dba30a455, type: 2}
   RewardPool:
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
@@ -32,6 +36,7 @@ MonoBehaviour:
   Intro: {fileID: 8300000, guid: 7d892a9f5382e894fad6e63a1ef7611e, type: 3}
   Music: {fileID: 8300000, guid: 52bff6a14bb38864890465a2388f360f, type: 3}
   IsBoss: 0
+  IsEmpress: 0
   ThinkingDialogue:
   - ...
   TakenDamageDialogue:
