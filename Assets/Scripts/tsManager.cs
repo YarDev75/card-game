@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class tsManager : MonoBehaviour
 {
@@ -14,27 +14,23 @@ public class tsManager : MonoBehaviour
     [SerializeField] private Animator transition;
     [SerializeField] private RunSaveState saveState;
     [SerializeField] private RoomSaveState mapGenerator;
-    [SerializeField] private TextMeshProUGUI KingDialogue;
     [SerializeField] private GameObject character;
+    [SerializeField] private GameObject charSwapButton;
     [SerializeField] private GameObject continueButton;
-    [SerializeField] private Animator[] anims;          //hand, mouth, cards, buttons
-    [SerializeField] private string[] KingTalk;
-    [SerializeField] private Card[] StartingDeck;
+    [SerializeField] private initialDeck initDeck;
 
     public Sprite[] ListOfCharacters;
     private int currentChar;
-    float timer;
-    int ind = -2;
 
     void Start()
     {
-        if(saveState.roomNo < 0) continueButton.SetActive(false);
+        if (saveState.roomNo < 0) continueButton.SetActive(false);
         else continueButton.SetActive(true);
 
-        //currentChar = 0;
-        //character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
-    }
+        //if (saveState.firstRun) charSwapButton.SetActive(false);
+        //else charSwapButton.SetActive(true);
 
+    }
     public void SetSfx(float value)
     {
         var newValue = Mathf.Log10(value) * 20;
@@ -68,27 +64,23 @@ public class tsManager : MonoBehaviour
             }
             timer -= Time.deltaTime;
         }
+        currentChar = 0;
+        character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
     }
 
     public void Continue()
     {
-        transition.SetTrigger("go");
-        Invoke("Play", 1.5f);
+        SceneManager.LoadScene(1);
     }
 
     public void NewGame()
     {
-        ind = -1;
-        //saveState.character = character.GetComponent<SpriteRenderer>().sprite;
-        saveState.Collection = new Card[30];
-        saveState.Deck = new Card[8];
-        for (int i = 0; i < StartingDeck.Length; i++)
-        {
-            saveState.Deck[i] = StartingDeck[i];
-        }
+        saveState.character = character.GetComponent<SpriteRenderer>().sprite;
+        saveState.Collection = deleteRepeated(initDeck.cards);
+        saveState.Deck = initDeck.cards;
         saveState.roomNo = 0;
         mapGenerator.firstTime = true;
-        anims[3].SetTrigger("Hide");
+        SceneManager.LoadScene("Intro");
     }
 
     //public void CharSwap()
@@ -97,8 +89,11 @@ public class tsManager : MonoBehaviour
     //    character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
     //}
 
-    void Play()
+    private Card[] deleteRepeated(Card[] cards)
     {
-        SceneManager.LoadScene(3);
+        HashSet<Card> result2 = new HashSet<Card>(cards);
+        Card[] result = new Card[result2.Count];
+        result2.CopyTo(result);
+        return result;
     }
 }

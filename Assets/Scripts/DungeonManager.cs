@@ -6,13 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour
 {
-    [SerializeField] AudioSource ChestChime;
-    [SerializeField] GameObject Popup;
-    [SerializeField] Animator Transition;
-    [SerializeField] bool Final;
     [SerializeField] RunSaveState huh;
     [SerializeField] RoomSaveState dataSave;
-    [SerializeField] int floor;
     [SerializeField] private POI[] POISlots;
     [SerializeField] private Tilemap dots;
     [SerializeField] private Tile SmallDotNew;
@@ -20,8 +15,6 @@ public class DungeonManager : MonoBehaviour
     [SerializeField] private Tile CombatDotNew;
     [SerializeField] private Tile CombatDotDone;
     [SerializeField] private Tile BossDot;
-    [SerializeField] private Tile ChestDotNew;
-    [SerializeField] private Tile ChestDotDone;
     [SerializeField] private Tile[] Walls;
     [SerializeField] private Tile[] Decor;
     [SerializeField] private Tile[] Door;
@@ -87,21 +80,12 @@ public class DungeonManager : MonoBehaviour
                 ind += BackTracking ? -1 : 1;
                 if(!BackTracking && ind >= Target.contents.LeadingDots.Length)
                 {
-                    if (!Target.contents.Done)
-                    {
-                        if (Target.contents.IsChest)
-                        {
-                            EnableHints();
-                            OpenChest();
-                        }
-                        else StartEncounter();
-
-                    }
+                    if (!Target.contents.Done) StartEncounter();
                     else
                     {
+                        Moving = false;
                         EnableHints();
                     }
-                    Moving = false;
                     
                 }
                 if(ind < 0)
@@ -134,8 +118,7 @@ public class DungeonManager : MonoBehaviour
             {
                 dots.SetTile(dataSave.pois[i].LeadingDots[j], dataSave.pois[i].Done ? SmallDotDone : SmallDotNew);
             }
-            if(dataSave.pois[i].IsChest) dots.SetTile(dataSave.pois[i].LeadingDots[dataSave.pois[i].LeadingDots.Length - 1], dataSave.pois[i].Done ? ChestDotDone : ChestDotNew);
-            else if (!dataSave.pois[i].IsBoss) dots.SetTile(dataSave.pois[i].LeadingDots[dataSave.pois[i].LeadingDots.Length - 1], dataSave.pois[i].Done ? CombatDotDone : CombatDotNew);
+            if (!dataSave.pois[i].IsBoss) dots.SetTile(dataSave.pois[i].LeadingDots[dataSave.pois[i].LeadingDots.Length - 1], dataSave.pois[i].Done ? CombatDotDone : CombatDotNew);
             else dots.SetTile(dataSave.pois[i].LeadingDots[dataSave.pois[i].LeadingDots.Length - 1], BossDot);
             var poi = Instantiate(POIObjectPrefab).GetComponent<POIScript>();
             poi.contents = dataSave.pois[i];
@@ -143,7 +126,7 @@ public class DungeonManager : MonoBehaviour
             if (poi.contents.IsBoss) BossPOI = poi;
         }
         Target = AllPOIs[dataSave.currentFoe];
-        if (!Final) GenerateWalls();
+        GenerateWalls();
     }
 
     void Save()
@@ -187,7 +170,7 @@ public class DungeonManager : MonoBehaviour
         {
             AllPOIs[i] = generatedPOIs[i];
         }
-        if(!Final) GenerateWalls();
+        GenerateWalls();
     }
 
     POIScript GeneratePOI(Vector3Int StartPos, int SlotInd, bool ForceBoss)
@@ -271,11 +254,6 @@ public class DungeonManager : MonoBehaviour
                         poi.contents.Encounter = AvailableBosses[Random.Range(0, AvailableBosses.Length)];
                     }
                 }
-                else if (Random.Range(0, 20) == 0)
-                {
-                    poi.contents.IsChest = true;
-                    dots.SetTile(poi.contents.LeadingDots[poi.contents.LeadingDots.Length - 1], ChestDotNew);
-                }
                 return poi;
             }
             Dir = (Dir + 1) % 4;
@@ -285,89 +263,51 @@ public class DungeonManager : MonoBehaviour
 
     void GenerateWalls()
     {
-        if (floor == 0)
+        for (int i = 0; i < AllPOIs.Length; i++)
         {
-            for (int i = 0; i < AllPOIs.Length; i++)
+            foreach (var dot in AllPOIs[i].contents.LeadingDots)
             {
-                foreach (var dot in AllPOIs[i].contents.LeadingDots)
+                for (int y = -2; y < 3; y++)
                 {
-                    for (int y = -2; y < 3; y++)
+                    for (int x = -2; x < 3; x++)
                     {
-                        for (int x = -2; x < 3; x++)
-                        {
-                            var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
-                            var daDot = dots.GetTile(pos);
-                            if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot && daDot != ChestDotNew && daDot != ChestDotDone) SmartWall(pos, (y < 2 && y > -2) ? 3 : 1);
-                        }
-
+                        var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
+                        var daDot = dots.GetTile(pos);
+                        if(daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot) SmartWall(pos, (y < 2 && y > -2) ? 3 : 1);
                     }
-                }
-            }
-            for (int i = 0; i < AllPOIs.Length; i++)
-            {
-                foreach (var dot in AllPOIs[i].contents.LeadingDots)
-                {
-                    for (int y = -1; y < 2; y++)
-                    {
-                        for (int x = -1; x < 2; x++)
-                        {
-                            var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
-                            var daDot = dots.GetTile(pos);
-                            if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot && daDot != ChestDotNew && daDot != ChestDotDone) SmartWall(pos, 8);
-                        }
-
-                    }
+                    
                 }
             }
         }
-        else
+        for (int i = 0; i < AllPOIs.Length; i++)
         {
-            for (int i = 0; i < AllPOIs.Length; i++)
+            foreach (var dot in AllPOIs[i].contents.LeadingDots)
             {
-                foreach (var dot in AllPOIs[i].contents.LeadingDots)
+                for (int y = -1; y < 2; y++)
                 {
-                    for (int y = -7; y < 8; y++)
+                    for (int x = -1; x < 2; x++)
                     {
-                        for (int x = -7; x < 8; x++)
-                        {
-                            var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
-                            var daDot = dots.GetTile(pos);
-                            if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot && daDot != ChestDotNew && daDot != ChestDotDone) dots.SetTile(pos, Decor[Random.Range(0, Decor.Length)]) ;
-                        }
-
+                        var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
+                        var daDot = dots.GetTile(pos);
+                        if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot) SmartWall(pos, 8);
                     }
+
                 }
             }
         }
-
 
         //piece of code for generating daDoor next to the bossDot
         if (BossPOI != null)
         {
             var Pos = BossPOI.contents.LeadingDots[BossPOI.contents.LeadingDots.Length - 1];
             ind = 0;
-            if (floor == 0)
+            for (int y = 2; y < 4; y++)
             {
-                for (int y = 2; y < 4; y++)
+                for (int x = -1; x < 2; x++)
                 {
-                    for (int x = -1; x < 2; x++)
-                    {
-                        var Dpos = new Vector3Int(Pos.x + x, Pos.y + y);
-                        dots.SetTile(Dpos, Door[ind]);
-                        ind++;
-                    }
-                }
-            }
-            else
-            {
-                for (int y = 1; y < 5; y++)
-                {
-                    for (int x = -2; x < 3; x++)
-                    {
-                        var Dpos = new Vector3Int(Pos.x + x, Pos.y + y);
-                        dots.SetTile(Dpos, Door[ind]);
-                        ind++;
-                    }
+                    var Dpos = new Vector3Int(Pos.x + x, Pos.y + y);
+                    dots.SetTile(Dpos, Door[ind]);
+                    ind++;
                 }
             }
         }
@@ -474,20 +414,11 @@ public class DungeonManager : MonoBehaviour
 
     void StartEncounter()
     {
+        Target.contents.Done = true;
         EnenemyAI.person = Target.contents.Encounter;
-        if (!Final)
-        {
-            Target.contents.Done = true;
-            Save();
-        }
+        Save();
         //dataSave.currentFoe = 0; //We'll need to identify POI index (no, it's not used anywhere anymore)
-        Transition.SetTrigger("go");
-        Invoke("LoadBattle", 1.5f);
-    }
-
-    void LoadBattle()
-    {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(3);
     }
 
     void EnableHints()
@@ -514,7 +445,7 @@ public class DungeonManager : MonoBehaviour
             switch (direction)
             {
                 case (int)Directions.up:
-                    if (dir.y == 1 && Mathf.Abs(dir.x) < 2) matches = true;
+                    if (dir.y == 1 && Mathf.Abs(dir.y) < 2) matches = true;
                     break;
                 case (int)Directions.right:
                     if (dir.x == 1 && Mathf.Abs(dir.y) < 2) matches = true;
@@ -523,7 +454,7 @@ public class DungeonManager : MonoBehaviour
                     if (dir.y == -1 && Mathf.Abs(dir.x) < 2) matches = true;
                     break;
                 case (int)Directions.left:
-                    if (dir.x == -1 && Mathf.Abs(dir.y) < 2) matches = true;
+                    if (dir.x == -1 && Mathf.Abs(dir.x) < 2) matches = true;
                     break;
             }
             if (matches)
@@ -545,22 +476,6 @@ public class DungeonManager : MonoBehaviour
 
     public void EditDeck()
     {
-        Transition.SetTrigger("go");
-        Invoke("LoadDeckScreen", 1.5f);
-    }
-
-    void LoadDeckScreen()
-    {
         SceneManager.LoadScene(2);
-    }
-
-    void OpenChest()
-    {
-        ChestChime.Play();
-        EnenemyAI.person = Target.contents.Encounter;
-        Popup.SetActive(true);
-        Popup.GetComponent<Animation>().Play();
-        dots.SetTile(Target.contents.LeadingDots[Target.contents.LeadingDots.Length - 1], ChestDotDone);
-        Target.contents.Done = true;
     }
 }
