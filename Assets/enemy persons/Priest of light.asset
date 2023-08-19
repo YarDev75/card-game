@@ -14,10 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Deck: []
   RewardPool: []
-  Art: []
+  Art:
+  - {fileID: -1648195321, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
+  - {fileID: -895288540, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
+  - {fileID: -410559691, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
+  - {fileID: 67710250, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
+  - {fileID: -1597363754, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
+  - {fileID: -1210246295, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
+  - {fileID: -38011565, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
+  - {fileID: 2143849571, guid: 2363b557752ed7b49b9dbb75acbb7c80, type: 3}
   Intro: {fileID: 8300000, guid: ac1c6cb3b1f8b1748ab472388a9f2b93, type: 3}
   Music: {fileID: 8300000, guid: 718fc83d69c3db04ca563a3ca75cf78c, type: 3}
-  IsBoss: 0
+  IsBoss: 1
   IsEmpress: 0
   ThinkingDialogue:
   - Let the light guide me
