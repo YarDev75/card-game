@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using TMPro;
 
 public class tsManager : MonoBehaviour
 {
+    [SerializeField] private AudioMixer mixer;
+    [SerializeField] private Slider Sfx;
+    [SerializeField] private Slider Music;
     [SerializeField] private Animator transition;
     [SerializeField] private RunSaveState saveState;
     [SerializeField] private RoomSaveState mapGenerator;
@@ -28,6 +33,13 @@ public class tsManager : MonoBehaviour
 
         //currentChar = 0;
         //character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
+    }
+
+    public void SetSfx(float value)
+    {
+        var newValue = Mathf.Log10(value) * 20;
+        mixer.SetFloat("sfx", newValue);
+        Sfx.value = newValue;
     }
 
     private void Update()
