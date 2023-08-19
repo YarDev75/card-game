@@ -59,6 +59,8 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
+        Umbra = Mathf.Clamp(Umbra, 0, MaxUmbra);
+        Lux = Mathf.Clamp(Lux, 0, MaxLux);
         PlayerHealth = PlayerMaxHealth;
         EnemyHealth = EnemyMaxHealth;
         PlayerHealthBar.maxValue = PlayerMaxHealth;
