@@ -9,5 +9,6 @@ public class POI : ScriptableObject                //made it a Scriptable object
     public EnemyPerson Encounter;
     public bool Done;
     public bool IsBoss;
+    public bool IsChest;
     //public bool IsUsed;
 }

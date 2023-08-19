@@ -4620,6 +4620,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9b3b5042befb93e498574dec3e98ddab, type: 2}
   - {fileID: 11400000, guid: 035943b7f329b014da7df75d534cdef5, type: 2}
   - {fileID: 11400000, guid: 035943b7f329b014da7df75d534cdef5, type: 2}
+  helpling: {fileID: 11400000, guid: 73caf366b3d8041469687b149cdaadd7, type: 2}
   EmptyCard: {fileID: 6442780795839675649, guid: af63b281514cdb940bd9db5cafda3f68, type: 3}
   CardSpawn: {fileID: 1241104559}
   StartCards: 4
@@ -8419,6 +8420,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
+  helpling: {fileID: 11400000, guid: 73caf366b3d8041469687b149cdaadd7, type: 2}
   EmptyCard: {fileID: 6442780795839675649, guid: af63b281514cdb940bd9db5cafda3f68, type: 3}
   CardSpawn: {fileID: 711708224}
   StartCards: 4

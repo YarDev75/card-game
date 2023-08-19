@@ -7,6 +7,7 @@ public class HandManager : MonoBehaviour
     [SerializeField] private SFXPlayer sfxer;
     [SerializeField] private bool Enemy;               //whether or not the card belongs to enemy
     [SerializeField] private Card[] Deck;              //all available cards (assigned through inspector for now)
+    [SerializeField] private Card helpling;
     [SerializeField] private GameObject EmptyCard;     //prefab
     [SerializeField] private Transform CardSpawn;      //where a drawn card will spawn (transform, so it's easier to move in editor)
     [SerializeField] private int StartCards;           //how many cards to draw at the start of the game
@@ -90,7 +91,19 @@ public class HandManager : MonoBehaviour
                 Hand.Add(newCard);
                 PositionCards();
             }
+            else if (Random.Range(0, 20) == 0 && !Enemy)
+            {
+                sfxer.play(2);
+                var newCard = Instantiate(EmptyCard, CardSpawn.position, Quaternion.identity).GetComponent<CardObjectScript>();
+                newCard.content = helpling;
+                newCard.transform.parent = transform;
+                newCard.HandID = Hand.Count;
+                newCard.PlayerCard = !Enemy;
+                Hand.Add(newCard);
+                PositionCards();
+            }
             else print("deck empty");
+            
         }
     }
 
