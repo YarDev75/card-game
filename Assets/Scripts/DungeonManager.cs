@@ -6,8 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour
 {
+    [SerializeField] Animator Transition;
+    [SerializeField] bool Final;
     [SerializeField] RunSaveState huh;
     [SerializeField] RoomSaveState dataSave;
+    [SerializeField] int floor;
     [SerializeField] private POI[] POISlots;
     [SerializeField] private Tilemap dots;
     [SerializeField] private Tile SmallDotNew;
@@ -126,7 +129,7 @@ public class DungeonManager : MonoBehaviour
             if (poi.contents.IsBoss) BossPOI = poi;
         }
         Target = AllPOIs[dataSave.currentFoe];
-        GenerateWalls();
+        if (!Final) GenerateWalls();
     }
 
     void Save()
@@ -170,7 +173,7 @@ public class DungeonManager : MonoBehaviour
         {
             AllPOIs[i] = generatedPOIs[i];
         }
-        GenerateWalls();
+        if(!Final) GenerateWalls();
     }
 
     POIScript GeneratePOI(Vector3Int StartPos, int SlotInd, bool ForceBoss)
@@ -263,51 +266,89 @@ public class DungeonManager : MonoBehaviour
 
     void GenerateWalls()
     {
-        for (int i = 0; i < AllPOIs.Length; i++)
+        if (floor == 0)
         {
-            foreach (var dot in AllPOIs[i].contents.LeadingDots)
+            for (int i = 0; i < AllPOIs.Length; i++)
             {
-                for (int y = -2; y < 3; y++)
+                foreach (var dot in AllPOIs[i].contents.LeadingDots)
                 {
-                    for (int x = -2; x < 3; x++)
+                    for (int y = -2; y < 3; y++)
                     {
-                        var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
-                        var daDot = dots.GetTile(pos);
-                        if(daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot) SmartWall(pos, (y < 2 && y > -2) ? 3 : 1);
-                    }
-                    
-                }
-            }
-        }
-        for (int i = 0; i < AllPOIs.Length; i++)
-        {
-            foreach (var dot in AllPOIs[i].contents.LeadingDots)
-            {
-                for (int y = -1; y < 2; y++)
-                {
-                    for (int x = -1; x < 2; x++)
-                    {
-                        var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
-                        var daDot = dots.GetTile(pos);
-                        if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot) SmartWall(pos, 8);
-                    }
+                        for (int x = -2; x < 3; x++)
+                        {
+                            var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
+                            var daDot = dots.GetTile(pos);
+                            if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot) SmartWall(pos, (y < 2 && y > -2) ? 3 : 1);
+                        }
 
+                    }
+                }
+            }
+            for (int i = 0; i < AllPOIs.Length; i++)
+            {
+                foreach (var dot in AllPOIs[i].contents.LeadingDots)
+                {
+                    for (int y = -1; y < 2; y++)
+                    {
+                        for (int x = -1; x < 2; x++)
+                        {
+                            var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
+                            var daDot = dots.GetTile(pos);
+                            if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot) SmartWall(pos, 8);
+                        }
+
+                    }
                 }
             }
         }
+        else
+        {
+            for (int i = 0; i < AllPOIs.Length; i++)
+            {
+                foreach (var dot in AllPOIs[i].contents.LeadingDots)
+                {
+                    for (int y = -7; y < 8; y++)
+                    {
+                        for (int x = -7; x < 8; x++)
+                        {
+                            var pos = new Vector3Int(dot.x + x, dot.y + y, 0);
+                            var daDot = dots.GetTile(pos);
+                            if (daDot != SmallDotDone && daDot != SmallDotNew && daDot != CombatDotDone && daDot != CombatDotNew && daDot != BossDot) dots.SetTile(pos, Decor[Random.Range(0, Decor.Length)]) ;
+                        }
+
+                    }
+                }
+            }
+        }
+
 
         //piece of code for generating daDoor next to the bossDot
         if (BossPOI != null)
         {
             var Pos = BossPOI.contents.LeadingDots[BossPOI.contents.LeadingDots.Length - 1];
             ind = 0;
-            for (int y = 2; y < 4; y++)
+            if (floor == 0)
             {
-                for (int x = -1; x < 2; x++)
+                for (int y = 2; y < 4; y++)
                 {
-                    var Dpos = new Vector3Int(Pos.x + x, Pos.y + y);
-                    dots.SetTile(Dpos, Door[ind]);
-                    ind++;
+                    for (int x = -1; x < 2; x++)
+                    {
+                        var Dpos = new Vector3Int(Pos.x + x, Pos.y + y);
+                        dots.SetTile(Dpos, Door[ind]);
+                        ind++;
+                    }
+                }
+            }
+            else
+            {
+                for (int y = 1; y < 5; y++)
+                {
+                    for (int x = -2; x < 3; x++)
+                    {
+                        var Dpos = new Vector3Int(Pos.x + x, Pos.y + y);
+                        dots.SetTile(Dpos, Door[ind]);
+                        ind++;
+                    }
                 }
             }
         }
@@ -414,10 +455,20 @@ public class DungeonManager : MonoBehaviour
 
     void StartEncounter()
     {
-        Target.contents.Done = true;
         EnenemyAI.person = Target.contents.Encounter;
-        Save();
+        if (!Final)
+        {
+            Target.contents.Done = true;
+            Save();
+        }
         //dataSave.currentFoe = 0; //We'll need to identify POI index (no, it's not used anywhere anymore)
+
+        Transition.SetTrigger("go");
+        Invoke("LoadBattle", 1.5f);
+    }
+
+    void LoadBattle()
+    {
         SceneManager.LoadScene(1);
     }
 
@@ -475,6 +526,12 @@ public class DungeonManager : MonoBehaviour
     }
 
     public void EditDeck()
+    {
+        Transition.SetTrigger("go");
+        Invoke("LoadDeckScreen", 1.5f);
+    }
+
+    void LoadDeckScreen()
     {
         SceneManager.LoadScene(2);
     }

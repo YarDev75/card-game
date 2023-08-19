@@ -17,13 +17,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2529dbfddfbb0d846a0a3eaff7708c46, type: 2}
   - {fileID: 11400000, guid: e7074af8b0de4d94b964307d709e1a9c, type: 2}
   - {fileID: 11400000, guid: ed2205cff590e004b8649c06c1d0809a, type: 2}
+  - {fileID: 11400000, guid: 9ac0c872d3f0032479b724d97a9532e6, type: 2}
   - {fileID: 11400000, guid: 55f0c9f09a31cc9429b2aa8597923712, type: 2}
   - {fileID: 11400000, guid: aaf4aac5b4d5f134ea51d122c53035ba, type: 2}
   - {fileID: 11400000, guid: a17537093bed9e74a9a442b8b8e2db94, type: 2}
   - {fileID: 11400000, guid: 93d9c8d985e56774b9270d9801346ae8, type: 2}
   - {fileID: 11400000, guid: d77ac46739441b941bfb65f5470ace96, type: 2}
-  PlayerPos: {x: 2, y: -9, z: 0}
+  PlayerPos: {x: 0, y: -5, z: 0}
   roomNo: 0
   doorKeys: 
-  currentFoe: 4
-  firstTime: 0
+  currentFoe: 0
+  firstTime: 1

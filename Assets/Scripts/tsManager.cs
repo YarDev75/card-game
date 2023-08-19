@@ -6,6 +6,7 @@ using TMPro;
 
 public class tsManager : MonoBehaviour
 {
+    [SerializeField] private Animator transition;
     [SerializeField] private RunSaveState saveState;
     [SerializeField] private RoomSaveState mapGenerator;
     [SerializeField] private TextMeshProUGUI KingDialogue;
@@ -36,15 +37,22 @@ public class tsManager : MonoBehaviour
             if (timer <= 0)
             {
                 ind++;
-                if (ind > KingTalk.Length) SceneManager.LoadScene(3);
-                if(ind == 5)
+                if (ind >= KingTalk.Length)
                 {
-                    anims[0].SetTrigger("giveCards");
-                    anims[2].SetTrigger("giveCards");
+                    Continue();
+                    ind = -2;
                 }
-                anims[1].SetTrigger("talking");
-                KingDialogue.text = KingTalk[ind];
-                timer = 4;
+                else
+                {
+                    if (ind == 5)
+                    {
+                        anims[0].SetTrigger("giveCards");
+                        anims[2].SetTrigger("giveCards");
+                    }
+                    anims[1].SetTrigger("talking");
+                    KingDialogue.text = KingTalk[ind];
+                    timer = 4;
+                }
             }
             timer -= Time.deltaTime;
         }
@@ -52,7 +60,8 @@ public class tsManager : MonoBehaviour
 
     public void Continue()
     {
-        SceneManager.LoadScene(3);
+        transition.SetTrigger("go");
+        Invoke("Play", 1.5f);
     }
 
     public void NewGame()
@@ -75,4 +84,9 @@ public class tsManager : MonoBehaviour
     //    currentChar = (currentChar+1) % ListOfCharacters.Length;
     //    character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
     //}
+
+    void Play()
+    {
+        SceneManager.LoadScene(3);
+    }
 }

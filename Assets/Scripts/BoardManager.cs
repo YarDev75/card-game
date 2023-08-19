@@ -8,6 +8,8 @@ using Unity.VisualScripting;
 
 public class BoardManager : MonoBehaviour
 {
+    [SerializeField] Animator EndThing;
+    [SerializeField] Animator Transition;
     [SerializeField] private int GameOversceneInd;
     [SerializeField] private GameObject VictoryPopUp;
     [SerializeField] private SFXPlayer sfxer;
@@ -91,6 +93,7 @@ public class BoardManager : MonoBehaviour
             {
                 Recovery = false;
                 RecoveryAnim.SetBool("going", false);
+                Transition.SetTrigger("go");
                 Invoke("BackToMap", 1.5f);
             }
             if (EnemyHealthBar.value > 0)
@@ -172,11 +175,33 @@ public class BoardManager : MonoBehaviour
         turnAnouncerAnim.SetTrigger("go");
     }
 
+    void EndScreen()
+    {
+        SceneManager.LoadScene(GameOversceneInd + 1);
+    }
+
     void BattleOver()
     {
         Zooming = true;
         AI.ThemePlayer.mute = true;
-        if (won) VictoryPopUp.SetActive(true);
+        if (won)
+        {
+            if (EnenemyAI.person.IsEmpress)
+            {
+                EndThing.SetTrigger("go");
+                Invoke("EndScreen", 4f);
+            }
+            else
+            {
+                VictoryPopUp.SetActive(true);
+                if (EnenemyAI.person.IsBoss)
+                {
+                    DungeonSave.roomNo += 1;
+                    DungeonSave.firstTime = true;
+                    RunSS.roomNo = DungeonSave.roomNo;
+                }
+            }
+        }
         else
         {
             if (RunSS.HaveRecover && !EnenemyAI.person.IsBoss)
@@ -187,9 +212,15 @@ public class BoardManager : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene(GameOversceneInd);
+                DungeonSave.roomNo = -1;
+                Transition.SetTrigger("go");
+                Invoke("GameOverScreen", 1.5f);
             }
         }
+    }
+    void GameOverScreen()
+    {
+        SceneManager.LoadScene(GameOversceneInd);
     }
 
     void StartRecovery()
@@ -199,12 +230,7 @@ public class BoardManager : MonoBehaviour
 
     public void BackToMap()
     {
-        if (EnenemyAI.person.IsBoss)
-        {
-            RunSS.HaveRecover = true;
-            DungeonSave.firstTime = true;
-        }
-        SceneManager.LoadScene(3);  //goes back to map
+        SceneManager.LoadScene(3 + DungeonSave.roomNo);  //goes back to map
     }
 
     //for player

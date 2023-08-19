@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class DeckOrganizingManager : MonoBehaviour
 {
+    [SerializeField] private Animator Transition;
     [SerializeField] private RunSaveState RunSave;
     [SerializeField] private RoomSaveState MaybeThisWillHelp;
     [SerializeField] private Transform[] CollectionFrames;
@@ -74,10 +75,14 @@ public class DeckOrganizingManager : MonoBehaviour
 
     public void Back()
     {
-        SceneManager.LoadScene(3);
+        Transition.SetTrigger("go");
+        Invoke("LoadPrev", 1.5f);
     }
 
-
+    void LoadPrev()
+    {
+        SceneManager.LoadScene(3 + RunSave.roomNo);
+    }
 
     //I know it's bad, but we don't have much time left :P
     public void Place(DeckScreenCardObject card)

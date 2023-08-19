@@ -18,6 +18,15 @@ EditorBuildSettings:
     path: Assets/Scenes/map_Disciples.unity
     guid: 39c2c529ad7b08f4b8dda72337f63483
   - enabled: 1
+    path: Assets/Scenes/map_Acolytes.unity
+    guid: 57c3f9be5f65bc84e8e128f6ac5779d1
+  - enabled: 1
+    path: Assets/Scenes/map_Final.unity
+    guid: 776df8a53d31e9245845757d679f1ae4
+  - enabled: 1
     path: Assets/Scenes/GameOverScene.unity
     guid: 1d5077d72ac178e40ad2e10749f96964
+  - enabled: 1
+    path: Assets/Scenes/EndScreen.unity
+    guid: 33f6ba71fc6397a4196b64f990c924a4
   m_configObjects: {}

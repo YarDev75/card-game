@@ -7,6 +7,7 @@ using TMPro;
 public class VictoryPopUpScript : MonoBehaviour
 {
     //takes 4 cards from enemy reward pool, lets you choose 2
+    [SerializeField] private Animator Transition;
     [SerializeField] private RunSaveState RunSS;
     [SerializeField] private Transform[] CardSpots;
     [SerializeField] private GameObject CardPrefab;
@@ -63,6 +64,12 @@ public class VictoryPopUpScript : MonoBehaviour
 
     public void QuitToMap()
     {
-        SceneManager.LoadScene(3);
+        Transition.SetTrigger("go");
+        Invoke("LoadMap", 1.5f);
+    }
+
+    void LoadMap()
+    {
+        SceneManager.LoadScene(3 + RunSS.roomNo);
     }
 }
