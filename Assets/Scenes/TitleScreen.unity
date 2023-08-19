@@ -823,8 +823,8 @@ MonoBehaviour:
   m_HandleRect: {fileID: 346838413}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
+  m_MaxValue: 3
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3042,6 +3042,7 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: c7f85b31f03afca478a6181db14f5141, type: 2}
   Sfx: {fileID: 1803470978}
   Music: {fileID: 772441715}
+  Diff: {fileID: 245580933}
   transition: {fileID: 1313944328}
   saveState: {fileID: 11400000, guid: ec7f6443d6f447a42b3ca81d75be58e6, type: 2}
   mapGenerator: {fileID: 11400000, guid: 69974f44f37094e4dbde1133f87840b7, type: 2}

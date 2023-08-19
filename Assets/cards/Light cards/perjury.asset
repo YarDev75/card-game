@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e6f0e86318af048a3d8e4815f88cc2, type: 3}
   m_Name: perjury
   m_EditorClassIdentifier: 
-  Name: 
-  Pic: {fileID: 0}
-  damage: 0
-  Primary: 0
+  Name: perjury
+  Pic: {fileID: -431774988, guid: 32cd8959d3e69ae47af7f451b12c0361, type: 3}
+  damage: 5
+  Primary: 1
   element: 0
-  cost: 0
-  direction: 0
+  cost: 3
+  direction: 1
   effects: 
   deathEffect: 0
   passives: 
-  description: 
+  description: judges everyone around accept the opponent

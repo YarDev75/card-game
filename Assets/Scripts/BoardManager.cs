@@ -59,6 +59,7 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
+        AI.Difficulty = RunSS.difficulty;
         Umbra = Mathf.Clamp(Umbra, 0, MaxUmbra);
         Lux = Mathf.Clamp(Lux, 0, MaxLux);
         PlayerHealth = PlayerMaxHealth;

@@ -10,5 +10,6 @@ public class RunSaveState : ScriptableObject  //Contains information relevant to
     public Card[] Deck;
     public Card[] Collection;
     public bool firstRun;
+    public int difficulty;
     public bool HaveRecover;        //the second life thing
 }

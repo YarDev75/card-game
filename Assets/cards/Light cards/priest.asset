@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e6f0e86318af048a3d8e4815f88cc2, type: 3}
+  m_Name: priest
+  m_EditorClassIdentifier: 
+  Name: Battle Priest
+  Pic: {fileID: 0}
+  damage: 3
+  Primary: 1
+  element: 0
+  cost: 3
+  direction: 2
+  effects: 03000000
+  deathEffect: 2
+  passives: 
+  description: High-ranking member of the church of Lux, this individual has studied
+    the Holy Scriptures and they have miracoulous touch

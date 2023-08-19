@@ -15,6 +15,7 @@ public class tsManager : MonoBehaviour
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private Slider Sfx;
     [SerializeField] private Slider Music;
+    [SerializeField] private Slider Diff;
     [SerializeField] private Animator transition;
     [SerializeField] private RunSaveState saveState;
     [SerializeField] private RoomSaveState mapGenerator;
@@ -97,6 +98,7 @@ public class tsManager : MonoBehaviour
         {
             saveState.Deck[i] = initDeck[i];
         }
+        saveState.difficulty = (int)Diff.value;
         saveState.Collection = deleteRepeated(saveState.Deck);
         saveState.roomNo = 0;
         mapGenerator.firstTime = true;

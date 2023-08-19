@@ -14,7 +14,7 @@ public class EnenemyAI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ThinkingBubble;      //the three dots thing
     [SerializeField] private Image Looks;
     [Range(0,3)]
-    [SerializeField] private int Difficulty;
+    [SerializeField] public int Difficulty;
     public Sprite[] Animation;
     public float frametime;
     public float MaxLux;
