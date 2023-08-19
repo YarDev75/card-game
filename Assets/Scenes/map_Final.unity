@@ -2113,7 +2113,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b737995973df78847a93ce0015d04981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Transition: {fileID: 0}
+  ChestChime: {fileID: 0}
+  Popup: {fileID: 0}
+  Transition: {fileID: 1641910214}
   Final: 1
   huh: {fileID: 11400000, guid: ec7f6443d6f447a42b3ca81d75be58e6, type: 2}
   dataSave: {fileID: 11400000, guid: 53a463120cc85b44c86883eea4c64706, type: 2}
@@ -2135,6 +2137,8 @@ MonoBehaviour:
   CombatDotNew: {fileID: 11400000, guid: 925ef29968ce7d84e83c7755794ebd6e, type: 2}
   CombatDotDone: {fileID: 11400000, guid: 7515f795d9d178844934b958da875f6f, type: 2}
   BossDot: {fileID: 11400000, guid: 7515f795d9d178844934b958da875f6f, type: 2}
+  ChestDotNew: {fileID: 0}
+  ChestDotDone: {fileID: 0}
   Walls:
   - {fileID: 11400000, guid: 42b9337e75bfab849b1ce2c742a25af5, type: 2}
   - {fileID: 11400000, guid: 4a9fb39fbc17ef142a940561fb451d29, type: 2}
