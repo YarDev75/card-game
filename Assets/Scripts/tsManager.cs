@@ -30,8 +30,8 @@ public class tsManager : MonoBehaviour
 
     void Start()
     {
-        if (saveState.roomNo < 0) continueButton.SetActive(false);
-        else continueButton.SetActive(true);
+        //if (saveState.roomNo < 0) continueButton.SetActive(false);
+        //else continueButton.SetActive(true);
 
         //if (saveState.firstRun) charSwapButton.SetActive(false);
         //else charSwapButton.SetActive(true);
@@ -71,12 +71,13 @@ public class tsManager : MonoBehaviour
             timer -= Time.deltaTime;
         }
         currentChar = 0;
-        character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
+        //character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
     }
 
     public void Continue()
     {
-        SceneManager.LoadScene(1);
+        transition.SetTrigger("go");
+        Invoke("LoadMap", 1.5f);
     }
 
     public void NewGame()
@@ -90,8 +91,16 @@ public class tsManager : MonoBehaviour
         }
         saveState.roomNo = 0;
         mapGenerator.firstTime = true;
-        SceneManager.LoadScene("Intro");
+        ind = -1;
+        anims[3].SetTrigger("Hide");
     }
+
+    void LoadMap()
+    {
+        SceneManager.LoadScene(3);
+    }
+
+
 
     //public void CharSwap()
     //{

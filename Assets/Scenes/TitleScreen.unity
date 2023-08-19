@@ -571,7 +571,6 @@ GameObject:
   - component: {fileID: 393982043}
   - component: {fileID: 393982042}
   - component: {fileID: 393982041}
-  - component: {fileID: 393982044}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -655,28 +654,6 @@ Transform:
   - {fileID: 1313944330}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &393982044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 393982040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35b47fdf63798384f91ba38fecad6f5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transition: {fileID: 0}
-  saveState: {fileID: 0}
-  mapGenerator: {fileID: 0}
-  KingDialogue: {fileID: 0}
-  character: {fileID: 0}
-  continueButton: {fileID: 0}
-  anims: []
-  KingTalk: []
-  StartingDeck: []
-  ListOfCharacters: []
 --- !u!1 &427259128
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,7 +1101,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 91.70004, y: -62}
+  m_AnchoredPosition: {x: 91.70001, y: -62}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &772441715
@@ -2308,17 +2285,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b47fdf63798384f91ba38fecad6f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transition: {fileID: 1313944328}
-  saveState: {fileID: 11400000, guid: ec7f6443d6f447a42b3ca81d75be58e6, type: 2}
-  mapGenerator: {fileID: 11400000, guid: 69974f44f37094e4dbde1133f87840b7, type: 2}
-  KingDialogue: {fileID: 1665074972}
-  character: {fileID: 1785332832}
-  continueButton: {fileID: 1021766256}
   anims:
   - {fileID: 58022268}
   - {fileID: 1844938214}
   - {fileID: 1808136328}
   - {fileID: 1359517797}
+  KingDialogue: {fileID: 1665074972}
   KingTalk:
   - you...
   - go there...
@@ -2328,9 +2300,16 @@ MonoBehaviour:
   - take theese...
   - you'll get more if you're good enough...
   - now go...
-  StartingDeck:
-  - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
-  - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
+  mixer: {fileID: 0}
+  Sfx: {fileID: 1803470978}
+  Music: {fileID: 772441715}
+  transition: {fileID: 1313944328}
+  saveState: {fileID: 11400000, guid: ec7f6443d6f447a42b3ca81d75be58e6, type: 2}
+  mapGenerator: {fileID: 11400000, guid: 69974f44f37094e4dbde1133f87840b7, type: 2}
+  character: {fileID: 1785332832}
+  charSwapButton: {fileID: 0}
+  continueButton: {fileID: 1021766256}
+  initDeck:
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
   - {fileID: 11400000, guid: 54f2f29123875b84a9838ac5686b7c93, type: 2}
