@@ -44,7 +44,7 @@ public class CardObjectScript : MonoBehaviour
     {
         sfxPlayer = GameObject.FindWithTag("AudioPlayer").GetComponent<SFXPlayer>();
         damage = content.damage;
-        boardManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<BoardManager>();
+        if (!decorative) boardManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<BoardManager>();
         if (PlayerCard || decorative) DrawStats();
         else
         {

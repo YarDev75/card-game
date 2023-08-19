@@ -73,8 +73,8 @@ public class DungeonManager : MonoBehaviour
     {
         if (Moving)
         {
-            Vector3 dot = Player.transform.position;
-            if(ind < Target.contents.LeadingDots.Length) dot = dots.CellToWorld(Target.contents.LeadingDots[ind]);
+            Vector3 dot;
+            dot = dots.CellToWorld(Target.contents.LeadingDots[ind]);
             dot = new Vector3(dot.x + 0.5f, dot.y + 0.5f, dot.z);
             var dir = dot - Player.transform.position;
             Player.transform.position += dir * Time.deltaTime * PlayerSpeed;
@@ -89,15 +89,19 @@ public class DungeonManager : MonoBehaviour
                 {
                     if (!Target.contents.Done)
                     {
-                        if (Target.contents.IsChest) OpenChest();
+                        if (Target.contents.IsChest)
+                        {
+                            EnableHints();
+                            OpenChest();
+                        }
                         else StartEncounter();
 
                     }
                     else
                     {
-                        Moving = false;
                         EnableHints();
                     }
+                    Moving = false;
                     
                 }
                 if(ind < 0)

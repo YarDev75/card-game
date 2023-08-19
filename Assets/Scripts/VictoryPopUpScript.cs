@@ -68,6 +68,11 @@ public class VictoryPopUpScript : MonoBehaviour
         if (Chests)
         {
             gameObject.SetActive(false);
+            CardsLeft = 2; 
+            for (int i = 0; i < CardSpots.Length; i++)
+            {
+                CardSpots[i].gameObject.SetActive(true);
+            }
         }
         else
         {
