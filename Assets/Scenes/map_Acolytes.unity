@@ -3439,7 +3439,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59e75253518145a428bd88c261beba48, type: 2}
   - {fileID: 11400000, guid: d4a3e9149996b38489fba4e34cbc3e5f, type: 2}
   AvailableBosses:
-  - {fileID: 11400000, guid: 84797294c4570e94a96787e9afe09816, type: 2}
+  - {fileID: 11400000, guid: 9232804b1aec9f44db0f0469a196c93c, type: 2}
   map_movement: {fileID: 8300000, guid: 739cb8d973c85a947a1c4233bc06e53a, type: 3}
 --- !u!4 &1797886869
 Transform:
