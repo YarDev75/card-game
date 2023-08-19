@@ -32,8 +32,8 @@ public class tsManager : MonoBehaviour
     void Start()
     {
         sfxPlayer = GetComponent<SFXPlayer>();
-        //if (saveState.roomNo < 0) continueButton.SetActive(false);
-        //else continueButton.SetActive(true);
+        if (saveState.roomNo < 0) continueButton.SetActive(false);
+        else continueButton.SetActive(true);
 
         //if (saveState.firstRun) charSwapButton.SetActive(false);
         //else charSwapButton.SetActive(true);
@@ -92,12 +92,12 @@ public class tsManager : MonoBehaviour
     public void NewGame()
     {
         //saveState.character = character.GetComponent<SpriteRenderer>().sprite;
-        saveState.Collection = new Card[30];
         saveState.Deck = new Card[8];
         for (int i = 0; i < initDeck.Length; i++)
         {
             saveState.Deck[i] = initDeck[i];
         }
+        saveState.Collection = deleteRepeated(saveState.Deck);
         saveState.roomNo = 0;
         mapGenerator.firstTime = true;
         ind = -1;
@@ -125,11 +125,11 @@ public class tsManager : MonoBehaviour
     //    character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
     //}
 
-    //private Card[] deleteRepeated(Card[] cards)
-    //{
-    //    HashSet<Card> result2 = new HashSet<Card>(cards);
-    //    Card[] result = new Card[result2.Count];
-    //    result2.CopyTo(result);
-    //    return result;
-    //}
+    private Card[] deleteRepeated(Card[] cards)
+    {
+        HashSet<Card> result2 = new HashSet<Card>(cards);
+        Card[] result = new Card[result2.Count];
+        result2.CopyTo(result);
+        return result;
+    }
 }

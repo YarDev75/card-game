@@ -104,6 +104,7 @@ public class CardObjectScript : MonoBehaviour
         Description.text = content.description;
         Name.text = content.Name;
         Name.color = content.element == Card.elements.light ? new Color(0.7960785f, 0.8588236f, 0.9882354f) : new Color(0.1294118f, 0.09411766f, 0.1058824f);
+        if (damage >= 10) damage = 9;
         if (damage >= 0 && damage < 10) Damage.sprite = DamageNums[damage + (10 * (content.element == Card.elements.light ? 1 : 0))];
         else Destroy(gameObject);
         Arrow.sprite = arrows[(int)content.direction + (4 * (content.element == Card.elements.light ? 1 : 0))];
