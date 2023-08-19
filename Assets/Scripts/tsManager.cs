@@ -18,18 +18,20 @@ public class tsManager : MonoBehaviour
     [SerializeField] private Animator transition;
     [SerializeField] private RunSaveState saveState;
     [SerializeField] private RoomSaveState mapGenerator;
-    [SerializeField] private GameObject character;
-    [SerializeField] private GameObject charSwapButton;
+    //[SerializeField] private GameObject character;
+    //[SerializeField] private GameObject charSwapButton;
     [SerializeField] private GameObject continueButton;
     [SerializeField] private Card[] initDeck;
 
     public Sprite[] ListOfCharacters;
-    private int currentChar;
+    //private int currentChar;
     int ind = -2;
     float timer;
+    private SFXPlayer sfxPlayer;
 
     void Start()
     {
+        sfxPlayer = GetComponent<SFXPlayer>();
         //if (saveState.roomNo < 0) continueButton.SetActive(false);
         //else continueButton.SetActive(true);
 
@@ -65,12 +67,13 @@ public class tsManager : MonoBehaviour
                     }
                     anims[1].SetTrigger("talking");
                     KingDialogue.text = KingTalk[ind];
+                    StartCoroutine("textSFX", KingTalk[ind]);
                     timer = 4;
                 }
             }
             timer -= Time.deltaTime;
         }
-        currentChar = 0;
+        //currentChar = 0;
         //character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
     }
 
@@ -100,7 +103,15 @@ public class tsManager : MonoBehaviour
         SceneManager.LoadScene(3);
     }
 
-
+    private IEnumerator textSFX(string s)
+    {
+        int times = s.Length / 3;
+        for (int i = 0; i < times; i++)
+        {
+            sfxPlayer.play(0);
+            yield return new WaitForSeconds(0.15f);
+        }
+    }
 
     //public void CharSwap()
     //{
