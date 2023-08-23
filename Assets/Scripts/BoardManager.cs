@@ -396,6 +396,7 @@ public class BoardManager : MonoBehaviour
             if (damage > 0)
             {
                 opposingHp -= damage;  //opposingHp is a 'ref' variable, so the operation is done directly to the EnemyHealth or PlayerHealth, whichever is the argument
+                if (boardID > 7) AI.Hurt();
             }
             if(boardID > 7) TheBoard[boardID].anim.SetTrigger("PlayerAttack");
             else TheBoard[boardID].anim.SetTrigger("EnemyAttack");
@@ -423,12 +424,16 @@ public class BoardManager : MonoBehaviour
                         break;
                     case Card.SpecialEffects.DamageOwner:
                         if (PlayersCard) PlayerHealth -= TheBoard[BoardID].TurnDamage;
-                        else EnemyHealth -= TheBoard[BoardID].TurnDamage;
+                        else
+                        {
+                            AI.Hurt();
+                            EnemyHealth -= TheBoard[BoardID].TurnDamage;
+                        }
                         UpdateUIStats();
                         break;
                     case Card.SpecialEffects.HealOwner:
                         if (PlayersCard) PlayerHealth = Mathf.Clamp(PlayerHealth + TheBoard[BoardID].TurnDamage, 0, PlayerMaxHealth);
-                        else Mathf.Clamp(EnemyHealth + TheBoard[BoardID].TurnDamage, 0, EnemyMaxHealth);
+                        else EnemyHealth = Mathf.Clamp(EnemyHealth + TheBoard[BoardID].TurnDamage, 0, EnemyMaxHealth);
                         UpdateUIStats();
                         break;
                     case Card.SpecialEffects.BoostPrimary: //boost as in add damage
@@ -495,6 +500,10 @@ public class BoardManager : MonoBehaviour
         PlayerHealthBar.value = PlayerHealth;
         EnemyHealthText.text = EnemyHealth.ToString();
         EnemyHealthBar.value = EnemyHealth;
+        AI.Lux = Mathf.Clamp(AI.Lux, 0, AI.MaxLux);
+        AI.Umbra = Mathf.Clamp(AI.Umbra, 0, AI.MaxUmbra);
+        Lux = Mathf.Clamp(Lux, 0, MaxLux);
+        Umbra = Mathf.Clamp(Umbra, 0, MaxUmbra);
         LuxMeter.value = Lux;
         UmbraMeter.value = Umbra;
         AI.LuxMeter.value = AI.Lux;

@@ -9,6 +9,7 @@ using TMPro;
 
 public class tsManager : MonoBehaviour
 {
+    [SerializeField] private AudioSource blip;
     [SerializeField] private Animator[] anims;     //hand mouth cards buttons
     [SerializeField] private TextMeshProUGUI KingDialogue;
     [SerializeField] private string[] KingTalk;
@@ -42,17 +43,17 @@ public class tsManager : MonoBehaviour
     }
     public void SetSfx(float value)
     {
-        var newValue = value;
-        mixer.SetFloat("sfx", newValue);
-        Sfx.value = newValue;
+        mixer.SetFloat("sfx", Mathf.Log10(value) * 20);
     }
     public void SetMusic(float value)
     {
-        var newValue = value;
-        mixer.SetFloat("music", newValue);
-        Music.value = newValue;
+        mixer.SetFloat("music", Mathf.Log10(value) * 20);
     }
 
+    public void SetDiff(float value)
+    {
+        saveState.difficulty = Mathf.FloorToInt(value);
+    }
     private void Update()
     {
         if (ind > -2)
@@ -69,7 +70,7 @@ public class tsManager : MonoBehaviour
                 {
                     if (ind == 5)
                     {
-                        anims[0].SetTrigger("giveCards");
+                        anims[0].SetTrigger("giveCard");
                         anims[2].SetTrigger("giveCards");
                     }
                     anims[1].SetTrigger("talking");
@@ -88,6 +89,8 @@ public class tsManager : MonoBehaviour
     {
         transition.SetTrigger("go");
         Invoke("LoadMap", 1.5f);
+        blip.pitch = Random.Range(0.8f, 1.2f);
+        blip.Play();
     }
 
     public void NewGame()
@@ -100,11 +103,13 @@ public class tsManager : MonoBehaviour
             saveState.Deck[i] = initDeck[i];
         }
         saveState.difficulty = (int)Diff.value;
-        saveState.Collection = deleteRepeated(saveState.Deck);
         saveState.roomNo = 0;
+        saveState.HaveRecover = true;
         mapGenerator.firstTime = true;
         ind = -1;
         anims[3].SetTrigger("Hide");
+        blip.pitch = Random.Range(0.8f, 1.2f);
+        blip.Play();
     }
 
     void LoadMap()
@@ -128,11 +133,11 @@ public class tsManager : MonoBehaviour
     //    character.GetComponent<SpriteRenderer>().sprite = ListOfCharacters[currentChar];
     //}
 
-    private Card[] deleteRepeated(Card[] cards)
-    {
-        HashSet<Card> result2 = new HashSet<Card>(cards);
-        Card[] result = new Card[result2.Count];
-        result2.CopyTo(result);
-        return result;
-    }
+    //private Card[] deleteRepeated(Card[] cards)
+    //{
+    //    HashSet<Card> result2 = new HashSet<Card>(cards);
+    //    Card[] result = new Card[result2.Count];
+    //    result2.CopyTo(result);
+    //    return result;
+    //}
 }

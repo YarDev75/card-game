@@ -35,7 +35,7 @@ public class DeckScreenCardObject : MonoBehaviour
     private void Start()
     {
         boardManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<DeckOrganizingManager>();
-        anim.SetBool("placed", true);
+        //anim.SetBool("placed", true);
         DrawStats();
     }
 

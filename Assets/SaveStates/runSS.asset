@@ -12,20 +12,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b00aadb5f5ed86489ea02a02ea048bd, type: 3}
   m_Name: runSS
   m_EditorClassIdentifier: 
-  roomNo: -1
+  roomNo: 0
   character: {fileID: 21300000, guid: 9c0d30330b39784448db7789338a4bf3, type: 3}
   Deck:
   - {fileID: 11400000, guid: 044e4a03ab6b65b46beaeef46e196e4e, type: 2}
-  - {fileID: 11400000, guid: 044e4a03ab6b65b46beaeef46e196e4e, type: 2}
-  - {fileID: 11400000, guid: 044e4a03ab6b65b46beaeef46e196e4e, type: 2}
+  - {fileID: 11400000, guid: cbf54c243dd2dc44bbd16bfe48dc1377, type: 2}
+  - {fileID: 11400000, guid: 9a81e589cbb5f044393fd10e5fc7f0a2, type: 2}
   - {fileID: 11400000, guid: 7afb96f9be7b3cf4e8be285dba30a455, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 235ecf66d9bfc414a8698d36f9255dd7, type: 2}
+  - {fileID: 11400000, guid: 044e4a03ab6b65b46beaeef46e196e4e, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   Collection:
-  - {fileID: 11400000, guid: 044e4a03ab6b65b46beaeef46e196e4e, type: 2}
-  - {fileID: 11400000, guid: 7afb96f9be7b3cf4e8be285dba30a455, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   firstRun: 0
   difficulty: 0

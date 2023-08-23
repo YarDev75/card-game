@@ -73,6 +73,7 @@ public class EnenemyAI : MonoBehaviour
                 else
                 {
                     Placing = false;
+                    CancelInvoke();
                     ThinkingBubble.text = personality.EndTurnDialogue[Random.Range(0, personality.EndTurnDialogue.Length)];
                     Invoke("ClearDialogueText", 3f);
                     boardManager.Ready(false);
@@ -106,10 +107,18 @@ public class EnenemyAI : MonoBehaviour
         }
         else
         {
+            CancelInvoke();
             ThinkingBubble.text = personality.DeckEmptyDialogue[Random.Range(0, personality.DeckEmptyDialogue.Length)];
             Invoke("ClearDialogueText", 3f);
             boardManager.Ready(false);
         }
+    }
+
+    public void Hurt()
+    {
+        CancelInvoke();
+        ThinkingBubble.text = personality.TakenDamageDialogue[Random.Range(0, personality.TakenDamageDialogue.Length)];
+        Invoke("ClearDialogueText", 2f);
     }
 
     void ClearDialogueText()
@@ -126,6 +135,7 @@ public class EnenemyAI : MonoBehaviour
         }
         if (AffordableCards.Count == 0)
         {
+            CancelInvoke();
             ThinkingBubble.text = personality.OutOfManaDialogue[Random.Range(0, personality.OutOfManaDialogue.Length)];
             Invoke("ClearDialogueText", 3f);
             boardManager.Ready(false);
