@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: LightHand
   Pic: {fileID: 0}
-  damage: 4
+  damage: 3
   Primary: 0
   element: 0
   cost: 6

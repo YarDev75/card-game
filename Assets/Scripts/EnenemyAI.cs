@@ -48,10 +48,10 @@ public class EnenemyAI : MonoBehaviour
             ThemePlayer.Play();
         }
         Animation = personality.Art;
-        Lux = MaxLux;
+        Lux = 1;
         LuxMeter.maxValue = MaxLux;
         LuxMeter.value = Lux;
-        Umbra = MaxUmbra;
+        Umbra = 1;
         UmbraMeter.maxValue = MaxUmbra;
         UmbraMeter.value = Umbra;
         Invoke("doTurn", 3.5f);

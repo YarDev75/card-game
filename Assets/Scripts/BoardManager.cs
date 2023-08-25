@@ -60,17 +60,15 @@ public class BoardManager : MonoBehaviour
     private void Start()
     {
         AI.Difficulty = RunSS.difficulty;
-        Umbra = Mathf.Clamp(Umbra, 0, MaxUmbra);
-        Lux = Mathf.Clamp(Lux, 0, MaxLux);
         PlayerHealth = PlayerMaxHealth;
         EnemyHealth = EnemyMaxHealth;
         PlayerHealthBar.maxValue = PlayerMaxHealth;
         EnemyHealthBar.maxValue = EnemyMaxHealth;
         TheBoard = new CardObjectScript[16];
         PlacingTurn = true;
-        Lux = MaxLux;
+        Lux = 1;
         LuxMeter.maxValue = MaxLux;
-        Umbra = MaxUmbra;
+        Umbra = 1;
         UmbraMeter.maxValue = MaxUmbra;
         UpdateUIStats();
         turnAnouncerText.text = "fight!";

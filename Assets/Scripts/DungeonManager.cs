@@ -545,6 +545,7 @@ public class DungeonManager : MonoBehaviour
 
     public void EditDeck()
     {
+        Save();
         Transition.SetTrigger("go");
         Invoke("LoadDeckScreen", 1.5f);
     }

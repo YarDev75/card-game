@@ -3024,6 +3024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b47fdf63798384f91ba38fecad6f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blip: {fileID: 0}
   anims:
   - {fileID: 58022268}
   - {fileID: 1844938214}
@@ -3049,11 +3050,13 @@ MonoBehaviour:
   continueButton: {fileID: 1021766256}
   initDeck:
   - {fileID: 11400000, guid: 044e4a03ab6b65b46beaeef46e196e4e, type: 2}
-  - {fileID: 11400000, guid: cbf54c243dd2dc44bbd16bfe48dc1377, type: 2}
-  - {fileID: 11400000, guid: 9a81e589cbb5f044393fd10e5fc7f0a2, type: 2}
-  - {fileID: 11400000, guid: 7afb96f9be7b3cf4e8be285dba30a455, type: 2}
-  - {fileID: 11400000, guid: 235ecf66d9bfc414a8698d36f9255dd7, type: 2}
   - {fileID: 11400000, guid: 044e4a03ab6b65b46beaeef46e196e4e, type: 2}
+  - {fileID: 11400000, guid: 9a81e589cbb5f044393fd10e5fc7f0a2, type: 2}
+  - {fileID: 11400000, guid: b5103c02c33be1e4391fba741aee7925, type: 2}
+  - {fileID: 11400000, guid: 15b417515defde249bd2a17e65746d5d, type: 2}
+  - {fileID: 11400000, guid: 15b417515defde249bd2a17e65746d5d, type: 2}
+  - {fileID: 11400000, guid: e1d0bac61f07c384c89406eca5524905, type: 2}
+  - {fileID: 11400000, guid: cb7061beda9e0d642b0ff50e8cc0d839, type: 2}
   ListOfCharacters:
   - {fileID: 21300000, guid: 9c0d30330b39784448db7789338a4bf3, type: 3}
   - {fileID: 21300000, guid: 2c15e25e90358fa46926306cbf396ea8, type: 3}
@@ -4261,6 +4264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bf4edfccc49b04ea643fa67b16dd88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blip: {fileID: 0}
 --- !u!114 &2086487197
 MonoBehaviour:
   m_ObjectHideFlags: 0
